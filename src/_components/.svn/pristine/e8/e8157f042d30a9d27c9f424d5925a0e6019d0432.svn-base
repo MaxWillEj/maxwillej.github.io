@@ -1,0 +1,112 @@
+import React from 'react'
+import styled from 'styled-components'
+import { NavigationTabs } from './NavigationTabs'
+import { FlexCol } from './FlexCol'
+import { FlexRow } from './FlexRow'
+import { StateComponent } from './base/StateComponent'
+
+export const TOPBAR_HEIGHT = '50px'
+export const TOPBAR_SPACING = '80px'
+
+const Wrapper = styled.div`
+  height: ${TOPBAR_HEIGHT};
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  right: 0;
+  padding: 0;
+  z-index: 90;
+  background: #fff;
+  user-select: none;
+`
+
+const Inner = styled(FlexCol)`
+  padding: 0;
+  max-width: 1200px;
+  min-width: 884px;
+  height: 100%;
+  margin: 0 20px 0 120px;
+  position: relative;
+
+  @media (min-width: 1100px) {
+    margin: 0 30px 0 140px;
+  }
+
+  @media (min-width: 1280px) {
+    margin: 0 30px 0 280px;
+  }
+
+  @media (min-width: 1760px) {
+    margin: 0 auto;
+  }
+`
+
+export class Topbar extends StateComponent {
+  state = {
+    isScrolled: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      isScrolled: this.getScrollY() > 0
+    })
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = event => {
+    // const scrollTop = event.srcElement.body.scrollTop
+    const scrollY = this.getScrollY()
+    if (this.state.isScrolled && scrollY === 0) {
+      // console.log('handleScroll CLEAR SCROLLING', scrollY)
+      // this.op.state('isScrolled', false) // it did not work to set state with this op
+      this.setState({
+        isScrolled: false
+      })
+    } else if (!this.state.isScrolled && scrollY > 0) {
+      // console.log('handleScroll SET SCROLLING', scrollY)
+      // this.op.state('isScrolled', true) // it did not work to set state with this op
+      this.setState({
+        isScrolled: true
+      })
+    }
+  }
+
+  getScrollY = () => {
+    const doc = window.document.documentElement
+    return (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+  }
+
+  render() {
+    return (
+      <Wrapper
+        style={{
+          transition: this.state.isScrolled
+            ? 'box-shadow 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
+            : 'box-shadow 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          boxShadow: this.state.isScrolled
+            ? '0 10px 50px rgba(86, 134, 162, 0.2)'
+            : '0 0 0 rgba(86, 134, 162, 0.0)'
+        }}
+      >
+        <Inner>
+          {this.props.tabItems && (
+            <NavigationTabs
+              activeTab={this.props.activeTab}
+              items={this.props.tabItems}
+            />
+          )}
+          <FlexRow
+            style={{ position: 'absolute', top: '0', right: '0', bottom: '0' }}
+          >
+            {this.props.east}
+          </FlexRow>
+        </Inner>
+      </Wrapper>
+    )
+  }
+}

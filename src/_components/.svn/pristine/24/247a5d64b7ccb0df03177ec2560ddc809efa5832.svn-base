@@ -1,0 +1,205 @@
+import React from 'react'
+import styled from 'styled-components'
+import ChartJS from 'chart.js'
+import { Loader } from './Loader'
+import { fadeIn } from '../_animations'
+import _ from 'lodash'
+import { MountableComponent } from './MountableComponent'
+import { FlexRow } from './FlexRow'
+import { i18n } from '../_helpers'
+import { Image } from './Image'
+import { Tooltip } from './Tooltip'
+import infoIcon from '../images/icons/info.svg'
+
+const ChartWrapper = styled.div`
+  box-sizing: border-box;
+  padding: 25px;
+  border-radius: 8px;
+  background: #fff;
+  position: relative;
+  box-shadow: rgba(86, 134, 162, 0.2) 0px 10px 50px;
+
+  h3 {
+    margin: 10px 0 20px;
+    text-align: center;
+  }
+`
+
+const ChartInner = styled.div`
+  position: relative;
+  opacity: 0;
+
+  /* make up for the annoying flicker on load by fading it in */
+  animation: 0.8s ${fadeIn} 0.5s ease-in-out forwards;
+`
+
+const EmptyMessage = styled.div`
+  width: 200px;
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 100px);
+  font-size: 27px;
+  text-align: center;
+  color: #ccc;
+  text-transform: uppercase;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+`
+
+const WarningMessage = styled.div`
+  margin: 12px 0 0;
+  padding: 10px;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: hsla(345, 100%, 10%, 1);
+  background: rgba(255, 154, 179, 0.4);
+`
+
+export class Chart extends MountableComponent {
+  state = {
+    isHovering: false
+  }
+
+  constructor() {
+    super()
+    this.canvas = React.createRef()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.data.labels.length !== this.props.data.labels.length &&
+      this.chart
+    ) {
+      this.chart.data.labels = this.props.data.labels
+      this.chart.update()
+    }
+
+    if (
+      !_.isEqual(prevProps.data.labels, this.props.data.labels) &&
+      this.chart
+    ) {
+      this.chart.data.labels = this.props.data.labels
+      this.chart.update()
+    }
+
+    // update the chart once it has been populated with data
+    if (
+      prevProps.data.datasets.length !== this.props.data.datasets.length &&
+      this.chart
+    ) {
+      this.chart.data.datasets = this.props.data.datasets
+      this.chart.update()
+    }
+
+    if (!_.isEqual(prevProps.renderFingerprint, this.props.renderFingerprint)) {
+      // update the data for each dataset (do not replace the whole dataset as the graph will re-populate and not animate)
+      this.props.data.datasets.forEach((dataset, index) => {
+        this.chart.data.datasets[index].data = dataset.data
+        this.chart.data.datasets[index].backgroundColor =
+          dataset.backgroundColor
+      })
+
+      // update the options to make sure the chart gets new click handlers
+      this.chart.options = this.props.options
+
+      this.chart.update()
+    }
+  }
+
+  render() {
+    const { title, type, data, options, loading, message, tip } = this.props
+
+    if (!this.chart && this.canvas.current) {
+      const ctx = this.canvas.current.getContext('2d')
+      this.chart = new ChartJS(ctx, {
+        type,
+        data,
+        options
+      })
+    }
+
+    // render the "no data" message if there are no labels
+    // or if the only value in the dataset is 0 (meaning there ae no records to show)
+    const noData =
+      data.labels.length === 0 ||
+      (data.datasets.length > 0 &&
+        data.datasets[0].data.length === 1 &&
+        data.datasets[0].data[0] === 0)
+
+    return (
+      <ChartWrapper style={this.props.style}>
+        {tip && (
+          <div
+            style={{ position: 'absolute', top: '14px', right: '14px' }}
+            onMouseEnter={() => this.setState({ isHovering: true })}
+            onMouseLeave={() => this.setState({ isHovering: false })}
+          >
+            <Image src={infoIcon} size="22px" />
+            <Tooltip
+              show={this.state.isHovering}
+              style={{
+                width: '240px',
+                padding: '16px',
+                fontSize: '13px',
+                right: '0',
+                marginTop: '0'
+              }}
+            >
+              {tip}
+            </Tooltip>
+          </div>
+        )}
+        {this.props.comingSoon && (
+          <EmptyMessage
+            style={{
+              color: 'green',
+              borderTopColor: 'green',
+              borderBottomColor: 'green'
+            }}
+          >
+            COMING SOON
+          </EmptyMessage>
+        )}
+        {this.props.paused && !this.props.comingSoon && (
+          <EmptyMessage
+            style={{
+              color: 'red',
+              borderTopColor: 'red',
+              borderBottomColor: 'red'
+            }}
+          >
+            PAUSED
+          </EmptyMessage>
+        )}
+        {noData && !this.props.paused && !loading && (
+          <EmptyMessage>{i18n.t('statistics.general.no_data')}</EmptyMessage>
+        )}
+        {noData && loading && (
+          <EmptyMessage>{i18n.t('general.loading')}</EmptyMessage>
+        )}
+        <h3>{title}</h3>
+        {this.props.children ? (
+          <FlexRow style={{ borderBottom: '1px solid #ddd' }}>
+            <ChartInner style={{ margin: '0 0 27px' }}>
+              <canvas ref={this.canvas} />
+            </ChartInner>
+            {this.props.children}
+          </FlexRow>
+        ) : (
+          <ChartInner>
+            <canvas ref={this.canvas} />
+          </ChartInner>
+        )}
+        {loading && !this.props.paused && (
+          <Loader
+            size="30px"
+            style={{ position: 'absolute', top: '10px', right: '10px' }}
+          />
+        )}
+        {message && <WarningMessage>{message}</WarningMessage>}
+      </ChartWrapper>
+    )
+  }
+}

@@ -1,0 +1,42 @@
+import React, { PureComponent } from 'react'
+import { colors } from '../_styling'
+
+export class Toggle extends PureComponent {
+  render() {
+    return (
+      <div
+        onClick={this.props.onClick}
+        style={{
+          userSelect: 'none',
+          cursor: 'pointer',
+          boxSizing: 'border-box',
+          width: '64px',
+          height: '40px',
+          margin: '0',
+          padding: '0',
+          background: this.props.toggled ? '#32B3DE' : colors.BLUE_GRAY,
+          borderRadius: '20px',
+          ...this.props.style
+        }}
+      >
+        <div
+          style={{
+            userSelect: 'none',
+            cursor: 'pointer',
+            boxSizing: 'border-box',
+            width: '30px',
+            height: '30px',
+            marginTop: '5px',
+            marginLeft: this.props.toggled ? '29px' : '5px',
+            padding: '0',
+            background: '#fff',
+            borderRadius: '15px',
+            transitionProperty: 'all',
+            transitionDuration: '0.3s',
+            transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
+          }}
+        />
+      </div>
+    )
+  }
+}

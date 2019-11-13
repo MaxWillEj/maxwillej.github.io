@@ -1,0 +1,140 @@
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { spacing } from '../_styling'
+import { i18n, history, PATH } from '../_helpers'
+import searchIcon from '../images/icons/search.svg'
+import closeIcon from '../images/icons/close.svg'
+import { MountableComponent } from './MountableComponent'
+import { Biz } from '../_biz/Biz'
+import { UserAvatar } from './UserAvatar'
+import { Label } from './Label'
+import { fonts } from '../_styling/fonts'
+import { debounce } from 'lodash'
+
+const Wrapper = styled.div`
+  margin: 0 ${spacing.SMALLER};
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+  }
+
+  input {
+    height: 24px;
+    background: #f5f6f8;
+    width: calc(100% - 32px);
+    padding: ${spacing.SMALLEST} ${spacing.SMALLER};
+    border: 0px solid #90949f;
+    border-radius: ${props => (props.searching ? '22px 22px 0 0' : '22px')};
+    font: 11px ${fonts.MAIN};
+    color: #787d8a;
+    outline: none;
+
+    ::placeholder {
+      color: #787d8a;
+    }
+  }
+
+  @media (max-width: 1279px) {
+    display: none;
+  }
+`
+
+const ResultOverlay = styled.div`
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 500px;
+  position: absolute;
+  z-index: 10;
+  background: #f5f6f8;
+  width: calc(100% - 30px);
+  padding: 0 14px 6px;
+  border-radius: 0 0 16px 16px;
+`
+
+export class Search extends MountableComponent {
+  state = {
+    search: '',
+    found: []
+  }
+
+  searchInputHasFocus = () => {
+    return document.activeElement === this.refs.refSearchInput
+  }
+
+  searchMembers = debounce(search => {
+    Biz.member.searchMembers(search).then(searchResult => {
+      if (!this._unmounted && searchResult.search === this.state.search) {
+        this.setState({ found: searchResult.results })
+      }
+    })
+  }, 400)
+
+  render() {
+    const { search, found } = this.state
+    const searchExpanded =
+      search !== '' && found.length > 0 && this.searchInputHasFocus()
+
+    return (
+      <Wrapper searching={searchExpanded}>
+        <input
+          ref="refSearchInput"
+          placeholder={i18n.t('search.placeholder')}
+          onChange={e => {
+            const search = e.target.value
+            this.op.state('search', search)
+
+            this.searchMembers(search)
+          }}
+          value={search}
+          onFocus={() => this.forceUpdate()}
+          onBlur={() => {
+            window.setTimeout(() => {
+              this.forceUpdate()
+            }, 100)
+          }}
+        />
+        {!searchExpanded ? (
+          <img src={searchIcon} alt="" />
+        ) : (
+          <img
+            src={closeIcon}
+            alt=""
+            onClick={e => this.setState({ search: '', found: [] })}
+          />
+        )}
+
+        {searchExpanded && (
+          <ResultOverlay>
+            {found.length > 0 && (
+              <Fragment>
+                <Label
+                  style={{ fontSize: '13px', marginBottom: spacing.SMALL }}
+                >
+                  {i18n.t('search.people', { count: found.length })}
+                </Label>
+                {found.map(membership => {
+                  return (
+                    <UserAvatar
+                      style={{ marginBottom: '8px' }}
+                      key={membership.id}
+                      user={membership.user}
+                      onClick={e => {
+                        history.push(
+                          PATH.PROFILE_ID.replace(':id', membership.user.id)
+                        )
+                      }}
+                    />
+                  )
+                })}
+              </Fragment>
+            )}
+          </ResultOverlay>
+        )}
+      </Wrapper>
+    )
+  }
+}

@@ -1,0 +1,255 @@
+/*
+type Reminder {
+  id: ID!
+  company: Company!
+  companyId: String!
+  user: User!
+  userId: String!
+  parent: ReminderParent!
+  field: ReminderFieldEnum!
+  offset: Int!
+  unit: ReminderUnitEnum!
+  date: DateTime
+  sentDate: DateTime
+  type: ReminderTypeEnum!
+  status: ReminderStatusEnum!
+  channel: ReminderChannelEnum!
+  created: DateTime!
+  updated: DateTime!
+}
+*/
+
+/*
+type ReminderCreateInput {
+  companyId: String!
+  userId: String!
+  parent: ReminderParentInputType!
+  offset: Int!
+  unit: ReminderUnitEnum!
+  type: ReminderTypeEnum!
+  channel: ReminderChannelEnum!
+}
+*/
+
+/*
+type ReminderUpdateInput {
+  offset: Int
+  unit: ReminderUnitEnum
+  channel: ReminderChannelEnum
+}
+*/
+
+/*
+type ReminderParentInputType {
+  type: ReminderParentTypeEnum!
+  id: ID!
+}
+
+enum ReminderUnitEnum {
+  MINUTES
+  HOURS
+  DAYS
+  WEEKS
+  MONTHS
+}
+
+enum ReminderTypeEnum {
+  EMPLOYMENT_START
+  EMPLOYMENT_EXPIRATION
+  CHECKLIST_DUE
+  CHECKLIST_TASK_DUE
+}
+
+enum ReminderChannelEnum {
+  SLACK
+  EMAIL
+  SMS
+}
+*/
+
+import React, { useState } from 'react'
+import { Label } from './Label'
+import { FlexRow } from './FlexRow'
+import { Image } from './Image'
+import remindBellIcon from '../images/icons/remind_bell.svg'
+import styled from 'styled-components'
+import { getNameString, i18n } from '../_helpers'
+import { Biz } from '../_biz/Biz'
+import InputSelect from './InputSelect'
+import InputText from './InputText'
+import { Util } from '../_helpers/Utilz'
+
+const InputContainer = styled.div`
+  position: relative;
+  width: 110px;
+`
+
+const DaysLabel = styled(Label)`
+  position: absolute;
+  top: 15px;
+  right: 12px;
+  color: #888;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 12px;
+  user-select: none;
+`
+
+export default function(props) {
+  // TODO See EmploymentReminderPolicyOps for operations that also will be used!
+
+  // UI:
+  // - icon
+  // - num-input, same as in DeltaDate UI?
+  // - Dropdown, time units Months/Days/Hours etc.
+  // - Dropdown, before or after parent-field
+
+  // - 3 days
+  // - Before/after
+  // - hireDate/endDate/field
+  // - Recipient (user/manager/owners)
+
+  // const {
+  //   offset,
+  //   unit,
+  //   entity,
+  //   before,
+  //   types,
+  //   selectedField,
+  //   recipients,
+  //   onChange
+  // } = props
+
+  const [before, setBefore] = useState(props.offset < 0)
+  const [offsetInput, setOffsetInput] = useState(props.offset)
+
+  if (!props.types || props.types.length === 0) {
+    throw new Error('Please supply an array of fields to use this component')
+  }
+
+  if (!props.entity) {
+    throw new Error('Please supply an entity to use this component')
+  }
+
+  const memberPropList = [
+    {
+      key: 'COMPANY_OWNER',
+      children: i18n.t('reminder.recipients.owners')
+    },
+    {
+      key: 'COMPANY_ADMIN',
+      children: i18n.t('reminder.recipients.admins')
+    },
+    {
+      key: 'EMPLOYEE_MANAGER',
+      children: i18n.t('reminder.recipients.manager')
+    }
+  ]
+  if (!props.policy) {
+    const extraMemberPropList = Biz.member.basicActive().map(member => {
+      return {
+        key: member.user.id,
+        children: getNameString(member.user)
+      }
+    })
+    for (const extraMember of extraMemberPropList) {
+      memberPropList.push(extraMember)
+    }
+  }
+
+  const recipientsIndex = props.recipients
+    ? memberPropList.findIndex(item => {
+        return item.key === props.recipients[0]
+      }) // currently only supports one recipient
+    : 0
+
+  const typeIndex = props.types.findIndex(type => {
+    return type === props.type
+  })
+
+  return (
+    <FlexRow
+      style={{
+        backgroundColor: '#fff',
+        border: '1px solid #949EB6',
+        borderRadius: '4px',
+        padding: '0 0 0 12px',
+        width: '660px',
+        ...props.style
+      }}
+    >
+      <Image src={remindBellIcon} size="22px" />
+      <InputSelect
+        style={{ flex: '1' }}
+        selectedIndex={recipientsIndex}
+        onSelectItem={item => {
+          props.onChange({ ...props, recipients: [item.key] }) // currently only supports one recipient
+        }}
+        propsList={memberPropList}
+      />
+      <InputContainer>
+        <InputText
+          value={Math.abs(offsetInput)}
+          style={{
+            paddingRight: '54px',
+            width: '100%',
+            border: '0'
+          }}
+          onBlur={e => {
+            if (e.target.value !== props.offset) {
+              let parsedOffset = Util.castInt(e.target.value, 0)
+              if (before) {
+                parsedOffset = parsedOffset * -1
+              }
+              props.onChange({
+                ...props,
+                offset: parsedOffset
+              })
+            }
+          }}
+          onChange={e => {
+            let intValue = Util.castInt(e.target.value, 0)
+            if (intValue > 9999) {
+              intValue = 9999
+            }
+            setOffsetInput(intValue)
+          }}
+        />
+        <DaysLabel>{i18n.t(`reminder.unit.${props.unit}`)}</DaysLabel>
+      </InputContainer>
+      <InputSelect
+        style={{ width: '100px' }}
+        selectedIndex={before ? 0 : 1}
+        onSelectItem={item => {
+          setBefore(item.key === 'before')
+          if (item.key === 'after' && before) {
+            props.onChange({ ...props, offset: props.offset * -1 })
+          } else if (item.key === 'before' && !before) {
+            props.onChange({ ...props, offset: props.offset * -1 })
+          }
+        }}
+        propsList={[
+          {
+            key: 'before',
+            children: i18n.t('reminder.before')
+          },
+          {
+            key: 'after',
+            children: i18n.t('reminder.after')
+          }
+        ]}
+      />
+      <InputSelect
+        style={{ width: '190px' }}
+        selectedIndex={typeIndex}
+        onSelectItem={item => {
+          props.onChange({ ...props, type: item.key })
+        }}
+        propsList={props.types.map(type => ({
+          key: type,
+          children: i18n.t('reminder.type.' + type)
+        }))}
+      />
+    </FlexRow>
+  )
+}

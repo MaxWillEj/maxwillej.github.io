@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>documents_other_icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="2.3:-Profil---Mina-dokument" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.3.2:-Profil---Mina-dokument" transform="translate(-295.000000, -1643.000000)" fill-rule="nonzero">
+            <g id="Group-16" transform="translate(286.000000, 1519.000000)">
+                <g id="Group-48" transform="translate(9.000000, 124.000000)">
+                    <g id="Group-36" transform="translate(7.000000, 5.000000)">
+                        <g id="Group-34">
+                            <g id="Group-32" transform="translate(0.000000, 1.000000)">
+                                <path d="M3,1 L26.0078356,1 C27.1124051,1 28.0078356,1.8954305 28.0078356,3 L28.0078356,29.8134711 C28.0078356,30.9180406 27.1124051,31.8134711 26.0078356,31.8134711 L3,31.8134711 C1.8954305,31.8134711 1,30.9180406 1,29.8134711 L1,3 C1,1.8954305 1.8954305,1 3,1 Z" id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <g id="Group-3" transform="translate(13.000000, 8.000000)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                    <path d="M0.548576032,5.33643352 L10.3053228,5.33643352" id="Path-21-Copy-8" stroke="#C5C7CC"></path>
+                                    <path d="M0.548576032,1.33643352 L4.39217894,1.33643352" id="Path-21-Copy-7" stroke="#3F4658"></path>
+                                </g>
+                                <g id="Group-3" transform="translate(5.000000, 20.000000)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                    <path d="M8.54857603,5.33643352 L18.3053228,5.33643352" id="Path-21-Copy-8" stroke="#C5C7CC"></path>
+                                    <path d="M8.54857603,1.33643352 L12.3921789,1.33643352" id="Path-21-Copy-7" stroke="#3F4658"></path>
+                                    <circle id="Oval" stroke="#3F4658" fill="#FFFFFF" cx="2.07427482" cy="3.5" r="2"></circle>
+                                </g>
+                                <path d="M3.36665165,0.561971306 L27.8666516,0.561971306 L27.8666516,4.28394662 C27.8666516,5.66465849 26.7473635,6.78394662 25.3666516,6.78394662 L3.36665165,6.78394662 C1.98593977,6.78394662 0.866651646,5.66465849 0.866651646,4.28394662 L0.866651646,3.06197131 C0.866651646,1.68125943 1.98593977,0.561971306 3.36665165,0.561971306 Z" id="Rectangle-2-Copy" fill="#373A5B" opacity="0.100000001"></path>
+                            </g>
+                            <path d="M9.44170865,0.0381069864 L20.3727564,0.0381069864 C21.2714582,0.0381069864 22,0.766648773 22,1.66535061 L22,1.66535061 C22,2.56405245 21.2714582,3.29259424 20.3727564,3.29259424 L9.44170865,3.29259424 C8.54300681,3.29259424 7.81446502,2.56405245 7.81446502,1.66535061 L7.81446502,1.66535061 C7.81446502,0.766648773 8.54300681,0.0381069864 9.44170865,0.0381069864 Z" id="Rectangle-2" stroke="#32B3DE" stroke-width="1.5" fill="#FFFFFF"></path>
+                        </g>
+                        <polyline id="Path-2" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="6 12.5 7.1754579 13.621174 10 11"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

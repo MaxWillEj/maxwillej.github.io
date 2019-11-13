@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_bank_details_off</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_bank_details_off" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(6.000000, 3.000000)">
+            <g id="Group" transform="translate(0.000000, 1.000000)" fill-rule="nonzero">
+                <path d="M9.4259347,4.63942514 L44.4238596,4.63942514 C46.6329986,4.63942514 48.4238596,6.43028614 48.4238596,8.63942514 L48.4238596,48.9956351 C48.4238596,51.2047741 46.6329986,52.9956351 44.4238596,52.9956351 L9.4259347,52.9956351 C7.2167957,52.9956351 5.4259347,51.2047741 5.4259347,48.9956351 L5.4259347,8.63942514 C5.4259347,6.43028614 7.2167957,4.63942514 9.4259347,4.63942514 Z" id="Rectangle-Copy" fill="#373A5B" opacity="0.100000001"></path>
+                <path d="M4,0 L38.9979249,0 C41.2070639,-4.05812251e-16 42.9979249,1.790861 42.9979249,4 L42.9979249,44.3562099 C42.9979249,46.5653489 41.2070639,48.3562099 38.9979249,48.3562099 L4,48.3562099 C1.790861,48.3562099 2.705415e-16,46.5653489 0,44.3562099 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z" id="Rectangle" stroke="#9B9B9B" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+                <g id="Group-4" transform="translate(25.000000, 6.158690)" stroke="#9B9B9B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <path d="M0.261438621,6.65869002 L13.7115692,6.65869002" id="Path-21-Copy-8"></path>
+                    <path d="M0.261438621,1.65869002 L8.71156921,1.65869002" id="Path-21-Copy-7"></path>
+                </g>
+                <path d="M6.26143862,26.81738 L19.7115692,26.81738" id="Path-21-Copy-8" stroke="#9B9B9B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6.26143862,21.81738 L14.7115692,21.81738" id="Path-21-Copy-7" stroke="#9B9B9B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M23.2614386,26.81738 L36.7115692,26.81738" id="Path-21-Copy-8" stroke="#9B9B9B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6.26143862,33.81738 L19.7115692,33.81738" id="Path-21-Copy-8" stroke="#9B9B9B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M23.2614386,33.81738 L36.7115692,33.81738" id="Path-21-Copy-8" stroke="#9B9B9B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M18.2614386,21.81738 L35.5,21.81738" id="Path-21-Copy-7" stroke="#9B9B9B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <g id="Group-4" transform="translate(6.000000, 37.000000)" stroke="#9B9B9B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <path d="M0.261438621,1.65869002 L8.71156921,1.65869002" id="Path-21-Copy-7"></path>
+                </g>
+            </g>
+            <text id="€" font-family="NunitoSans-SemiBold, Nunito Sans" font-size="18" font-weight="500" letter-spacing="0.5294119" fill="#9B9B9B">
+                <tspan x="5.83529405" y="18">€</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

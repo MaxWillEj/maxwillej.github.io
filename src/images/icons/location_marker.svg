@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="16px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Location icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard-1" transform="translate(-690.000000, -1828.000000)" fill-rule="nonzero">
+            <g id="Group-39-Copy" transform="translate(103.000000, 1303.000000)">
+                <g id="Group-22" transform="translate(584.000000, 524.000000)">
+                    <g id="Location-icon">
+                        <rect id="Rectangle-12" x="0" y="0" width="19" height="19"></rect>
+                        <path d="M9.15800798,14.5265908 C12.59668,12.334754 14.316016,9.87855969 14.316016,7.15800798 C14.316016,4.30931883 12.0066971,2 9.15800798,2 C6.30931883,2 4,4.30931883 4,7.15800798 C4,9.73681154 5.71933599,12.1930058 9.15800798,14.5265908 Z" id="Oval-9" stroke="#949EB6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle id="Oval-10" stroke="#949EB6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" cx="9.15800798" cy="7.15800798" r="1.84214571"></circle>
+                        <path d="M4.04311903,16.0192917 L14.7473187,16.0192917" id="Path-6" stroke="#949EB6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

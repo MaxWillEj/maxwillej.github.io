@@ -1,0 +1,1104 @@
+import React from 'react'
+import _ from 'lodash'
+import { Biz } from '../../_biz/Biz'
+import { UserAvatarGroup } from '../UserAvatarGroup'
+import { Dropdown } from '../Dropdown'
+import { SelectDocumentList } from '../SelectDocumentList'
+import { getUserId } from '../../_helpers/userId'
+import { Loader } from '../Loader'
+import { spacing } from '../../_styling'
+import { Label } from '../Label'
+import { DateSelector } from '../DateSelector'
+import moment from 'moment'
+import { i18n, formatDate, getNameString, history, PATH } from '../../_helpers'
+import { Grid } from '../Grid'
+import { Separator } from '../Separator'
+import { FlexCol } from '../FlexCol'
+import { Description } from '../Description'
+import { FlexRow } from '../FlexRow'
+import { Input } from '../Input'
+import { showToast } from '../../AppStateComponent'
+import { UserAvatar } from '../UserAvatar'
+import { Btn } from '../Btn'
+import { Title } from '../Title'
+
+export const selectDueDateDialog = (component, callback, options) => {
+  if (!options) {
+    options = {}
+  }
+  return {
+    data: {
+      checklist: options.checklist
+    },
+    actionRequired: false,
+    showing: true,
+    title: options.title || i18n.t('dialog.due_date.title'),
+    description: options.description || i18n.t('dialog.due_date.description'),
+    textCancel: options.textCancel || i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: options.textPositive || i18n.t('button.choose.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      await callback(component.op.state('dialog.data.checklist'))
+      component.op.state('dialog.showing', false)
+    },
+    textNegative: i18n.t('dialog.task_due_date.remove_button'),
+    onNegative: async () => {
+      component.op.state('dialog.loading', true)
+      await callback({
+        ...component.op.state('dialog.data.checklist'),
+        dateRule: null,
+        dueDate: null
+      })
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: props => {
+      const taskDates = props.data.checklist.tasks
+        .map(task => (task.dueDate ? moment(task.dueDate) : null))
+        .filter(taskDate => taskDate !== null)
+
+      const minDate = moment.min(taskDates)
+
+      return (
+        <DateSelector
+          entity={props.data.checklist}
+          deltaDate={!!props.data.checklist.parent}
+          field="dueDate"
+          minDate={minDate}
+          onDeltaChange={dateRule => {
+            component.op.state('dialog.data.checklist.dateRule', dateRule)
+          }}
+          onChange={dueDate => {
+            component.op.state('dialog.data.checklist.dateRule', null)
+            component.op.state('dialog.data.checklist.dueDate', dueDate)
+          }}
+        />
+      )
+    }
+  }
+}
+
+export const selectTemplateDueDateDialog = (component, callback, options) => {
+  if (!options) {
+    options = {}
+  }
+  return {
+    data: {
+      template: options.template
+    },
+    actionRequired: false,
+    showing: true,
+    title: options.title || i18n.t('dialog.due_date.title'),
+    description: options.description || i18n.t('dialog.due_date.description'),
+    textCancel: options.textCancel || i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: options.textPositive || i18n.t('button.choose.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      await callback(component.op.state('dialog.data.template'))
+      component.op.state('dialog.showing', false)
+    },
+    textNegative: i18n.t('dialog.task_due_date.remove_button'),
+    onNegative: async () => {
+      component.op.state('dialog.loading', true)
+      await callback({
+        ...component.op.state('dialog.data.template'),
+        dateRule: null
+      })
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: props => {
+      return (
+        <DateSelector
+          entity={props.data.template}
+          deltaDate
+          disableDueDate
+          field="dueDate"
+          onDeltaChange={dateRule => {
+            component.op.state('dialog.data.template.dateRule', dateRule)
+          }}
+        />
+      )
+    }
+  }
+}
+
+export const selectTaskDueDateDialog = (component, callback, options) => {
+  if (!options) {
+    options = {}
+  }
+  return {
+    data: {
+      checklistTask: options.checklistTask,
+      checklist: options.checklist
+    },
+    actionRequired: false,
+    showing: true,
+    title: options.title || i18n.t('dialog.task_due_date.title'),
+    description:
+      options.description || i18n.t('dialog.task_due_date.description'),
+    textCancel: options.textCancel || i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: options.textPositive || i18n.t('button.choose.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      await callback(component.op.state('dialog.data.checklistTask'))
+      component.op.state('dialog.showing', false)
+    },
+    textNegative: i18n.t('dialog.task_due_date.remove_button'),
+    onNegative: async () => {
+      component.op.state('dialog.loading', true)
+      await callback({
+        ...component.op.state('dialog.data.checklistTask'),
+        parent: null,
+        dateRule: null,
+        dueDate: null
+      })
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: props => (
+      <DateSelector
+        entity={props.data.checklistTask}
+        deltaDate={
+          !!props.data.checklistTask.parent || !!props.data.checklist.parent
+        }
+        maxDate={moment(props.data.checklist.dueDate)}
+        field="dueDate"
+        onDeltaChange={dateRule => {
+          component.op.state('dialog.data.checklistTask.dateRule', dateRule)
+        }}
+        onChange={dueDate => {
+          component.op.state('dialog.data.checklistTask.dateRule', null)
+          component.op.state('dialog.data.checklistTask.dueDate', dueDate)
+        }}
+      />
+    )
+  }
+}
+
+export const selectTemplateTaskDueDateDialog = (
+  component,
+  callback,
+  options
+) => {
+  if (!options) {
+    options = {}
+  }
+  return {
+    data: {
+      templateTask: options.templateTask,
+      template: options.template
+    },
+    actionRequired: false,
+    showing: true,
+    title: options.title || i18n.t('dialog.task_due_date.title'),
+    description:
+      options.description || i18n.t('dialog.task_due_date.description'),
+    textCancel: options.textCancel || i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: options.textPositive || i18n.t('button.choose.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      await callback(component.op.state('dialog.data.templateTask'))
+      component.op.state('dialog.showing', false)
+    },
+    textNegative: i18n.t('dialog.task_due_date.remove_button'),
+    onNegative: async () => {
+      component.op.state('dialog.loading', true)
+      await callback({
+        ...component.op.state('dialog.data.templateTask'),
+        dateRule: null
+      })
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: props => (
+      <DateSelector
+        entity={props.data.templateTask}
+        deltaDate
+        disableDueDate
+        field="dueDate"
+        onDeltaChange={dateRule => {
+          component.op.state('dialog.data.templateTask.dateRule', dateRule)
+        }}
+      />
+    )
+  }
+}
+
+export const selectMemberDialog = (component, callback, options) => {
+  if (!options) {
+    options = {}
+  }
+  const assigneeList = Biz.member
+    .basicActive()
+    .map(member => {
+      return {
+        key: member.user.id,
+        children: getNameString(member.user)
+      }
+    })
+    .filter(item => {
+      if (options.excludeUserIds && options.excludeUserIds.includes(item.key)) {
+        return false
+      } else {
+        return true
+      }
+    })
+  return {
+    data: {
+      member:
+        options.data && options.data.member ? options.data.member : undefined
+    },
+    actionRequired: !options.data || options.data.member === undefined,
+    showing: true,
+    title: options.title || i18n.t('dialog.select_member.title'),
+    description:
+      options.description || i18n.t('dialog.select_member.description'),
+    textCancel: options.textCancel || i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: options.textPositive || i18n.t('button.choose.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      await callback(component.op.state('dialog.data.member'))
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: _dialogProps => {
+      const selectedAssigneeIndex = assigneeList.findIndex(
+        assigneeItem =>
+          assigneeItem.key === component.op.state('dialog.data.member.user.id')
+      )
+      return (
+        <Dropdown
+          selectedIndex={
+            options.selectNone
+              ? selectedAssigneeIndex + 1
+              : selectedAssigneeIndex > -1
+              ? selectedAssigneeIndex
+              : 0
+          }
+          emptyOption={
+            options.selectNone
+              ? {
+                  key: '-1',
+                  children: options.selectNone
+                }
+              : undefined
+          }
+          onSelectItem={item => {
+            component.op.state('dialog.actionRequired', false)
+            if (item.key === '-1') {
+              component.op.state('dialog.data.member', null)
+            } else {
+              component.op.state(
+                'dialog.data.member',
+                Biz.member.basic(item.key)
+              )
+            }
+          }}
+          propsList={assigneeList}
+        />
+      )
+    }
+  }
+}
+
+export const checklistTaskViewAttachmentsDialog = (component, task) => {
+  for (const taskDoc of task.documents) {
+    Biz.document.readOne(taskDoc.id, component)
+  }
+
+  return {
+    showing: true,
+    title: i18n.t('dialog.checklist_task_document_view.title'),
+    description: i18n.t('dialog.checklist_task_document_view.description'),
+    textCancel: i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: i18n.t('button.save.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: _dialogProps => {
+      if (!component.state.documents) {
+        return <Loader key="checklistTaskDocumentsDialog.Loader" />
+      }
+
+      return (
+        <FlexCol>
+          {component.state.documents.map(doc => {
+            return (
+              <FlexRow
+                key={doc.id}
+                style={{
+                  borderBottom: '1px solid #f1f1f1',
+                  height: '50px',
+                  cursor: 'pointer'
+                }}
+                onClick={e => {
+                  history.push(PATH.DOCUMENT.replace(':id', doc.id))
+                }}
+              >
+                {doc.title}
+              </FlexRow>
+            )
+          })}
+        </FlexCol>
+      )
+    }
+  }
+}
+
+export const checklistTaskDocumentsDialog = (
+  component,
+  task,
+  isTemplateTask
+) => {
+  const existingDocs = []
+  const selectedDocs = {}
+  for (const taskDoc of task.documents) {
+    existingDocs[taskDoc.id] = taskDoc
+    selectedDocs[taskDoc.id] = taskDoc
+  }
+
+  if (component.state.documentsLoading === undefined) {
+    // Only fetch if data is not already loaded/loading
+    Biz.document.read(getUserId(), component).then(docsResponse => {
+      const docs = _.get(docsResponse, 'data.documents.rows')
+      if (docs) {
+        // Read all docs not already in docs-array
+        for (const taskDoc of task.documents) {
+          if (!docs.find(doc => doc.id === taskDoc.id)) {
+            console.log('readOne id:', taskDoc.id)
+            Biz.document.readOne(taskDoc.id, component)
+          }
+        }
+      }
+    })
+  }
+
+  return {
+    showing: true,
+    title: i18n.t('dialog.checklist_task_documents.title'),
+    description: i18n.t('dialog.checklist_task_documents.description'),
+    textCancel: i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.op.state('dialog.showing', false)
+    },
+    textPositive: i18n.t('button.save.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      try {
+        // Remove all existing doc-ids that are no longer selected
+        for (const existingDocId of Object.keys(existingDocs)) {
+          if (!selectedDocs[existingDocId]) {
+            // component.op.log('onPositive', 'REMOVE_PARENT', existingDocId)
+            // if existing id is not selected then we REMOVE
+            await Biz.document.removeParent(
+              existingDocId,
+              isTemplateTask ? 'ChecklistTaskTemplate' : 'ChecklistTask',
+              task.id
+            )
+          }
+        }
+
+        // Add all selected doc-ids that are not already in 'existingDocs'
+        for (const selectedDocId of Object.keys(selectedDocs)) {
+          if (!existingDocs[selectedDocId]) {
+            // component.op.log('onPositive', 'ADD_PARENT', selectedDocId)
+            // if existing id is not selected then we ADD
+            await Biz.document.addParent(
+              selectedDocId,
+              isTemplateTask ? 'ChecklistTaskTemplate' : 'ChecklistTask',
+              task.id
+            )
+          }
+        }
+
+        if (isTemplateTask) {
+          await Biz.checklistTemplate.readOne(
+            task.checklistTemplateId,
+            component
+          )
+        } else {
+          await Biz.checklist.readOne(task.checklistId, component)
+        }
+
+        // component.op.log('onPositive', 'COMPLETED UPDATE', component.state)
+      } catch (error) {
+        console.log(error)
+      }
+
+      component.op.state('dialog.showing', false)
+    },
+    renderChildren: _dialogProps => {
+      if (!component.state.documents) {
+        return <Loader key="checklistTaskDocumentsDialog.Loader" />
+      }
+      return (
+        <SelectDocumentList
+          key="checklistTaskDocumentsDialog.SelectDocumentList"
+          docs={component.state.documents}
+          selectedDocs={selectedDocs}
+          onSelectDocument={selectedDoc => {
+            if (selectedDocs[selectedDoc.id]) {
+              delete selectedDocs[selectedDoc.id]
+            } else {
+              selectedDocs[selectedDoc.id] = selectedDoc
+              const foundDoc = component.state.documents.find(
+                doc => doc.id === selectedDoc.id
+              )
+              if (!foundDoc) {
+                component.setState({
+                  documents: [...component.state.documents, selectedDoc]
+                })
+              }
+            }
+            component.forceUpdate()
+          }}
+        />
+      )
+    }
+  }
+}
+
+export const changeOfficeDialog = (component, selectedUserIds, onSuccess) => {
+  // TODO refactor this method to be less coupled and more "pure"?
+  // TODO component.state.offices as param? We are checking for it in early-return so maybe it is ok.
+  // TODO do not reset input? 'input: {}', it should be enough to reset input.officeId ?
+
+  if (!component.state.offices || component.state.offices.length === 0) {
+    // alert('You have not created any office yet!') // TODO fix better UX!
+    return {
+      showing: true,
+      title: i18n.t('dialog.change_office.title'),
+      description: i18n.t('dialog.change_office.description'),
+      // text: 'There is no going back you know!',
+      textCancel: i18n.t('button.cancel.upper_case'),
+      onCancel: () => {
+        component.setState({ dialog: { showing: false } })
+      }
+    }
+  }
+
+  // If we are to use this.op.input() we must demand that 'component' is a MountableComponent!
+  // this.op.input('officeId', this.state.offices[0].id)
+  component.setState({
+    input: { ...component.state.input, officeId: component.state.offices[0].id }
+  })
+
+  const selectedUsers = selectedUserIds.map(userId =>
+    Biz.member.getUser(userId)
+  )
+  return {
+    showing: true,
+    title: i18n.t('dialog.change_office.title'),
+    description: i18n.t('dialog.change_office.description'),
+    // text: 'There is no going back you know!',
+    textCancel: i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      component.setState({ dialog: { showing: false }, input: {} })
+    },
+    textPositive: i18n.t('button.save.upper_case'),
+    onPositive: async () => {
+      component.setState({
+        dialog: { ...component.state.dialog, loading: true }
+      })
+
+      try {
+        // TODO Biz.employee.update() call on backend does not seem to write data to Employee.officeId field
+        for (const userId of selectedUserIds) {
+          if (component.state.input.officeId === '-1') {
+            await Biz.employee.update(Biz.member.getEmployee(userId).id, {
+              officeId: null
+            })
+          } else {
+            await Biz.employee.update(Biz.member.getEmployee(userId).id, {
+              officeId: component.state.input.officeId
+            })
+          }
+        }
+        await Biz.office.read(component.props.company.id, component) // Refresh all data so that unassigned and moving teams is updated when dialog closes
+        await Biz.member.readAllBasic()
+        onSuccess()
+      } catch (error) {
+        console.log(error)
+      }
+
+      component.setState({ dialog: { showing: false }, input: {} })
+    },
+    renderChildren: dialogProps => {
+      return [
+        <UserAvatarGroup
+          key="1"
+          users={selectedUsers}
+          style={{ margin: '0 0 20px 0' }}
+        />,
+        <Dropdown
+          key="2"
+          selectedIndex={1} // TODO have dynamic selectedIndex ?
+          onSelectItem={item => {
+            component.setState({
+              input: { officeId: item.key }
+            })
+          }}
+          propsList={[
+            { key: '-1', children: [i18n.t('dialog.change.office.no_office')] },
+            ...component.state.offices.map(iterOffice => {
+              return { key: iterOffice.id, children: [iterOffice.name] }
+            })
+          ]}
+        />
+      ]
+    }
+  }
+}
+
+export const importTableDialog = (component, i18nNamespace, data) => {
+  const columnStyleBase = {
+    flex: '1',
+    boxSizing: 'border-box',
+    width: '100%',
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    height: '100%',
+    lineHeight: '28px',
+    padding: `0 ${spacing.SMALLER} 0 ${spacing.SMALLEST}`
+  }
+  const westColumnStyle = {
+    ...columnStyleBase
+  }
+  const midColumnStyle = {
+    ...columnStyleBase,
+    borderLeft: '1px solid #dee2e6',
+    borderRight: '1px solid #dee2e6'
+  }
+  const eastColumnStyle = {
+    ...columnStyleBase
+  }
+  const stringifyObject = (key, value) => {
+    // TODO employee.employmentType is DEPRECATED
+    if (key === 'employee.employmentType' && !_.isEmpty(value)) {
+      return i18n.t(`employment_type.${value}`)
+    } else if (key === 'employee.vacationAllowance') {
+      return value.limit
+    } else if (typeof value !== 'object') {
+      return value
+    } else if (Array.isArray(value)) {
+      if (value.length === 0) {
+        return ''
+      } else if (typeof value[0] === 'object') {
+        if (value[0].id) {
+          return value[0].id
+        } else {
+          // return JSON.stringify(value)
+          const clonedValue = _.cloneDeep(value[0])
+          delete clonedValue['__typename']
+          return Object.values(clonedValue).join(', ')
+        }
+      } else {
+        return value.join(', ')
+      }
+    } else if (value.id) {
+      return value.id
+    } else {
+      // return JSON.stringify(value)
+      const clonedValue = _.cloneDeep(value)
+      delete clonedValue['__typename']
+      return Object.values(clonedValue).join(', ')
+    }
+  }
+  return {
+    showing: true,
+    style: { width: '100%', maxWidth: '1280px' },
+    title: i18n.t(`${i18nNamespace}fields_dialog.title`),
+    description: i18n.t(`${i18nNamespace}fields_dialog.description`),
+    textCancel: i18n.t(`${i18nNamespace}fields_dialog.button.close`),
+    onCancel: () => {
+      component.op.dialog('showing', false)
+    },
+    renderChildren: dialogProps => {
+      const rowCells = [
+        <Label style={{ ...westColumnStyle, fontWeight: '700' }}>
+          {i18n.t(`${i18nNamespace}fields_dialog.table_header.fields`)}
+        </Label>,
+        <Label style={{ ...midColumnStyle, fontWeight: '700' }}>
+          {i18n.t(`${i18nNamespace}fields_dialog.table_header.new_users`)}
+        </Label>,
+        <Label style={{ ...eastColumnStyle, fontWeight: '700' }}>
+          {i18n.t(`${i18nNamespace}fields_dialog.table_header.old_users`)}
+        </Label>
+      ]
+      for (const field of data.fields) {
+        const newFieldValue = _.get(data.newMember, field) || ''
+        const oldFieldValue =
+          (data.oldMember && _.get(data.oldMember, field)) || ''
+        rowCells.push(
+          <Label style={westColumnStyle}>{i18n.t(`field.${field}`)}</Label>
+        )
+        rowCells.push(
+          <Label style={midColumnStyle}>
+            {stringifyObject(field, newFieldValue)}
+          </Label>
+        )
+        rowCells.push(
+          <Label style={eastColumnStyle}>
+            {stringifyObject(field, oldFieldValue)}
+          </Label>
+        )
+      }
+      return (
+        <Grid
+          style={{ border: '1px solid #dee2e6', borderRadius: '2px' }}
+          stripeBackground="#f2f2f2"
+          columnCount={3}
+          rowHeight="28px"
+          firstColumnFlex={6}
+          children={rowCells}
+        />
+      )
+    }
+  }
+}
+
+export const confirmDialog = (component, callback, options = {}) => {
+  return {
+    actionRequired: false,
+    showing: true,
+    title: options.title || i18n.t('dialog.confirm.title'),
+    description: options.description || i18n.t('dialog.confirm.description'),
+    textCancel: options.textCancel || i18n.t('button.cancel.upper_case'),
+    onCancel: () => {
+      callback(false)
+      if (component.op) {
+        component.op.dialog('showing', false)
+      } else {
+        component.setState({ dialog: { showing: false } })
+      }
+    },
+    textPositive: options.textPositive || i18n.t('button.confirm.upper_case'),
+    onPositive: async () => {
+      component.op.state('dialog.loading', true)
+      await callback(true)
+      if (component.op) {
+        component.op.dialog('showing', false)
+      } else {
+        component.setState({ dialog: { showing: false } })
+      }
+    }
+  }
+}
+
+export const vacationCalculatedDialog = (
+  component,
+  vacationAllowance,
+  timeOffReadEmployeeApprovedLeavesByType,
+  employeeVacationAllowanceLimit,
+  employeeVacationAllowanceDaysLeft,
+  employeeVacationAllowanceDaysEarned,
+  employeeVacationAllowanceDaysSpent
+) => {
+  return {
+    showing: true,
+    title: i18n.t('time_off.vacation_days_left.calculation_explanation.title'),
+    description: i18n.t(
+      'time_off.vacation_days_left.calculation_explanation.description'
+    ),
+    textCancel: i18n.t(
+      'time_off.vacation_days_left.calculation_explanation.close_dialog'
+    ),
+    onCancel: () => {
+      component.setState({ dialog: { showing: false } })
+    },
+    renderChildren: () => {
+      return (
+        <FlexCol>
+          <FlexRow style={{ justifyContent: 'space-between' }}>
+            <Label style={{ fontSize: '16px' }}>
+              {i18n.t('vacation_calculated_dialog.vacationDaysLeft')}
+            </Label>
+            <Label>{employeeVacationAllowanceDaysLeft}</Label>
+          </FlexRow>
+          <Separator style={{ margin: '10px 0' }} />
+          <FlexRow style={{ justifyContent: 'space-between' }}>
+            <Label style={{ fontSize: '16px', color: '#949eb6' }}>
+              {i18n.t('vacation_calculated_dialog.vacationDaysSpent')}
+            </Label>
+            <Label style={{ color: '#949eb6' }}>
+              {employeeVacationAllowanceDaysSpent}
+            </Label>
+          </FlexRow>
+          <Separator style={{ margin: '10px 0' }} />
+          <FlexRow style={{ justifyContent: 'space-between' }}>
+            <Label style={{ fontSize: '16px', color: '#949eb6' }}>
+              {i18n.t(
+                'vacation_calculated_dialog.leaveWorkingDaysApprovedByTypeThisYear'
+              )}
+            </Label>
+            <Label style={{ color: '#949eb6' }}>
+              {
+                timeOffReadEmployeeApprovedLeavesByType.leaveWorkingDaysApprovedByTypeThisYear
+              }
+            </Label>
+          </FlexRow>
+          <Separator style={{ margin: '10px 0' }} />
+          <FlexCol>
+            <FlexRow
+              style={{ justifyContent: 'space-between', color: '#949eb6' }}
+            >
+              <Label style={{ fontSize: '16px', color: '#949eb6' }}>
+                {i18n.t('vacation_calculated_dialog.vacationAllowance.limit')}
+              </Label>
+              <Label style={{ color: '#949eb6' }}>
+                {employeeVacationAllowanceLimit}
+              </Label>
+            </FlexRow>
+            <FlexRow
+              style={{ justifyContent: 'space-between', color: '#949eb6' }}
+            >
+              <Description style={{ fontSize: '12px' }}>
+                {i18n.t('vacation_calculated_dialog.vacationDaysEarned')}
+              </Description>
+              <Description style={{ fontSize: '12px' }}>
+                {employeeVacationAllowanceDaysEarned}
+              </Description>
+            </FlexRow>
+          </FlexCol>
+          <Separator style={{ margin: '10px 0' }} />
+          <Label style={{ marginTop: '10px' }}>{`${i18n.t(
+            'vacation_calculated_dialog.vacationYearStart'
+          )} ${formatDate(vacationAllowance.yearStart.date)}`}</Label>
+        </FlexCol>
+      )
+    }
+  }
+}
+
+export const missingManagerDialog = (component, members, managerList) => {
+  return {
+    showing: true,
+    style: { width: '700px', maxWidth: '100%' },
+    title: i18n.t('org_chart.missing_manager.title'),
+    description: i18n.t('org_chart.missing_manager.description'),
+    textCancel: i18n.t('org_chart.missing_manager.close'),
+    onCancel: () => {
+      component.setState({ dialog: { showing: false } })
+
+      if (component.missingManagerDialogOnCancel) {
+        component.missingManagerDialogOnCancel()
+      }
+    },
+    renderChildren: () => {
+      return members.map((member, index) => {
+        const loadingStateKey = `changeManager.${member.user.id}.loading`
+        const loading = component.op.state(loadingStateKey)
+
+        return (
+          <FlexRow
+            key={member.id}
+            style={{
+              justifyContent: 'space-between',
+              padding: '10px',
+              background: index % 2 ? 'transparent' : '#f9f9f9',
+              position: 'relative'
+            }}
+          >
+            <Label truncate style={{ flex: '1' }}>
+              {getNameString(member.user)}
+            </Label>
+            <Dropdown
+              anonBorder
+              style={{ width: '280px', margin: '0 0 0 10px' }}
+              selectedIndex={0}
+              emptyOption={{
+                key: '-1',
+                children: i18n.t('missing_manager.empty_option')
+              }}
+              onSelectItem={async item => {
+                component.op.state(loadingStateKey, true)
+
+                const managerId = item.key === '-1' ? null : item.key
+                await Biz.employee.changeManager(member.employee.id, managerId)
+
+                component.op.state(loadingStateKey, false)
+              }}
+              propsList={managerList
+                .filter(manager => manager.id !== member.id)
+                .map(manager => ({
+                  key: manager.user.id,
+                  children: getNameString(manager.user)
+                }))}
+            />
+            {loading && (
+              <Loader
+                size="20px"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(50% - 10px)',
+                  right: '-25px'
+                }}
+              />
+            )}
+          </FlexRow>
+        )
+      })
+    }
+  }
+}
+
+export const missingDepartmentDialog = (
+  component,
+  employees,
+  departmentsList
+) => {
+  return {
+    showing: true,
+    style: { width: '700px', maxWidth: '100%' },
+    title: i18n.t('departments.missing_department.title'),
+    description: i18n.t('departments.missing_department.description'),
+    textCancel: i18n.t('general.close'),
+    onCancel: () => {
+      component.setState({ dialog: { showing: false } })
+    },
+    renderChildren: () => {
+      return employees.map((employee, index) => {
+        const member = Biz.member.getFromEmployeeId(employee.id)
+        const loadingStateKey = `changeDepartment.${member.user.id}.loading`
+        const loading = component.op.state(loadingStateKey)
+
+        return (
+          <FlexRow
+            key={member.id}
+            style={{
+              padding: '10px',
+              background: index % 2 ? 'transparent' : '#f9f9f9',
+              position: 'relative'
+            }}
+          >
+            <div style={{ flex: '1' }}>
+              <UserAvatar user={member.user} />
+            </div>
+            <Dropdown
+              anonBorder
+              style={{ width: '280px', margin: '0 0 0 10px' }}
+              selectedIndex={0}
+              disabled={loading}
+              emptyOption={{
+                key: '-1',
+                children: i18n.t('departments.missing_department.empty_option')
+              }}
+              onSelectItem={async item => {
+                component.op.state(loadingStateKey, true)
+
+                try {
+                  if (item.key === '-1') {
+                    const { groupId } = member.employee
+
+                    if (groupId) {
+                      await Biz.group.removeMember(groupId, member.user.id)
+                    }
+                  } else {
+                    await Biz.group.addMember(item.key, member.user.id)
+                  }
+
+                  await component.actions.read()
+                  await Biz.member.readAllBasic()
+                } catch (error) {
+                  console.log(error)
+                }
+
+                component.op.state(loadingStateKey, false)
+              }}
+              propsList={departmentsList.map(department => ({
+                key: department.id,
+                children: department.name
+              }))}
+            />
+            {loading && (
+              <Loader
+                size="20px"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(50% - 10px)',
+                  right: '-25px'
+                }}
+              />
+            )}
+          </FlexRow>
+        )
+      })
+    }
+  }
+}
+
+export const departmentEmployeesDialog = (component, department, companyId) => {
+  return {
+    showing: true,
+    style: { width: '700px', maxWidth: '100%' },
+    textCancel: i18n.t('general.close'),
+    onCancel: () => {
+      component.setState({ dialog: { showing: false } })
+    },
+    renderChildren: () => {
+      const { employees } = department
+
+      return (
+        <>
+          <FlexRow
+            style={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: spacing.MEDIUM
+            }}
+          >
+            <Title>{department.name}</Title>
+            {Biz.member.isMeOwner() && (
+              <Btn
+                positive
+                onClick={async () => {
+                  const exportResponse = await Biz.employee.exportEmployees(
+                    companyId,
+                    { groupId: { eq: department.id } }
+                  )
+                  const exportFile = exportResponse.data.employee.export
+                  Biz.file.download(exportFile.url)
+                }}
+              >
+                {i18n.t('departments.employees_dialog.csv_button')}
+              </Btn>
+            )}
+          </FlexRow>
+          <Description style={{ marginBottom: spacing.MEDIUM }}>
+            {i18n.t('departments.employees_dialog.description', {
+              smart_count: employees.length,
+              name: department.name
+            })}
+          </Description>
+
+          {employees.map((employee, index) => {
+            const member = Biz.member.getFromEmployeeId(employee.id)
+
+            return (
+              <FlexRow
+                key={member.id}
+                style={{
+                  justifyContent: 'space-between',
+                  padding: '10px',
+                  background: index % 2 ? 'transparent' : '#f9f9f9',
+                  position: 'relative',
+                  cursor: 'pointer'
+                }}
+                onClick={() =>
+                  history.push(PATH.PROFILE_ID.replace(':id', member.user.id))
+                }
+              >
+                <UserAvatar user={member.user} />
+              </FlexRow>
+            )
+          })}
+        </>
+      )
+    }
+  }
+}
+
+export const addCostCenterDialog = (
+  component,
+  companyId,
+  onSuccess,
+  onCancel
+) => {
+  return {
+    showing: true,
+    style: { maxWidth: '580px' },
+    title: i18n.t('dialog.add_cost_center.title'),
+    description: i18n.t('dialog.add_cost_center.description'),
+    textCancel: i18n.t('general.cancel'),
+    onCancel: () => {
+      component.op.input('costCenter.new', null)
+      component.op.state('addCostCenterDialog.showing', false)
+      onCancel()
+    },
+    textPositive: i18n.t('general.save'),
+    onPositive: async () => {
+      component.op.state('addCostCenterDialog.loading', true)
+
+      const code = component.op.input('costCenter.new.code')
+      const name = component.op.input('costCenter.new.name')
+
+      if (!code) {
+        showToast({
+          type: 'error',
+          sticky: false,
+          description: i18n.t('cost_center.missing_code')
+        })
+
+        component.op.state('addCostCenterDialog.loading', false)
+
+        return
+      }
+
+      try {
+        await Biz.costCenter.create({ companyId, code, name }, component)
+        await Biz.costCenter.readCostCenters(companyId)
+
+        component.op.input('costCenter.new', null)
+        component.op.state('addCostCenterDialog.showing', false)
+        onSuccess()
+      } catch (error) {
+        showToast({
+          type: 'error',
+          sticky: false,
+          description: i18n.t('general.error_message')
+        })
+        component.op.state('addCostCenterDialog.loading', false)
+      }
+    },
+    renderChildren: dialogProps => {
+      return (
+        <>
+          <FlexRow
+            style={{
+              alignItems: 'flex-end'
+            }}
+          >
+            <FlexCol style={{ width: '180px' }}>
+              <Label style={{ marginBottom: '4px' }}>
+                {i18n.t('field.cost_center.code')}
+              </Label>
+              <Input
+                value={component.op.inputOr('costCenter.new.code', '')}
+                onChange={e => {
+                  component.op.input('costCenter.new.code', e.target.value)
+                }}
+                placeholder={i18n.t('company.cost_center.placeholders.code')}
+              />
+            </FlexCol>
+            <FlexCol style={{ width: '300px', margin: '0 10px' }}>
+              <Label style={{ marginBottom: '4px' }}>
+                {i18n.t('field.cost_center.name')}
+              </Label>
+              <Input
+                value={component.op.inputOr('costCenter.new.name', '')}
+                onChange={e => {
+                  component.op.input('costCenter.new.name', e.target.value)
+                }}
+                placeholder={i18n.t('company.cost_center.placeholders.name')}
+              />
+            </FlexCol>
+          </FlexRow>
+        </>
+      )
+    }
+  }
+}

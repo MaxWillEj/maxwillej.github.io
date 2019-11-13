@@ -1,0 +1,24 @@
+import React, { Component } from 'react'
+
+export class Text extends Component {
+  render() {
+    return (
+      <div
+        {...this.props}
+        style={{
+          margin: '0',
+          padding: '0',
+          fontSize: '14px',
+          fontFamily: 'Nunito Sans',
+          fontWeight: '600',
+          letterSpacing: '0.04em',
+          color: '#3f4658',
+          overflowWrap: 'break-word',
+          wordWrap: 'break-word',
+          hyphens: 'auto',
+          ...this.props.style
+        }}
+      />
+    )
+  }
+}

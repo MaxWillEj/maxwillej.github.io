@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 17</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Documents-landing-page-hover" transform="translate(-330.000000, -554.000000)" fill-rule="nonzero">
+            <g id="Group-27" transform="translate(286.000000, 459.000000)">
+                <g id="Group-16" transform="translate(0.000000, 60.500000)">
+                    <g id="Group-17" transform="translate(41.000000, 31.000000)">
+                        <rect id="Rectangle-10" x="0" y="0" width="26" height="26"></rect>
+                        <g id="Group-11" transform="translate(11.121509, 13.192651) rotate(-15.000000) translate(-11.121509, -13.192651) translate(3.121509, 3.192651)" stroke="#949eb6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M1.67226945,14.2142903 L1.67226945,7.52521253 C1.67226945,4.83825028 3.48287819,2.57417837 5.95057453,1.88651794 C6.18209424,1.24064904 6.79969799,0.778627979 7.52521253,0.778627979 C8.25072707,0.778627979 8.86833081,1.24064904 9.09985053,1.88651794 C11.5675469,2.57417837 13.3781556,4.83825028 13.3781556,7.52521253 L13.3781556,14.2142903" id="Combined-Shape"></path>
+                            <path d="M12.4878967,14.2142903 L13.796223,14.2142903 C14.4888997,14.2142903 15.0504251,14.7758157 15.0504251,15.4684924 C15.0504251,16.1611691 14.4888997,16.7226945 13.796223,16.7226945 L1.25420209,16.7226945 C0.561525402,16.7226945 0,16.1611691 0,15.4684924 C0,14.7758157 0.561525402,14.2142903 1.25420209,14.2142903 L8.03082134,14.2142903" id="Rectangle-11"></path>
+                            <path d="M5.27759849,18.9526615 L9.77282657,18.9526615" id="Path-3"></path>
+                        </g>
+                        <polyline id="Path-5" stroke="#007AAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="21.7656259 5.31395949 19.6095642 9.22802833 23.1696289 9.22802833 20.9645528 12.9505461"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

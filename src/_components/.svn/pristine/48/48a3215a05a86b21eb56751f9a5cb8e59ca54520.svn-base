@@ -1,0 +1,26 @@
+import React from 'react'
+import styled from 'styled-components'
+import { colors } from '../_styling'
+
+const SIZE = '24px'
+
+const NavItemNumber = styled.div`
+  position: absolute;
+  right: 14px;
+  background-color: ${colors.RED};
+  border-radius: 30px;
+  width: ${SIZE};
+  height: ${SIZE};
+  margin-left: 30px;
+  font-weight: bolder;
+  font-size: 13px;
+  color: white;
+  display: flex;
+  line-height: 13px;
+  align-items: center;
+  justify-content: center;
+`
+
+export default function(props) {
+  return <NavItemNumber>{props.count}</NavItemNumber>
+}

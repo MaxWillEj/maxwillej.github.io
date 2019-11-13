@@ -1,0 +1,53 @@
+import React from 'react'
+import { OLDInput } from '../_components'
+import { i18n } from '../_helpers'
+
+export const AddressFormArea = props => {
+  const { handleChange, header, address, skipName } = props
+  const { name, street, city, country, postalCode } = address || {}
+
+  return (
+    <div>
+      {header && <h4>{header}</h4>}
+      {!skipName && (
+        <OLDInput
+          placeholder={i18n.t('address_form_area.label.name')}
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleChange}
+        />
+      )}
+      <OLDInput
+        placeholder={i18n.t('address_form_area.label.street')}
+        type="text"
+        name="street"
+        value={street}
+        onChange={handleChange}
+      />
+      <OLDInput
+        placeholder={i18n.t('address_form_area.label.city')}
+        type="text"
+        name="city"
+        value={city}
+        onChange={handleChange}
+      />
+      <OLDInput
+        placeholder={i18n.t('address_form_area.label.country')}
+        type="text"
+        name="country"
+        value={country}
+        onChange={handleChange}
+      />
+      <OLDInput
+        placeholder={i18n.t('address_form_area.label.postal_code')}
+        type="number"
+        name="postalCode"
+        value={postalCode}
+        onChange={handleChange}
+      />
+    </div>
+  )
+}
+
+export default AddressFormArea

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="19px" viewBox="0 0 14 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 28</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Dashboard-1" transform="translate(-315.000000, -1685.000000)" fill-rule="nonzero" stroke="#949EB6" stroke-width="1.5">
+            <g id="Group-39-Copy" transform="translate(103.000000, 1303.000000)">
+                <g id="Group-13-Copy-15" transform="translate(209.000000, 382.000000)">
+                    <g id="Group-13-Copy" transform="translate(0.513929, 0.000000)">
+                        <g id="Group-28">
+                            <g id="Group-39" transform="translate(3.000000, 1.000000)">
+                                <polygon id="Rectangle-27" points="0.270042932 7.94351766 12.7299571 7.94351766 12.7299571 17 0.270042932 17"></polygon>
+                                <path d="M6.5,0 L6.5,0 C8.709139,-4.05812251e-16 10.5,1.790861 10.5,4 L10.5,7.94351766 L2.5,7.94351766 L2.5,4 C2.5,1.790861 4.290861,4.05812251e-16 6.5,0 Z" id="Rectangle-28"></path>
+                                <circle id="Oval-12" cx="6.5" cy="12.5" r="1.5"></circle>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

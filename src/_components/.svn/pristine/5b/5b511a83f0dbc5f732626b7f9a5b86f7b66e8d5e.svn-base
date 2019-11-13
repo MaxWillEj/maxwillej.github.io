@@ -1,0 +1,42 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import { FlexRow } from './FlexRow'
+import { Label } from './Label'
+import { Checkbox } from './Checkbox'
+import LinkButton from './LinkButton'
+import { i18n } from '../_helpers'
+import { Biz } from '../_biz/Biz'
+import _ from 'lodash'
+
+export class SelectDocumentRow extends PropsComponent {
+  render() {
+    return (
+      <FlexRow
+        {..._.omit(this.props, ['onSelect'])}
+        style={{
+          borderBottom: '1px solid #f1f1f1',
+          height: '50px',
+          justifyContent: 'space-between',
+          ...this.props.style
+        }}
+      >
+        <FlexRow>
+          <Checkbox
+            onClick={this.props.onSelect}
+            selected={this.props.selected}
+            style={{ marginRight: '10px' }}
+          />
+          <Label>{this.props.doc.title}</Label>
+        </FlexRow>
+        <LinkButton
+          style={{ cursor: 'pointer' }}
+          onClick={e => {
+            Biz.file.download(this.props.doc.fileUrl)
+          }}
+        >
+          {i18n.t('button.download')}
+        </LinkButton>
+      </FlexRow>
+    )
+  }
+}

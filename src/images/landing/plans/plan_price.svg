@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="107px" height="123px" viewBox="0 0 107 123" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-54.8%" y="-43.4%" width="209.5%" height="186.8%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.57   0 0 0 0 0.57   0 0 0 0 0.57  0 0 0 0.203606205 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="100%" y1="29.1376595%" x2="100%" y2="84.6476766%" id="linearGradient-2">
+            <stop stop-color="#4B4CC2" offset="0%"></stop>
+            <stop stop-color="#75BAE1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-3">
+            <stop stop-color="#8182F1" offset="0%"></stop>
+            <stop stop-color="#75BAE1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Pricing-bg-shape-2" transform="translate(-1333.000000, -345.000000)" fill-rule="nonzero">
+            <g id="Group-37" transform="translate(479.000000, 126.000000)">
+                <g id="Group" filter="url(#filter-1)" transform="translate(866.214625, 215.000000)">
+                    <path d="M15.1537641,54 L68.1537641,54 L68.1537641,99.582348 C68.1537641,101.791487 66.3629031,103.582348 64.1537641,103.582348 C63.5430192,103.582348 62.9403844,103.442493 62.3920641,103.173506 L46.938864,95.5926905 C43.6052263,93.9573211 39.7023019,93.9573211 36.3686642,95.5926905 L20.9154641,103.173506 C18.9321225,104.146466 16.5355665,103.32739 15.5626065,101.344048 C15.2936192,100.795728 15.1537641,100.193093 15.1537641,99.582348 L15.1537641,54 Z" id="Rectangle" fill="url(#linearGradient-2)"></path>
+                    <circle id="Oval" fill="url(#linearGradient-3)" cx="41.6537641" cy="46.2864487" r="41.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

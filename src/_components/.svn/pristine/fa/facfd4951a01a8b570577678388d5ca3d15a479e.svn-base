@@ -1,0 +1,76 @@
+import React, { Component } from 'react'
+import { getInitials } from '../_helpers'
+import { BackgroundImage } from './BackgroundImage'
+import { Label } from './Label'
+import { colors } from '../_styling'
+import _ from 'lodash'
+
+/**
+ * Default is to only provide an user to the avatar component.
+ * This is the only thing that is needed.
+  
+ * Variables:
+    user = user object containing an avatar field that has a URL
+    style = override default style with this prop
+    size = a string to override size with (default is below and example is: '76px')
+    avatar = an object containing a URL to an image { url: 'example.png' }
+    text = a string to be displayed
+ 
+  * Advanced example:
+    <Avatar
+      user={user}
+      style={{ margin: `0 auto` }}
+      size="76px"
+      avatar={avatar ? avatar : { url: placeholder }}
+    />
+ */
+
+export class Avatar extends Component {
+  render() {
+    const { user, avatar, text } = this.props
+    let avatarUrl = null
+    if (user && user.avatarUrl) {
+      avatarUrl = user.avatarUrl
+    } else if (user && user.avatar && user.avatarUrl) {
+      avatarUrl = user.avatarUrl
+    } else if (avatar && avatar.url) {
+      avatarUrl = avatar.url
+    }
+
+    return (
+      <BackgroundImage
+        src={avatarUrl}
+        size={this.props.size || '30px'}
+        rounded
+        {..._.omit(this.props, ['size'])}
+        style={{
+          backgroundColor: avatarUrl ? '#ccc' : '#fff',
+          border: avatarUrl ? 'none' : `1px solid ${colors.BLUE_LIGHT}`,
+          backgroundPosition: 'top',
+          justifyContent: 'center',
+          minWidth: this.props.size || '30px',
+          cursor: this.props.onClick ? 'pointer' : '',
+          ...this.props.style
+        }}
+      >
+        {!avatarUrl && (
+          <Label
+            style={{
+              display: 'inline-flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: '#3F4658',
+              fontSize: this.props.size
+                ? `calc(${this.props.size} /3)`
+                : '11px',
+              userSelect: 'none',
+              ...this.props.inputStyle
+            }}
+          >
+            {user ? getInitials(user) : text}
+          </Label>
+        )}
+      </BackgroundImage>
+    )
+  }
+}

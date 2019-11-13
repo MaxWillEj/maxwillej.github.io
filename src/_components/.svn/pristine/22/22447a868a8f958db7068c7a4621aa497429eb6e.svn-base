@@ -1,0 +1,189 @@
+import React, { Component } from 'react'
+import { FlexCol } from './FlexCol'
+import { FlexRow } from './FlexRow'
+import { Label } from './Label'
+import { i18n } from '../_helpers'
+import { Checkbox } from './Checkbox'
+import { ThinBorder } from './ThinBorder'
+import styled from 'styled-components'
+import LazyLoader from './LazyLoader'
+
+const defaultStyleCheckbox = {
+  width: '44px',
+  height: '44px',
+  flex: 'none',
+  display: 'flex'
+}
+const defaultStyleFirst = {
+  whitespace: 'no-break',
+  flex: '5',
+  minHeight: '60px'
+}
+const defaultStyleOthers = {
+  whitespace: 'no-break',
+  flex: '3',
+  minHeight: '60px'
+}
+const noBorderRowStyle = {
+  padding: '0 40px 0 40px',
+  minHeight: '61px',
+  lineHeight: '19px'
+}
+
+const columnLabelStyle = {
+  height: '44px',
+  minHeight: '44px',
+  lineHeight: '44px',
+  fontWeight: '400',
+  color: '#646b7d',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
+}
+const columnComponentStyle = {
+  height: '44px',
+  boxSizing: 'border-box',
+  display: 'flex',
+  alignItems: 'center',
+  flex: '0.5 1 0%'
+}
+
+const EmptyMessage = styled.div`
+  margin: 20px 0;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+`
+
+export class Table extends Component {
+  /**
+   * https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops
+   * It should return an object to update the state, or null to update nothing.
+   */
+  static getDerivedStateFromProps(props, state) {
+    if (
+      !state.columnStyles ||
+      state.columnStyles.length !== props.columns.length
+    ) {
+      const columnStyles = props.columns.map((column, index) => {
+        return {
+          ...(index === 0 ? defaultStyleFirst : defaultStyleOthers),
+          ...column.style
+        }
+      })
+
+      const columns = [...props.columns]
+
+      if (props.onSelect) {
+        columnStyles.unshift(defaultStyleCheckbox)
+        columns.unshift({
+          name: 'onSelect.checkbox',
+          component: () => {
+            return (
+              <Checkbox
+                selected={props.allSelected} // TODO real value
+                onClick={() => {
+                  props.onSelect(!props.allSelected) // TODO real value
+                }}
+              />
+            )
+          }
+        })
+      }
+
+      return { columnStyles, columns }
+    }
+    return null
+  }
+
+  state = {
+    columnStyles: null
+  }
+
+  _renderColumn = (column, index) => {
+    return !column.component ? (
+      <Label
+        key={column.name}
+        style={{
+          ...this.state.columnStyles[index],
+          ...columnLabelStyle
+        }}
+      >
+        {this.props.i18nNamespace
+          ? i18n.t(this.props.i18nNamespace + column.name)
+          : column.name}
+      </Label>
+    ) : (
+      <div
+        key={column.name}
+        style={{
+          ...columnComponentStyle,
+          ...this.state.columnStyles[index]
+        }}
+      >
+        {column.component()}
+      </div>
+    )
+  }
+
+  render() {
+    return this.props.rows && this.props.rows.length > 0 ? (
+      <FlexCol
+        style={{
+          margin: '0',
+          padding: '0',
+          fontSize: '18px',
+          color: '#3f4658',
+          ...this.props.style
+        }}
+      >
+        <FlexRow
+          style={{
+            padding: '0 40px 0 40px',
+            position: 'relative'
+          }}
+        >
+          {this.state.columns.map(this._renderColumn)}
+          <ThinBorder />
+        </FlexRow>
+        {this.props.lazyLoad ? (
+          <LazyLoader
+            dataList={this.props.rows}
+            renderer={(row, index) => {
+              return this.props.renderer(
+                row,
+                index,
+                noBorderRowStyle,
+                this.state.columnStyles
+              )
+            }}
+            itemSize={this.props.itemSize}
+            offsetTop={this.props.offsetTop}
+          />
+        ) : (
+          this.props.rows.map((row, index) => {
+            return (
+              <FlexCol
+                key={`Table.row${row.id}`}
+                style={{ position: 'relative' }}
+              >
+                {this.props.renderer(
+                  row,
+                  index,
+                  noBorderRowStyle,
+                  this.state.columnStyles
+                )}
+                {(!this.props.noBorderLastChild ||
+                  index < this.props.rows.length - 1) && <ThinBorder />}
+              </FlexCol>
+            )
+          })
+        )}
+      </FlexCol>
+    ) : (
+      <EmptyMessage>
+        {this.props.emptyMessage || i18n.t('table.no_rows')}
+      </EmptyMessage>
+    )
+  }
+}

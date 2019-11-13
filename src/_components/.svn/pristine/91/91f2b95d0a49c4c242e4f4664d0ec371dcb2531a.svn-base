@@ -1,0 +1,92 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import DatePicker from 'react-datepicker'
+import { BasicInput } from './BasicInput'
+import moment from 'moment'
+import _ from 'lodash'
+import { Label } from './Label'
+import { colors } from '../_styling'
+
+/**
+ * value is always a ISOString-date in UTC-timezone. Selected values are parsed from localtime.
+ */
+export class DatePickerBase extends PropsComponent {
+  render() {
+    return (
+      <>
+        <DatePicker
+          {..._.omit(this.props, ['value', 'inputStyle', 'name'])}
+          disabled={this.props.disabled}
+          dateFormat={
+            this.props.dateFormat
+              ? this.props.dateFormat
+              : this.props.time
+              ? 'YYYY-MM-DD HH:mm'
+              : 'YYYY-MM-DD'
+          }
+          showTimeSelect={this.props.time}
+          timeFormat={this.props.timeFormat || 'HH:mm'}
+          timeIntervals={this.props.timeIntervals || 15}
+          customInput={
+            this.props.customInput || (
+              <BasicInput style={this.props.inputStyle} />
+            )
+          }
+          selected={
+            this.props.value
+              ? this.props.time
+                ? moment(this.props.value).startOf('minute')
+                : moment.utc(this.props.value).startOf('day')
+              : null
+          }
+          placeholderText={this.props.placeholder}
+          onChange={date => {
+            if (!date) {
+              return
+            }
+
+            if (!this.props.time) {
+              // TODO: Refactor this code. Without this code we get issues with timezone offsets on date strings (DateTime works as expected)
+              date = moment
+                .utc()
+                .startOf('day')
+                .year(date.year())
+                .month(date.month())
+                .date(date.date())
+            }
+
+            // Only log in dev
+            // if (process.env.NODE_ENV !== 'production') {
+            //   console.log('DatePickerBase', date.toISOString())
+            // }
+
+            this.props.onChange({
+              // faux event object for use in our usual change handlers
+              target: {
+                name: this.props.name || 'pickedDate',
+                value: date.toISOString()
+              }
+            })
+          }}
+        />
+        {this.props.error && (
+          <div style={{ position: 'relative' }}>
+            <Label
+              style={{
+                position: 'absolute',
+                width: '100%',
+                left: '2px',
+                fontSize: '11px',
+                fontWeight: '400',
+                color: colors.RED,
+                ...this.props.errorStyle
+              }}
+            >
+              {this.props.error}
+            </Label>
+          </div>
+        )}
+      </>
+    )
+  }
+}

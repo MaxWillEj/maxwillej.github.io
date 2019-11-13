@@ -1,0 +1,147 @@
+import React from 'react'
+import styled from 'styled-components'
+import sortArrowDesc from '../images/icons/sort_arrow_desc.svg'
+import sortArrowAscActive from '../images/icons/sort_arrow_asc_active.svg'
+import sortArrowDescActive from '../images/icons/sort_arrow_desc_active.svg'
+import { Image } from './Image'
+import { FlexRow } from './FlexRow'
+import { Loader } from './Loader'
+import { fadeIn } from '../_animations'
+
+const OuterWrapper = styled.div`
+  position: relative;
+`
+
+const Wrapper = styled.div`
+  border: 1px solid #ccc;
+  font-size: 13px;
+  overflow-x: auto;
+  background: #fff;
+`
+
+const HeadingRow = styled.div`
+  display: flex;
+  background: #fff;
+  user-select: none;
+`
+
+const BaseCell = styled.div`
+  box-sizing: border-box;
+  padding: 11px 8px;
+
+  /*
+    NOTE: for tables with scroll, this creates a double border at the end.
+    Hide it on :last-child is not an options, since we DO want the border there when columns don't overflow.
+    The double border is fine until we find an elegant solution.
+   */
+  border-right: 1px solid #dfdfdf;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  flex-grow: 0;
+`
+
+const HeadingCell = styled(BaseCell)`
+  cursor: ${props => (props.onClick ? 'pointer' : 'default')};
+  font-weight: 600;
+  font-size: 13px;
+  color: ${props => (props.isCurrentSort ? '#333' : '#777a83')};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 9px 8px;
+  position: relative;
+`
+const MiniLabel = styled.div`
+  color: #aaa;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+`
+
+const Row = styled.div`
+  display: flex;
+  min-width: 100%;
+  min-height: 40px;
+`
+
+const LoadingWrapper = styled.div`
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 50px;
+  left: 0;
+  animation: ${fadeIn} 0.3s ease-in-out;
+`
+
+const RowCell = styled(BaseCell)``
+
+export default function(props) {
+  const rowWidth = props.cols.reduce((totalWidth, col) => {
+    const colWidth = parseInt(col.style.width, 10)
+    return totalWidth + colWidth
+  }, 0)
+
+  return (
+    <OuterWrapper>
+      <Wrapper style={props.style}>
+        {props.loading && (
+          <LoadingWrapper>
+            <Loader light style={{ marginTop: '50px' }} />
+          </LoadingWrapper>
+        )}
+        <HeadingRow
+          style={{
+            width: `${rowWidth}px`
+          }}
+        >
+          {props.cols.map((col, index) => (
+            <HeadingCell
+              key={index}
+              onClick={col.onClick}
+              style={col.style}
+              isCurrentSort={col.isCurrentSort}
+            >
+              {col.miniLabel && <MiniLabel>{col.miniLabel}</MiniLabel>}
+              <FlexRow style={{ justifyContent: 'space-between' }}>
+                {col.label}
+                {col.sortable && (
+                  <Image
+                    src={
+                      col.isCurrentSort
+                        ? col.currentSortDirection === 'ASC'
+                          ? sortArrowAscActive
+                          : sortArrowDescActive
+                        : sortArrowDesc
+                    }
+                    size="18px"
+                  />
+                )}
+              </FlexRow>
+            </HeadingCell>
+          ))}
+        </HeadingRow>
+        {props.rows.map((row, index) => (
+          <Row
+            key={index}
+            style={{
+              width: `${rowWidth}px`,
+              background: props.rowColors
+                ? props.rowColors[index % props.rowColors.length]
+                : '#fff'
+            }}
+          >
+            {row.map((child, index) => (
+              <RowCell key={index} style={props.cols[index].style}>
+                {child}
+              </RowCell>
+            ))}
+          </Row>
+        ))}
+      </Wrapper>
+    </OuterWrapper>
+  )
+}

@@ -1,0 +1,53 @@
+import React, { Component } from 'react'
+import { Table, FlexRow, ExpandButton, SectionHeader } from '../_components'
+import _ from 'lodash'
+
+export class TableWithHeader extends Component {
+  state = { expanded: true }
+
+  componentDidMount() {
+    this.setState({ expanded: this.props.collapsed ? false : true })
+  }
+
+  isExpandedWithItems = () => {
+    return this.state.expanded && this.props.rows && this.props.rows.length > 0
+  }
+
+  render() {
+    if (this.props.rows.length <= 0) {
+      return null
+    }
+
+    return (
+      <>
+        <SectionHeader
+          style={{ padding: '0 20px', minHeight: '68px', ...this.props.style }}
+          title={this.props.title}
+          icon={this.props.icon}
+        >
+          {this.props.collapsible && (
+            <FlexRow style={{ marginLeft: 'auto' }}>
+              <ExpandButton
+                expanded={this.state.expanded}
+                onClick={() => {
+                  this.setState({ expanded: !this.state.expanded })
+                }}
+              />
+            </FlexRow>
+          )}
+        </SectionHeader>
+        {this.isExpandedWithItems() && (
+          <Table
+            {..._.omit(this.props, ['title', 'icon', 'style'])}
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '0 0 8px 8px',
+              boxShadow: '0 16px 50px rgba(86,134,162,0.15)',
+              ...this.props.tableStyle
+            }}
+          />
+        )}
+      </>
+    )
+  }
+}

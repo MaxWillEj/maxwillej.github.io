@@ -1,0 +1,47 @@
+import React from 'react'
+import { Label } from '../_components'
+import { PropsComponent } from '../_components/base/PropsComponent'
+import { DynamicInputInline } from './DynamicInputInline'
+import { i18n } from '../_helpers'
+import { FlexCol } from './FlexCol'
+
+export class EmergencyContactInput extends PropsComponent {
+  render() {
+    if (!this.props.contact) {
+      return null
+    }
+    return (
+      <FlexCol style={{ margin: '30px 0' }}>
+        <Label style={{ fontWeight: '1000' }}>
+          {i18n.t('emergency_contact_input.title', {
+            index: this.props.titleIndex
+          })}
+        </Label>
+        <DynamicInputInline
+          label={i18n.t('emergency_contact_input.fullName')}
+          name="fullName"
+          onChange={this.props.onChange}
+          value={this.props.contact.fullName || ''}
+        />
+        <DynamicInputInline
+          label={i18n.t('emergency_contact_input.relationship')}
+          name="relationship"
+          onChange={this.props.onChange}
+          value={this.props.contact.relationship || ''}
+        />
+        <DynamicInputInline
+          label={i18n.t('emergency_contact_input.phone')}
+          name="phone"
+          onChange={this.props.onChange}
+          value={this.props.contact.phone || ''}
+        />
+        <DynamicInputInline
+          label={i18n.t('emergency_contact_input.email')}
+          name="email"
+          onChange={this.props.onChange}
+          value={this.props.contact.email || ''}
+        />
+      </FlexCol>
+    )
+  }
+}

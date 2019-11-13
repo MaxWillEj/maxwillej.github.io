@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Delete</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Top-Screen-toast" transform="translate(-1055.000000, -78.000000)" fill-rule="nonzero" stroke="#949EB6" stroke-width="1.5">
+            <g id="Toast" transform="translate(494.000000, 25.000000)">
+                <g id="Delete" transform="translate(551.369251, 43.133551)">
+                    <g id="Group-20" transform="translate(8.000000, 8.000000)">
+                        <g id="Group-11" transform="translate(7.169747, 7.576275) rotate(-45.000000) translate(-7.169747, -7.576275) translate(2.169747, 2.576275)">
+                            <path d="M5.13471885,4.90819927 L5.13471885,0.0880864559 L5.13471885,4.90819927 L9.95483167,4.90819927 L5.13471885,4.90819927 Z M5.13471885,4.90819927 L0.31460603,4.90819927 L5.13471885,4.90819927 L5.13471885,9.72831209 L5.13471885,4.90819927 Z" id="Combined-Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

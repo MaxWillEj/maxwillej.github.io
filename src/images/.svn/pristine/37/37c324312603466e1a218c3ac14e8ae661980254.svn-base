@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 13</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Top-Screen-toast" transform="translate(-512.000000, -45.000000)">
+            <g id="Toast" transform="translate(494.000000, 25.000000)">
+                <g id="Group-6" transform="translate(18.000000, 20.000000)">
+                    <path d="M22,0 L22,0 C34.1502645,-2.23196738e-15 44,9.8497355 44,22 L44,22 C44,34.1502645 34.1502645,44 22,44 L22,44 C9.8497355,44 1.48797825e-15,34.1502645 0,22 L0,22 C-1.48797825e-15,9.8497355 9.8497355,2.23196738e-15 22,0 Z" id="Rectangle-13" fill="#5CDC83"></path>
+                    <g id="Group-21" transform="translate(22.500000, 19.500000) rotate(-270.000000) translate(-22.500000, -19.500000) translate(15.000000, 12.000000)" fill-rule="nonzero" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <polyline id="Path-18-Copy" transform="translate(7.841512, 7.543900) rotate(-315.000000) translate(-7.841512, -7.543900) " points="14.1660236 11.1582513 14.1660236 3.92954827 1.51700114 3.92954827"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

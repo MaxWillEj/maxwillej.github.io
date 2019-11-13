@@ -1,0 +1,14 @@
+import React from 'react'
+import { shallow } from 'enzyme'
+import { Button } from './'
+
+it('renders without crashing', () => {
+  shallow(<Button />)
+})
+
+it('displays the provided button text', () => {
+  const wrapper = shallow(<Button>Hello, sunshine!</Button>)
+  const content = 'Hello, sunshine!'
+
+  expect(wrapper.contains(content)).toEqual(true)
+})

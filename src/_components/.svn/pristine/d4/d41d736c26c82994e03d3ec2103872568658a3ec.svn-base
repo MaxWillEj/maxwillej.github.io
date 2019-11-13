@@ -1,0 +1,39 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  margin: 0 0 4px;
+`
+
+const Label = styled.label`
+  display: block;
+  font-size: 15px;
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+
+  input {
+    margin-right: 8px;
+    position: relative;
+    top: -1px;
+  }
+`
+
+const Error = styled.span`
+  padding-left: 24px;
+  font-size: 13px;
+  color: #ff7b60;
+`
+
+export const CheckboxWithLabel = props => {
+  const { error } = props
+
+  return (
+    <Wrapper>
+      <Label disabled={props.disabled}>
+        <input type="checkbox" {...props} />
+        {props.label && props.label}
+      </Label>
+      {error && <Error>{error}</Error>}
+    </Wrapper>
+  )
+}

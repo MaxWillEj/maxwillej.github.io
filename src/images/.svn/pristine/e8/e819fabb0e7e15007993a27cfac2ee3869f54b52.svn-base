@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#A091D4" offset="0%"></stop>
+            <stop stop-color="#D58BD3" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="23" cy="23" r="23"></circle>
+        <linearGradient x1="108.528322%" y1="0%" x2="6.67971002%" y2="127.492727%" id="linearGradient-4">
+            <stop stop-color="#12053E" offset="0%"></stop>
+            <stop stop-color="#994296" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.3.1:-Profil---Mina-dokument" transform="translate(-602.000000, -579.000000)">
+            <g id="Group-32" transform="translate(602.000000, 579.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#6242A0" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="6.31591962" cy="6.4686153" r="10.7392741"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#6242A0" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="22.5025999" y="25.5443555" width="28.4353741" height="26.3401361"></rect>
+                <g id="Group-17" mask="url(#mask-3)">
+                    <g transform="translate(8.500000, 8.500000)">
+                        <rect id="Rectangle-19" fill="#F9FAFC" fill-rule="nonzero" x="0" y="0" width="13" height="13" rx="2"></rect>
+                        <polygon id="1" fill="#D18BD3" fill-rule="evenodd" points="4.91 2.995 8.09 2.995 8.09 10.005 6.26 10.005 6.26 4.495 4.91 4.495"></polygon>
+                        <rect id="Rectangle-19-Copy" fill="url(#linearGradient-4)" fill-rule="nonzero" x="15.8477653" y="15.0899478" width="13" height="13" rx="2"></rect>
+                        <path d="M24.987864,23.522364 L24.987864,24.992364 L19.647864,24.992364 L19.637864,23.782364 L22.187864,21.162364 C22.387865,20.9556963 22.5511967,20.7490317 22.677864,20.542364 C22.8045313,20.3356963 22.867864,20.1590314 22.867864,20.012364 C22.867864,19.8190297 22.7978647,19.6706978 22.657864,19.567364 C22.5178633,19.4640301 22.3211986,19.412364 22.067864,19.412364 C21.7878626,19.412364 21.476199,19.4906965 21.132864,19.647364 C20.7895289,19.8040314 20.4578656,20.0223626 20.137864,20.302364 L19.437864,18.952364 C20.4045355,18.2523605 21.3745258,17.902364 22.347864,17.902364 C22.814533,17.902364 23.2328621,17.9790299 23.602864,18.132364 C23.9728658,18.2856981 24.2628629,18.5023626 24.472864,18.782364 C24.682865,19.0623654 24.787864,19.3823622 24.787864,19.742364 C24.787864,20.1023658 24.6695318,20.4740287 24.432864,20.857364 C24.1961961,21.2406992 23.8611995,21.6490285 23.427864,22.082364 L21.997864,23.522364 L24.987864,23.522364 Z" id="2" fill="#FFFFFF" fill-rule="evenodd"></path>
+                    </g>
+                </g>
+                <g id="Group-18" mask="url(#mask-3)" fill-rule="nonzero" opacity="0.699999988" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <g transform="translate(24.000000, 11.292306)">
+                        <path d="M0.783192637,0.842329173 L1.1355982,0.842329173 C4.61445691,0.842329173 7.43462911,3.66250138 7.43462911,7.14136009" id="Path-4" stroke-dasharray="1,3"></path>
+                        <polyline id="Path-11" points="5.16509807 7.27098227 7.46829427 9.57417847 9.77149046 7.27098227"></polyline>
+                    </g>
+                </g>
+                <g id="Group-18-Copy" mask="url(#mask-3)" fill-rule="nonzero" opacity="0.699999988" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <g transform="translate(16.050109, 29.704189) scale(-1, -1) translate(-16.050109, -29.704189) translate(11.050109, 24.704189)">
+                        <path d="M0.783192637,0.842329173 L1.1355982,0.842329173 C4.61445691,0.842329173 7.43462911,3.66250138 7.43462911,7.14136009" id="Path-4" stroke-dasharray="1,3"></path>
+                        <polyline id="Path-11" points="5.16509807 7.27098227 7.46829427 9.57417847 9.77149046 7.27098227"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 10 Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="14.876977" cy="14.876977" r="14.876977"></circle>
+    </defs>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard---Birthday" transform="translate(-1334.000000, -565.000000)">
+            <g id="Group-46" transform="translate(936.000000, 315.000000)">
+                <g id="Group-40" transform="translate(0.000000, 206.000000)">
+                    <g id="Group-25" transform="translate(0.000000, 32.000000)">
+                        <g id="Group-10-Copy-2" transform="translate(399.000000, 13.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Oval-6" stroke="#949EB6" opacity="0.100000001" fill-rule="nonzero" xlink:href="#path-1"></use>
+                            <g id="Group-13-Copy" mask="url(#mask-2)" stroke-linecap="round" stroke-linejoin="round">
+                                <g transform="translate(7.135042, 7.135042)" id="Group-21">
+                                    <g>
+                                        <g id="Group-37" transform="translate(0.814941, 0.814941)" fill-rule="nonzero" stroke-width="1.5">
+                                            <circle id="Oval-8" stroke="#949EB6" cx="6.92699491" cy="6.92699491" r="6.90662471"></circle>
+                                            <path d="M5.50704158,8.52323224 C4.56123856,8.52323224 3.79451372,9.28995708 3.79451372,10.2357601" id="Oval-8-Copy" stroke="#009ECE" transform="translate(4.650778, 9.379496) rotate(-225.000000) translate(-4.650778, -9.379496) "></path>
+                                            <path d="M9.96313866,8.52323224 C9.01733564,8.52323224 8.2506108,9.28995708 8.2506108,10.2357601" id="Oval-8-Copy-2" stroke="#009ECE" transform="translate(9.106875, 9.379496) scale(-1, 1) rotate(-225.000000) translate(-9.106875, -9.379496) "></path>
+                                            <path d="M2.97106481,5.25791605 L3.90440624,5.25791605" id="Path-15" stroke="#949EB6"></path>
+                                            <path d="M9.70281866,5.25791605 L10.6361601,5.25791605" id="Path-15-Copy" stroke="#949EB6"></path>
+                                            <path d="M5.32400138,9.30886236 L8.40350913,9.30886236" id="Path-16" stroke="#009ECE"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

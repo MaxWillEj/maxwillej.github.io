@@ -1,0 +1,9 @@
+import React, { Component } from 'react'
+import { Label } from './Label'
+
+export class AttachmentsLabel extends Component {
+  render() {
+    // TODO Implementation
+    return <Label {...this.props} />
+  }
+}

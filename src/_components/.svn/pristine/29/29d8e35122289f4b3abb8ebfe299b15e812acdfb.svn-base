@@ -1,0 +1,22 @@
+import React, { Component } from 'react'
+
+export class Description extends Component {
+  render() {
+    // TODO Add default style for text
+    return (
+      <p
+        {...this.props}
+        style={{
+          margin: '0',
+          padding: '0',
+          fontSize: '16px',
+          fontFamily: 'Nunito Sans',
+          fontWeight: '400',
+          letterSpacing: '0.07em',
+          color: '#949eb6',
+          ...this.props.style
+        }}
+      />
+    )
+  }
+}

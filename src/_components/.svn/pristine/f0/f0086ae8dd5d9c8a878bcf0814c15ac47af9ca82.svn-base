@@ -1,0 +1,54 @@
+import React, { Component, Fragment } from 'react'
+import styled from 'styled-components'
+import { spacing, colors } from '../_styling'
+import { Avatar } from '../_components'
+import { CompanyLogo } from './CompanyLogo'
+import { fonts } from '../_styling/fonts'
+
+const Name = styled.div`
+  margin: ${spacing.SMALLEST} 0 0;
+  padding: 0 10px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: ${colors.BLUE_GRAY};
+  font: 500 14px ${fonts.MAIN};
+
+  @media (max-width: 1279px) {
+    font-size: 12px;
+  }
+`
+
+export class NavigationAvatar extends Component {
+  render() {
+    const { user, avatar, placeholder, name } = this.props
+    return (
+      <Fragment>
+        {this.props.user ? (
+          <Avatar
+            user={user}
+            style={{
+              margin: `${spacing.MEDIUM} auto 0`,
+              backgroundColor: '#fff',
+              ...this.props.style
+            }}
+            inputStyle={{ color: '#fff', fontSize: '17px' }}
+            size="76px"
+            avatar={avatar ? avatar : { url: placeholder }}
+          />
+        ) : (
+          <CompanyLogo
+            style={{ margin: `${spacing.SMALLER} auto 0` }}
+            imageStyle={{
+              backgroundSize: avatar && avatar.url ? 'contain' : 'cover'
+            }}
+            size="76px"
+            sizeInner={avatar && avatar.url ? '60px' : '76px'}
+            src={avatar && avatar.url ? avatar.url : placeholder}
+          />
+        )}
+        <Name>{name}</Name>
+      </Fragment>
+    )
+  }
+}

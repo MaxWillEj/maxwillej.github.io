@@ -1,0 +1,59 @@
+import React from 'react'
+import styled from 'styled-components'
+import { PropsComponent } from './base/PropsComponent'
+import { FlexRow } from './FlexRow'
+import { Label } from './Label'
+import { colors } from '../_styling'
+import _ from 'lodash'
+
+const Wrapper = styled.label`
+  display: flex;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  color: ${props => (props.disabled ? '#737A8C' : '#3f4658')};
+  line-height: 22px;
+`
+
+const RadioInput = styled.input`
+  cursor: pointer;
+  margin: 0 8px 0 0;
+  font-size: 13px;
+  color: #ff7b60;
+  height: 22px;
+`
+
+export class RadioButton extends PropsComponent {
+  render() {
+    return (
+      <FlexRow>
+        <Wrapper disabled={this.props.disabled}>
+          <RadioInput {..._.omit(this.props, ['children'])} type="radio" />
+          <div style={this.props.labelStyle}>
+            {this.props.label}
+            {this.props.children}
+          </div>
+        </Wrapper>
+        {this.props.error && (
+          <Label
+            style={{
+              flex: '1',
+              marginLeft: '8px',
+              fontSize: '11px',
+              fontWeight: '400',
+              lineHeight: '11px',
+              color: colors.RED
+            }}
+          >
+            {this.props.error}
+          </Label>
+        )}
+      </FlexRow>
+    )
+  }
+}

@@ -1,0 +1,303 @@
+import React from 'react'
+import { Dialog } from '../Dialog'
+import { UserAvatar, FlexRow, Input, DeleteButton } from '../'
+import { i18n } from '../../_helpers'
+import { DOCUMENT_ACCESS } from '../../_constants'
+import styled from 'styled-components'
+import { Biz } from '../../_biz/Biz'
+import { showToast } from '../../AppStateComponent'
+import { StateComponent } from '../base/StateComponent'
+import _ from 'lodash'
+
+const rowStyle = {
+  borderBottom: '1px solid #CCCDD8',
+  padding: '12px 0'
+}
+
+const Search = styled.div`
+  position: relative;
+  margin-bottom: 40px;
+`
+
+const SearchInput = styled.div`
+  display: flex;
+`
+
+const SearchResult = styled.div`
+  position: absolute;
+  width: 100%;
+  z-index: 50;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid rgb(148, 158, 182);
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  > *:nth-child(n + 1) {
+    margin-top: 5px;
+  }
+`
+
+/*
+  <DialogDocumentSignees
+    showing={this.state.showing}
+    doc={this.state.doc}
+    onHide={() => {
+      this.setState({ showAccessDialog: false })
+    }}
+    me={this.props.me}
+    bizComponent={this} // This is the component that will get the updated document data returned to it through thenSetState() (optional)
+  />
+*/
+
+export class DialogDocumentSignees extends StateComponent {
+  state = {
+    getDerivedState: (nextProps, nextState) => {
+      const propsChanged = !this.isEqual(nextProps, this.props)
+      console.log('nextProps.doc', nextProps.doc)
+      if (!this.state.doc || propsChanged) {
+        const member =
+          nextProps.doc &&
+          nextProps.doc.members.find(
+            member => member.user.id === nextProps.me.id
+          )
+        const allowedToEdit =
+          nextProps.doc && member && member.access === DOCUMENT_ACCESS.OWNER
+        return { doc: nextProps.doc, allowedToEdit }
+      }
+      return null
+    },
+    dialog: {
+      title: i18n.t('documents.dialog.signees.title'),
+      description: i18n.t('documents.dialog.signees.description'),
+      textCancel: i18n.t('documents.dialog.signees.button_cancel'),
+      onCancel: () => {
+        this.resetState()
+        this.props.onHide()
+      },
+      textPositive: i18n.t('documents.dialog.signees.button_save'),
+      onPositive: async () => {
+        const { doc, newSignatures, dialog } = this.state
+        this.setState({ dialog: { ...dialog, loading: true } })
+
+        for (const signature of doc.signatures) {
+          if (signature.deleted) {
+            await Biz.document.removeSigner(
+              doc.id,
+              signature.user.id,
+              this.props.bizComponent
+            )
+          }
+        }
+
+        for (const signature of newSignatures) {
+          await Biz.document.addSigner(
+            doc.id,
+            signature.user.id,
+            this.props.bizComponent
+          )
+        }
+
+        this.setState({ dialog: { ...this.state.dialog, loading: false } })
+        this.resetState()
+        this.props.onHide()
+      }
+    },
+    doc: null,
+    allowedToEdit: false,
+    foundEmployees: [],
+    newSignatures: []
+  }
+
+  resetState = () => {
+    this.setState({
+      doc: null,
+      foundEmployees: [],
+      newSignatures: []
+    })
+  }
+
+  componentDidMount = () => {
+    super.componentDidMount()
+    this.setState({ loadingEmployees: true })
+
+    this.setState({
+      employees: Biz.member.basicAll().map(member => {
+        return {
+          ...member.employee,
+          user: member.user
+        }
+      }),
+      loadingEmployees: false
+    })
+  }
+
+  onSearchChange = e => {
+    this.setState({ isSearching: true })
+    const searchValue = e.target.value.toLowerCase()
+    if (!this.state.loadingEmployees) {
+      const foundEmployees = this.state.employees.filter(employee => {
+        const { user } = employee
+        const nameMatch = `${user.firstName} ${user.lastName}`
+          .toLowerCase()
+          .search(searchValue)
+        const emailMatch = user.email.toLowerCase().search(searchValue)
+        return nameMatch !== -1 || emailMatch !== -1
+      })
+      this.setState({ foundEmployees })
+    }
+  }
+
+  selectEmployee = employee => {
+    if (this.userAlreadySigner(employee.user.id)) {
+      const { signature, signatureIndex } = this.getSignatureAndIndex(
+        employee.user.id,
+        this.state.doc.signatures
+      )
+      if (signature && signature.deleted) {
+        const doc = _.cloneDeep(this.state.doc)
+        doc.signatures[signatureIndex].deleted = false
+        this.setState({ doc })
+      } else {
+        showToast({
+          type: 'warning',
+          sticky: false,
+          description: i18n.t('dialog_document_user_access.error_user_added')
+        })
+      }
+    } else {
+      this.setState({
+        newSignatures: [...this.state.newSignatures, { user: employee.user }]
+      })
+    }
+  }
+
+  removeSigner = (e, signer) => {
+    this.removeFromDocument(signer)
+    this.removeFromNewSignatures(signer)
+  }
+
+  removeFromDocument = signer => {
+    const { signatureIndex } = this.getSignatureAndIndex(
+      signer.user.id,
+      this.state.doc.signatures
+    )
+
+    if (signatureIndex !== -1) {
+      let doc = _.cloneDeep(this.state.doc)
+      doc.signatures[signatureIndex].deleted = true
+      this.setState({ doc })
+      return
+    }
+  }
+
+  removeFromNewSignatures = signature => {
+    let newSignatures = this.state.newSignatures.filter(
+      newSignature => newSignature.user.id !== signature.user.id
+    )
+    this.setState({ newSignatures })
+  }
+
+  getSignatureAndIndex(userId, collection) {
+    let signatureIndex = -1
+    const signature = collection.find((signature, index) => {
+      if (signature.user.id === userId) {
+        signatureIndex = index
+        return true
+      }
+      return false
+    })
+
+    return { signature, signatureIndex }
+  }
+
+  getCombinedSignatures() {
+    return _.uniqBy(
+      [...this.state.doc.signatures, ...this.state.newSignatures],
+      'user.id'
+    )
+  }
+
+  userAlreadySigner = userId => {
+    return this.getCombinedSignatures().some(
+      signature => signature.user.id === userId
+    )
+  }
+
+  renderSignerRow = (signer, index) => {
+    if (signer.deleted) {
+      return null
+    }
+
+    return (
+      <FlexRow style={rowStyle} key={signer.user.id}>
+        <UserAvatar style={{ flex: 1 }} user={signer.user} />
+        <DeleteButton
+          style={{
+            margin: '0 15px',
+            cursor: this.state.allowedToEdit ? 'pointer' : 'default'
+          }}
+          onClick={e => this.removeSigner(e, signer)}
+        />
+      </FlexRow>
+    )
+  }
+
+  render() {
+    const { doc, foundEmployees } = this.state
+    if (!doc) {
+      return null
+    }
+
+    return (
+      <Dialog
+        {...this.state.dialog}
+        {...this.props}
+        onClick={e => {
+          /*
+            This is used to close the search field properly since the solution with onBlur
+            doesn't call the onClick handler of its children.
+          */
+          if (e.target.nodeName !== 'INPUT') {
+            this.setState({ isSearching: false })
+          }
+        }}
+      >
+        {this.state.allowedToEdit && (
+          <Search
+            onFocus={e => {
+              this.setState({ isSearching: true })
+            }}
+          >
+            <SearchInput>
+              <Input
+                onChange={this.onSearchChange}
+                placeholder={i18n.t(
+                  'documents.dialog.signees.search_placeholder'
+                )}
+              />
+            </SearchInput>
+            {this.state.isSearching && foundEmployees.length > 0 && (
+              <SearchResult>
+                {foundEmployees.map(employee => {
+                  return (
+                    <UserAvatar
+                      key={employee.user.id}
+                      user={employee.user}
+                      onClick={e => {
+                        this.selectEmployee(employee)
+                        this.setState({ isSearching: false })
+                      }}
+                    />
+                  )
+                })}
+              </SearchResult>
+            )}
+          </Search>
+        )}
+
+        {this.getCombinedSignatures().map(this.renderSignerRow)}
+      </Dialog>
+    )
+  }
+}

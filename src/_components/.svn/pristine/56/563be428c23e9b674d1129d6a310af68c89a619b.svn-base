@@ -1,0 +1,22 @@
+import React, { Component } from 'react'
+import { Label } from './Label'
+import { history } from '../_helpers'
+
+export class NavLabel extends Component {
+  render() {
+    return (
+      <Label
+        style={{
+          cursor: this.props.label ? 'pointer' : ''
+        }}
+        onClick={e => {
+          if (this.props.label) {
+            history.push(this.props.route.replace(':id', this.props.id))
+          }
+        }}
+      >
+        {this.props.label ? this.props.label : '-'}
+      </Label>
+    )
+  }
+}

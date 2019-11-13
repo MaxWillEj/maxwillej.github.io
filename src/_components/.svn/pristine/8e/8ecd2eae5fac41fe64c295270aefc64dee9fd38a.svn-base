@@ -1,0 +1,149 @@
+import React from 'react'
+import { StateComponent } from './base/StateComponent'
+import { FlexRow } from './FlexRow'
+import { DeltaDateInput } from './DeltaDateInput'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
+import { DateInput } from './DateInput'
+import styled from 'styled-components'
+
+const SelectCircle = styled.div`
+  width: 22px;
+  height: 22px;
+  margin: 14px 20px 0 0;
+  border: 1px solid #9ba4bb;
+  border-radius: 12px;
+  background: ${props => (props.selected ? '#009ECE' : 'none')};
+  box-shadow: ${props => (props.selected ? '0 0 0 4px #fff inset' : 'none')};
+  cursor: pointer;
+`
+
+const Container = styled.div`
+  position: relative;
+  &::after {
+    content: '';
+    display: ${props => (props.disabled ? 'block' : 'none')};
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.6);
+  }
+`
+
+export class DateSelector extends StateComponent {
+  state = {
+    deltaSelected: true
+  }
+
+  componentDidMount() {
+    super.componentDidMount()
+
+    if (!this.props.disableDueDate && !this.props.entity.dateRule) {
+      this.op.state('deltaSelected', false)
+    } else {
+      this.props.onDeltaChange(this.getDateRuleValue())
+    }
+  }
+
+  getDateRuleValue() {
+    return {
+      parentField: this.op.props('entity.dateRule.parentField') || 'hireDate',
+      field: this.props.field,
+      offsetMinutes: this.op.props('entity.dateRule.offsetMinutes') || -1440 // 1 day before
+    }
+  }
+
+  render() {
+    const { entity, field, maxDate, minDate } = this.props
+
+    if (this.props.deltaDate) {
+      const dateRuleValue = this.getDateRuleValue()
+
+      return (
+        <div>
+          <FlexRow style={{ margin: '0 0 40px', alignItems: 'flex-start' }}>
+            {!this.props.disableDueDate && (
+              <SelectCircle
+                selected={this.state.deltaSelected}
+                onClick={() => {
+                  this.op.state('deltaSelected', true)
+                  this.props.onDeltaChange(dateRuleValue)
+                }}
+              />
+            )}
+            <Container disabled={!this.state.deltaSelected}>
+              <DeltaDateInput
+                mode="Employee"
+                entityParent={this.props.entity.parent}
+                value={dateRuleValue}
+                onChange={this.props.onDeltaChange}
+                style={{
+                  width: '380px'
+                }}
+              />
+            </Container>
+          </FlexRow>
+          {!this.props.disableDueDate && (
+            <FlexRow style={{ alignItems: 'flex-start' }}>
+              <SelectCircle
+                selected={!this.state.deltaSelected}
+                onClick={() => {
+                  this.op.state('deltaSelected', false)
+
+                  const modifiedDate = moment(entity.dueDate)
+                    .startOf('day')
+                    .hour(9)
+                  this.props.onChange(modifiedDate.toISOString())
+                }}
+              />
+              <Container disabled={this.state.deltaSelected}>
+                <DatePicker
+                  inline
+                  selected={entity.dueDate ? moment(entity.dueDate) : moment()}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                  onChange={date => {
+                    if (!date) {
+                      return
+                    }
+
+                    const modifiedDate = moment(date)
+                      .startOf('day')
+                      .hour(9)
+
+                    this.props.onChange(modifiedDate.toISOString())
+                  }}
+                />
+              </Container>
+            </FlexRow>
+          )}
+        </div>
+      )
+    } else {
+      return (
+        <DateInput
+          name={field}
+          value={entity[field] ? moment(entity[field]) : moment()}
+          placeholder="Välj datum"
+          minDate={minDate}
+          maxDate={maxDate}
+          onChange={e => {
+            const date = e.target.value
+
+            if (!date) {
+              return
+            }
+
+            const modifiedDate = moment(date)
+              .startOf('day')
+              .hour(9)
+
+            this.props.onChange(modifiedDate.toISOString())
+          }}
+        />
+      )
+    }
+  }
+}

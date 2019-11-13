@@ -1,0 +1,21 @@
+import React from 'react'
+
+export class BasicErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true, errorMessage: error })
+
+    // TODO: log to Sentry
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <p>The component could not render, yo!</p>
+    }
+    return this.props.children
+  }
+}

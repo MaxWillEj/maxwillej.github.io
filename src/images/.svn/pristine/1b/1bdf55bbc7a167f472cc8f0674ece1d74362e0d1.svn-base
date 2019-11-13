@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0.966401734%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#B2D59A" offset="0%"></stop>
+            <stop stop-color="#80D1A6" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="11.9510204" cy="11.9510204" r="11.9510204"></circle>
+        <linearGradient x1="50%" y1="25.340609%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#2A7449" offset="0%"></stop>
+            <stop stop-color="#588E4A" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-5" cx="4.09090909" cy="4.09090909" r="4.09090909"></circle>
+        <filter x="-36.7%" y="-12.2%" width="148.9%" height="148.9%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.164705882   0 0 0 0 0.454901961   0 0 0 0 0.28627451  0 0 0 0.2 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-16.000000, -326.000000)">
+            <g id="Group-32" transform="translate(16.000000, 326.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#2C8D4F" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="3.44504707" cy="5.27781838" r="5.85778585"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#2C8D4F" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="12.2741454" y="15.6827676" width="15.5102041" height="14.3673469"></rect>
+                <g id="Group" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(4.363636, 4.363636)">
+                        <path d="M4.90115575,11.6559995 L3.86603807,13.2051637" id="Path-2" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M11.4466103,11.6559995 L10.4114926,13.2051637" id="Path-2-Copy" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(10.929051, 12.430582) scale(-1, 1) translate(-10.929051, -12.430582) "></path>
+                        <circle id="Oval" stroke="none" fill="#FFFFFF" cx="7.58738404" cy="7.58738404" r="5.23882974"></circle>
+                        <polyline id="Path" stroke="#368154" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" points="7.3810393 5.6246659 7.3810393 8.18181818 9.77438319 8.18181818"></polyline>
+                        <path d="M0.56233466,4.09090909 C0.551193636,4.00156521 0.545454545,3.91054373 0.545454545,3.81818182 C0.545454545,2.61319691 1.52228782,1.63636364 2.72727273,1.63636364 C3.93225764,1.63636364 4.90909091,2.61319691 4.90909091,3.81818182 C4.90909091,3.91054373 4.90335182,4.00156521 4.89221079,4.09090909 L0.56233466,4.09090909 Z" id="Combined-Shape" stroke="none" fill="#FFFFFF" transform="translate(2.727273, 2.863636) rotate(-45.000000) translate(-2.727273, -2.863636) "></path>
+                        <path d="M10.3805165,4.09090909 C10.3693755,4.00156521 10.3636364,3.91054373 10.3636364,3.81818182 C10.3636364,2.61319691 11.3404696,1.63636364 12.5454545,1.63636364 C13.7504395,1.63636364 14.7272727,2.61319691 14.7272727,3.81818182 C14.7272727,3.91054373 14.7215336,4.00156521 14.7103926,4.09090909 L10.3805165,4.09090909 Z" id="Combined-Shape-Copy" stroke="none" fill="#FFFFFF" transform="translate(12.545455, 2.863636) scale(-1, 1) rotate(-45.000000) translate(-12.545455, -2.863636) "></path>
+                    </g>
+                </g>
+                <g id="Group-2" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(12.545455, 3.818182)">
+                        <g id="Oval" stroke="none">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <use fill="url(#linearGradient-4)" xlink:href="#path-5"></use>
+                        </g>
+                        <path d="M2.82456075,4.09090909 L5.35725743,4.09090909" id="Path-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

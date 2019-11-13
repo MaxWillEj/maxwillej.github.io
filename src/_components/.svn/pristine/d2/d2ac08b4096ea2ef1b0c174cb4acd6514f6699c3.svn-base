@@ -1,0 +1,57 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const styles = {
+  default: {
+    background: '#777'
+  },
+  primary: {
+    background: '#509ECF'
+  },
+  success: {
+    background: '#5CB85C'
+  },
+  info: {
+    background: '#5BC0DE'
+  },
+  warning: {
+    background: '#F0AD4E'
+  },
+  danger: {
+    background: '#CF5060'
+  }
+}
+
+const getColor = (props, attribute) => {
+  if (props.default) {
+    return styles['default'][attribute]
+  } else if (props.primary) {
+    return styles['primary'][attribute]
+  } else if (props.success) {
+    return styles['success'][attribute]
+  } else if (props.warning) {
+    return styles['warning'][attribute]
+  } else if (props.danger) {
+    return styles['danger'][attribute]
+  }
+
+  return styles['default'][attribute]
+}
+
+const StyledTag = styled.div`
+  display: inline;
+  padding: 0.2em 0.6em 0.3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
+  background: ${props => getColor(props, 'background')};
+`
+
+export const Tag = props => {
+  return <StyledTag {...props}>{props.children}</StyledTag>
+}

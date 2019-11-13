@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="45px" viewBox="0 0 44 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32 Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0.966401734%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#B2D59A" offset="0%"></stop>
+            <stop stop-color="#80D1A6" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="21.9102041" cy="21.9102041" r="21.9102041"></circle>
+        <linearGradient x1="50%" y1="25.340609%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#2A7449" offset="0%"></stop>
+            <stop stop-color="#588E4A" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-5" cx="7.5" cy="7.5" r="7.5"></circle>
+        <filter x="-20.0%" y="-6.7%" width="126.7%" height="126.7%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.164705882   0 0 0 0 0.454901961   0 0 0 0 0.28627451  0 0 0 0.2 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3-Time-off" transform="translate(-28.000000, -289.000000)">
+            <g id="Group-32-Copy-2" transform="translate(28.000000, 289.255000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#2C8D4F" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="6.31591962" cy="9.67600036" r="10.7392741"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#2C8D4F" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="22.5025999" y="28.7517405" width="28.4353741" height="26.3401361"></rect>
+                <g id="Group-6" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(11.720287, 12.400747)">
+                        <rect id="Rectangle" stroke="none" fill="#FFFFFF" x="0.502599875" y="1" width="18" height="18"></rect>
+                        <circle id="Oval" stroke="none" fill="#D4E4D0" cx="4.50259988" cy="10" r="1"></circle>
+                        <circle id="Oval-Copy-3" stroke="none" fill="#D4E4D0" cx="9.50259988" cy="10" r="1"></circle>
+                        <circle id="Oval-Copy-4" stroke="none" fill="#D4E4D0" cx="14.5025999" cy="10" r="1"></circle>
+                        <circle id="Oval-Copy-7" stroke="none" fill="#D4E4D0" cx="4.50259988" cy="14" r="1"></circle>
+                        <circle id="Oval-Copy-6" stroke="none" fill="#D4E4D0" cx="9.50259988" cy="14" r="1"></circle>
+                        <circle id="Oval-Copy-5" stroke="none" fill="#D4E4D0" cx="14.5025999" cy="14" r="1"></circle>
+                        <rect id="Rectangle-Copy-4" stroke="none" fill="#EAF2E8" x="0.502599875" y="1" width="18" height="6"></rect>
+                        <path d="M15.0025999,3 L15.0025999,0.23600294" id="Path-6" stroke="#2B744A" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M4.00259988,3 L4.00259988,0.23600294" id="Path-6-Copy" stroke="#2B744A" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+                <g id="Group-2" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(21.000000, 7.745000)">
+                        <g id="Oval" stroke="none">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <use fill="url(#linearGradient-4)" xlink:href="#path-5"></use>
+                        </g>
+                        <path d="M5.17836138,7.5 L9.82163862,7.5" id="Path-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

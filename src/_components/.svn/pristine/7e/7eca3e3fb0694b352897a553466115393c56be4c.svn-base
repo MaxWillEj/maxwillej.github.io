@@ -1,0 +1,50 @@
+import React from 'react'
+import styled from 'styled-components'
+import { PropsComponent } from './base/PropsComponent'
+import { Image } from './Image'
+import _ from 'lodash'
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+  background: #fbfbfd;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #e6e6e6;
+  color: #3f4658;
+  font-size: 22px;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+  }
+`
+
+export class SectionHeader extends PropsComponent {
+  render() {
+    const { title, icon } = this.props
+    return (
+      <Wrapper {..._.omit(this.props, ['title'])}>
+        {icon && (
+          <Image
+            src={icon}
+            size="44px"
+            style={{ marginRight: '15px', ...this.props.iconStyle }}
+          />
+        )}
+        <h2>{title}</h2>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            flex: '1',
+            ...this.props.childrenStyle
+          }}
+        >
+          {this.props.children}
+        </div>
+      </Wrapper>
+    )
+  }
+}

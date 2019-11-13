@@ -1,0 +1,17 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px -10px 0;
+
+  > div {
+    width: 180px;
+    margin: 30px 10px 0;
+  }
+`
+
+export const ServicesGrid = props => {
+  return <Wrapper>{props.children}</Wrapper>
+}

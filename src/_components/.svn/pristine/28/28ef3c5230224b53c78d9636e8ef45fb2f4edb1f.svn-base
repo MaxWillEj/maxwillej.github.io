@@ -1,0 +1,21 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+
+  h1 {
+    margin: 0;
+  }
+
+  button {
+    margin: 0 0 0 12px;
+  }
+`
+
+export const Header = props => {
+  return <Wrapper>{props.children}</Wrapper>
+}

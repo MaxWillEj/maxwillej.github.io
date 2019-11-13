@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>PDF</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M2,0.0487803237 L18,0.0487803237 C19.1045695,0.0487803237 20,0.944210824 20,2.04878032 L20,18.0487803 C20,19.1533498 19.1045695,20.0487803 18,20.0487803 L2,20.0487803 C0.8954305,20.0487803 1.3527075e-16,19.1533498 0,18.0487803 L0,2.04878032 C-1.3527075e-16,0.944210824 0.8954305,0.0487803237 2,0.0487803237 Z" id="path-1"></path>
+        <filter x="-35.0%" y="-25.0%" width="170.0%" height="170.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.786452291   0 0 0 0 0.809724035   0 0 0 0 0.862085459  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard---New-checklist" transform="translate(-298.000000, -442.000000)">
+            <g id="Group-43" transform="translate(272.000000, 315.000000)">
+                <g id="Group-23" transform="translate(26.000000, 120.000000)">
+                    <g id="Group-62" transform="translate(0.000000, 7.000000)">
+                        <g id="PDF" transform="translate(4.000000, 3.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <g id="Rectangle-3-Copy" fill-rule="nonzero">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                                <use fill="#FFFFFF" xlink:href="#path-1"></use>
+                            </g>
+                            <path d="M9.5,7 L9.5,10.76452 L12.9901541,10.76452 C12.8549462,12.5739538 11.3440086,14 9.5,14 C7.56700338,14 6,12.4329966 6,10.5 C6,8.56700338 7.56700338,7 9.5,7 Z" id="Combined-Shape" fill="#FB7748" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                            <path d="M10.25,5.12082868 C12.8919001,5.12082868 15.0335832,7.26251183 15.0335832,9.90441188 L10.25,9.90441188 L10.25,5.12082868 Z" id="Combined-Shape" fill="#FB7748" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

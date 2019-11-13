@@ -1,0 +1,144 @@
+import React, { Fragment } from 'react'
+import { DialogAsyncData } from './DialogAsyncData'
+import { Label } from '../Label'
+import { MountableComponent } from '../MountableComponent'
+import { Biz } from '../../_biz/Biz'
+import { colors } from '../../_styling'
+import { FlexRow } from '../FlexRow'
+import { UserAvatar } from '../UserAvatar'
+import { i18n } from '../../_helpers'
+
+/**
+ * Example:
+<DialogSelectEmployee
+  selectNone="Remove user" // optional string, if supplied this string is used as returning 'null' to onSelectUser() callback.
+  selectedUserId={this.state.selectedUserId}
+  onSelectUser={this.state.onSelectUser} // User object OR 'undefined' for cancel OR 'null' for select NONE when props.selectNone=true
+  dataLazyLoad=true/false
+  dataRefetch=true/false
+  dataPurge=true/false
+  dataProvider={this.state.dataProvider}
+  ...Dialog.props
+/>
+ */
+export class DialogSelectEmployee extends MountableComponent {
+  state = {
+    selectedUser: null,
+    hasSelected: false
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.showing && prevProps.showing) {
+      if (!this._unmounted) {
+        this.setState({ selectedUser: null, hasSelected: false })
+      }
+    }
+  }
+
+  defaultDataProvider = async () => {
+    return Biz.member.basicActive()
+  }
+
+  render() {
+    const selectionChanged =
+      this.state.hasSelected &&
+      ((!this.state.selectedUser && this.props.selectedUserId) ||
+        (this.state.selectedUser &&
+          this.state.selectedUser.id !== this.props.selectedUserId))
+    return (
+      <DialogAsyncData
+        {...this.props}
+        actionRequired={
+          this.props.selectNone
+            ? false
+            : !this.state.selectedUser && !this.props.selectedUserId
+        }
+        dataProvider={
+          this.props.dataProvider
+            ? this.props.dataProvider
+            : this.defaultDataProvider
+        }
+        loading={this.props.loading || this.state.loading}
+        textCancel={
+          this.props.textCancel ||
+          i18n.t('dialog.select_employee.button_cancel')
+        }
+        onCancel={() => {
+          this.props.onSelectUser() // onSelectUser called with 'undefined'
+        }}
+        textPositive={
+          this.props.textPositive ||
+          i18n.t('dialog.select_employee.button_choose')
+        }
+        onPositive={async () => {
+          if (selectionChanged) {
+            this.setState({ loading: true })
+            await this.props.onSelectUser(this.state.selectedUser) // onSelectUser called with User-object or 'null' for selecting NONE
+            if (!this._unmounted) {
+              this.setState({ loading: false })
+            }
+          } else {
+            this.props.onSelectUser() // onSelectUser called with 'undefined'
+          }
+        }}
+        renderer={asyncData => {
+          const selUserId = this.state.hasSelected
+            ? this.state.selectedUser
+              ? this.state.selectedUser.id
+              : null
+            : this.props.selectedUserId
+          // console.log('selUserId', selUserId)
+          return (
+            <Fragment>
+              {this.props.selectNone && (
+                <Label
+                  key={'-1'}
+                  onClick={() => {
+                    this.setState({ selectedUser: null, hasSelected: true })
+                  }}
+                  style={{
+                    background: !selUserId ? '#ccc' : '#eee',
+                    height: '40px',
+                    lineHeight: '40px',
+                    margin: '2px 0',
+                    paddingLeft: '12px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    color: colors.RED
+                  }}
+                >
+                  {this.props.selectNone}
+                </Label>
+              )}
+              {asyncData.map(member => {
+                return (
+                  <FlexRow
+                    key={member.user.id}
+                    onClick={() => {
+                      this.setState({
+                        selectedUser: member.user,
+                        hasSelected: true
+                      })
+                    }}
+                    style={{
+                      background:
+                        member.user.id === selUserId ? '#ccc' : '#eee',
+                      height: '40px',
+                      // lineHeight: '40px',
+                      margin: '2px 0',
+                      paddingLeft: '12px',
+                      borderRadius: '8px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <UserAvatar user={member.user} />
+                  </FlexRow>
+                )
+              })}
+            </Fragment>
+          )
+        }}
+      />
+    )
+  }
+}

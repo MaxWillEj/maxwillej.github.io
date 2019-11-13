@@ -1,0 +1,83 @@
+import React from 'react'
+import {
+  Input,
+  Label,
+  FlexRow,
+  DateInput,
+  Dropdown,
+  LabelInput
+} from '../_components'
+import { PropsComponent } from '../_components/base/PropsComponent'
+import _ from 'lodash'
+import styled from 'styled-components'
+import { PhoneInput } from '../_components/PhoneInput'
+
+const labelStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  flex: '1'
+}
+
+const TextAreaWrapper = styled.div`
+  padding: 13px 0;
+  flex: 2;
+  border: 1px solid #949eb6;
+  border-radius: 8px;
+`
+
+export class DynamicInputInline extends PropsComponent {
+  /*
+    When using this with dropdown as the type use value prop as the translated key 
+    for showing the dropdown value as a label when it is disabled.
+    If you have a case when the dropdown is disabled.
+  */
+  render() {
+    let propsToRender = _.omit(this.props, ['label', 'style'])
+    if (!propsToRender.value) {
+      propsToRender.value = ''
+    }
+    const inputStyle = { flex: '2', ...this.props.style }
+    return (
+      <FlexRow
+        style={{
+          margin: '10px 0',
+          ...this.props.rootStyle // TODO FIX SO THAT this.props.style is consumed by this root component ?
+        }}
+      >
+        <Label style={labelStyle}>{this.props.label}</Label>
+        {this.props.disabled ? (
+          <Label style={{ flex: '2' }} {...propsToRender}>
+            {this.props.value}
+          </Label>
+        ) : (
+          (() => {
+            switch (this.props.type) {
+              case 'date':
+                return <DateInput style={inputStyle} {...propsToRender} />
+              case 'dropdown':
+                return <Dropdown style={inputStyle} {...propsToRender} />
+              case 'textarea':
+                return (
+                  <TextAreaWrapper>
+                    <LabelInput
+                      style={{
+                        minHeight: '67px',
+                        margin: '0 15px',
+                        ...this.props.style
+                      }}
+                      inputStyle={{ fontSize: '16px' }}
+                      {...propsToRender}
+                    />
+                  </TextAreaWrapper>
+                )
+              case 'phone':
+                return <PhoneInput style={inputStyle} {...propsToRender} />
+              default:
+                return <Input style={inputStyle} {...propsToRender} />
+            }
+          })()
+        )}
+      </FlexRow>
+    )
+  }
+}

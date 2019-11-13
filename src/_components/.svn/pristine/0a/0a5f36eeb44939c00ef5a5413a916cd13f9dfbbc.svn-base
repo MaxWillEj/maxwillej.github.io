@@ -1,0 +1,89 @@
+import React, { Fragment } from 'react'
+import { Tooltip, Avatar, UserAvatar } from './'
+import { StateComponent } from './base/StateComponent'
+import styled from 'styled-components'
+import { history, PATH } from '../_helpers'
+
+/**
+ * Renders one UserAvatar for one User and mutliple Avatars with a hover list
+ * The hover list on multiple avatars displays a list of extender UserAvatars
+ */
+
+const UserAvatarGroupWrapper = styled.section`
+  position: relative;
+  display: flex;
+
+  cursor: ${props => (props.onClick ? 'pointer' : '')};
+
+  > *:nth-child(n + 1) {
+    margin-right: -14px;
+  }
+`
+
+const UserHoverList = styled.section`
+  min-width: 200px;
+  min-height: 50px;
+`
+
+export class UserAvatarGroup extends StateComponent {
+  state = { isHovering: false }
+
+  render() {
+    if (!this.props.users) {
+      return null
+    }
+
+    const { users } = this.props
+    const singleUser = users.length === 1
+    const displayCount = users.length > 4 ? 3 : 4
+    return (
+      <UserAvatarGroupWrapper
+        onMouseEnter={() => this.setState({ isHovering: true })}
+        onMouseLeave={() => this.setState({ isHovering: false })}
+        onClick={this.props.onClick}
+        style={this.props.style}
+      >
+        {singleUser ? (
+          <UserAvatar
+            user={users[0]}
+            size={this.props.size}
+            onClick={
+              this.props.onClick
+                ? undefined
+                : () => {
+                    history.push(PATH.PROFILE_ID.replace(':id', users[0].id))
+                  }
+            }
+          />
+        ) : (
+          <Fragment>
+            {users.map((user, index) => {
+              if (index < displayCount) {
+                return <Avatar size={this.props.size} key={index} user={user} />
+              }
+              return null
+            })}
+            {users.length > displayCount && (
+              <Avatar
+                size={this.props.size}
+                style={{ opacity: 1 }}
+                text={`${users.length - 3}+`}
+              />
+            )}
+            <Tooltip show={this.state.isHovering} style={{ padding: '0 20px' }}>
+              <UserHoverList>
+                {users.map((user, index) => (
+                  <UserAvatar
+                    key={index}
+                    user={user}
+                    style={{ margin: '15px 0' }}
+                  />
+                ))}
+              </UserHoverList>
+            </Tooltip>
+          </Fragment>
+        )}
+      </UserAvatarGroupWrapper>
+    )
+  }
+}

@@ -1,0 +1,14 @@
+import React from 'react'
+import { Label } from './Label'
+import { PropsComponent } from './base/PropsComponent'
+import { formatDate } from '../_helpers'
+
+export class DateLabel extends PropsComponent {
+  render() {
+    return (
+      <Label {...this.props}>
+        {this.props.date ? formatDate(this.props.date) : '-'}
+      </Label>
+    )
+  }
+}

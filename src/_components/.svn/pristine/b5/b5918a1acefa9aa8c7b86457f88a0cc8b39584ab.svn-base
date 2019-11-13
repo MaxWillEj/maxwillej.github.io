@@ -1,0 +1,29 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import { Image } from './Image'
+import { Label } from './Label'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 250px;
+  min-height: 55px;
+  margin: 10px 0;
+`
+
+export class InfoWithIcon extends PropsComponent {
+  render() {
+    return (
+      <Wrapper>
+        {this.props.image && (
+          <Image src={this.props.image} style={{ paddingRight: '20px' }} />
+        )}
+        <div>
+          <Label style={{ marginBottom: '5px' }}>{this.props.title}</Label>
+          <Label>{this.props.info}</Label>
+        </div>
+      </Wrapper>
+    )
+  }
+}

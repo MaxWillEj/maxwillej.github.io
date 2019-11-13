@@ -1,0 +1,75 @@
+import React from 'react'
+import styled from 'styled-components'
+import { Spinner } from './'
+
+const styles = {
+  default: {
+    border: '#ccc',
+    background: '#f9f9f9',
+    backgroundHover: '#eee',
+    color: '#555'
+  },
+  primary: {
+    border: '#3D779C',
+    background: '#509ECF',
+    backgroundHover: '#488DB8',
+    color: '#fff'
+  },
+  danger: {
+    border: '#9C1D2D',
+    background: '#CF5060',
+    backgroundHover: '#BA4958',
+    color: '#fff'
+  }
+}
+
+const getColor = (props, attribute) => {
+  const type = props.primary ? 'primary' : props.danger ? 'danger' : 'default'
+  return styles[type][attribute]
+}
+
+const StyledButton = styled.button`
+  display: ${props => (props.block ? 'block' : 'inline-block')};
+  box-sizing: border-box;
+  width: ${props => (props.block ? '100%' : 'auto')};
+  margin: 0 0 12px;
+  padding: ${props => (props.small ? '6px 12px' : '12px')};
+  font-size: ${props => (props.small ? '11px' : '13px')};
+  font-weight: bold;
+  line-height: 16px;
+  border: 1px solid ${props => getColor(props, 'border')};
+  border-radius: 2px;
+  outline: none;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  background: ${props => getColor(props, 'background')};
+  color: ${props => getColor(props, 'color')};
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
+
+  > div {
+    position: relative;
+    top: 2px;
+  }
+
+  &:hover {
+    background: ${props => {
+      if (props.disabled) {
+        return 'auto'
+      } else {
+        return getColor(props, 'backgroundHover')
+      }
+    }};
+  }
+`
+
+/**
+ * @deprecated use <Btn /> component instead
+ */
+export const Button = props => {
+  return (
+    <StyledButton {...props}>
+      {props.loading ? <Spinner inline size="13px" /> : props.children}
+    </StyledButton>
+  )
+}

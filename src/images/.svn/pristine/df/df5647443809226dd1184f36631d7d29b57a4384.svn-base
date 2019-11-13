@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="0%" x2="30.9298033%" y2="89.0784642%" id="linearGradient-1">
+            <stop stop-color="#65E7B8" offset="0%"></stop>
+            <stop stop-color="#6F7FE8" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="22.9061224" cy="22.9061224" r="22.9061224"></circle>
+        <circle id="path-4" cx="7.04081633" cy="7.04081633" r="7.04081633"></circle>
+        <linearGradient x1="-18.4363855%" y1="57.7700625%" x2="77.7559385%" y2="28.4247014%" id="linearGradient-6">
+            <stop stop-color="#242D4F" offset="0%"></stop>
+            <stop stop-color="#48527B" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="164.347725%" y1="0%" x2="50%" y2="100%" id="linearGradient-7">
+            <stop stop-color="#FFC397" offset="0%"></stop>
+            <stop stop-color="#E66687" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="140.847294%" y1="36.1011332%" x2="-164.294363%" y2="204.310905%" id="linearGradient-8">
+            <stop stop-color="#FFEDDC" offset="0%"></stop>
+            <stop stop-color="#FFB7B7" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-9" cx="7.04081633" cy="7.04081633" r="7.04081633"></circle>
+        <linearGradient x1="179.170382%" y1="0%" x2="12.1965685%" y2="93.7973874%" id="linearGradient-11">
+            <stop stop-color="#FFA6E9" offset="0%"></stop>
+            <stop stop-color="#6D9DFF" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-12" cx="7.04081633" cy="7.04081633" r="7.04081633"></circle>
+    </defs>
+    <g id="3:2-Anställda---Onborda-ny-&amp;-Bli-ombordad" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3:2.22-Anställda---Onborda-ny-&amp;-Bli-ombordad" transform="translate(-586.000000, -852.000000)">
+            <g id="Group-61" transform="translate(1.000000, -3.000000)">
+                <g id="Group-36" transform="translate(468.000000, 236.000000)">
+                    <g id="Group-35">
+                        <g id="Group-5">
+                            <g id="Group-4">
+                                <g id="Group-3" transform="translate(117.000000, 133.000000)">
+                                    <g id="Group" transform="translate(0.000000, 486.000000)">
+                                        <g id="Group-32">
+                                            <mask id="mask-3" fill="white">
+                                                <use xlink:href="#path-2"></use>
+                                            </mask>
+                                            <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" opacity="0.5" xlink:href="#path-2"></use>
+                                            <g id="Group-26" mask="url(#mask-3)">
+                                                <g transform="translate(6.884354, 6.571429)">
+                                                    <path d="M16.1156463,27.8503401 C21.9052435,27.8503401 26.5986395,23.1569442 26.5986395,17.3673469 C26.5986395,11.5777497 21.9052435,6.88435374 16.1156463,6.88435374 C10.326049,6.88435374 5.63265306,11.5777497 5.63265306,17.3673469 C5.63265306,23.1569442 10.326049,27.8503401 16.1156463,27.8503401 Z" id="Oval-13" stroke="#FFFFFF" stroke-width="0.62585034" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.877551020408163" fill-rule="nonzero"></path>
+                                                    <g id="Group-27" stroke="none" stroke-width="1" fill-rule="evenodd" transform="translate(9.074830, 0.000000)">
+                                                        <g id="Group-28">
+                                                            <mask id="mask-5" fill="white">
+                                                                <use xlink:href="#path-4"></use>
+                                                            </mask>
+                                                            <use id="Mask" fill="#FFFFFF" xlink:href="#path-4"></use>
+                                                            <g mask="url(#mask-5)">
+                                                                <g transform="translate(1.251701, 3.755102)">
+                                                                    <path d="M5.94557823,4.38095238 L5.94557823,4.38095238 C8.4736299,4.38095238 10.6311456,6.20864238 11.0467547,8.70229719 L11.6482433,12.3112285 C11.7618915,12.9931179 11.3012411,13.6380285 10.6193517,13.7516767 C10.551345,13.7630112 10.4825181,13.7687075 10.4135733,13.7687075 L1.47758311,13.7687075 C0.786287916,13.7687075 0.225882433,13.208302 0.225882433,12.5170068 C0.225882433,12.4480621 0.23157872,12.3792352 0.242913167,12.3112285 L0.844401715,8.70229719 C1.26001085,6.20864238 3.41752656,4.38095238 5.94557823,4.38095238 Z" id="Rectangle-20" fill="url(#linearGradient-6)" fill-rule="nonzero"></path>
+                                                                    <path d="M5.91436762,5.94557823 L5.97678884,5.94557823 C6.13693099,5.94557823 6.27123018,6.06648266 6.28799463,6.2257449 L6.86454615,11.7029843 C6.87672461,11.8186797 6.82371628,11.9315814 6.72692001,11.9961123 L6.11915788,12.401287 C6.0140465,12.4713613 5.87710996,12.4713613 5.77199858,12.401287 L5.16423645,11.9961123 C5.06744018,11.9315814 5.01443185,11.8186797 5.02661032,11.7029843 L5.60316183,6.2257449 C5.61992628,6.06648266 5.75422547,5.94557823 5.91436762,5.94557823 Z" id="Rectangle-21" fill="url(#linearGradient-7)" fill-rule="evenodd"></path>
+                                                                    <circle id="Oval-11" fill="#FFFFFF" fill-rule="evenodd" cx="5.94557823" cy="5.63265306" r="1"></circle>
+                                                                    <circle id="Oval-9" fill="url(#linearGradient-8)" fill-rule="evenodd" cx="5.94557823" cy="2.50340136" r="2.50340136"></circle>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                    <g id="Group-27-Copy" stroke="none" stroke-width="1" fill-rule="evenodd" transform="translate(0.000000, 16.272109)">
+                                                        <g id="Group-28">
+                                                            <mask id="mask-10" fill="white">
+                                                                <use xlink:href="#path-9"></use>
+                                                            </mask>
+                                                            <use id="Mask" fill="#FFFFFF" xlink:href="#path-9"></use>
+                                                            <g mask="url(#mask-10)">
+                                                                <g transform="translate(1.251701, 3.755102)">
+                                                                    <path d="M5.94557823,4.38095238 L5.94557823,4.38095238 C8.4736299,4.38095238 10.6311456,6.20864238 11.0467547,8.70229719 L11.6482433,12.3112285 C11.7618915,12.9931179 11.3012411,13.6380285 10.6193517,13.7516767 C10.551345,13.7630112 10.4825181,13.7687075 10.4135733,13.7687075 L1.47758311,13.7687075 C0.786287916,13.7687075 0.225882433,13.208302 0.225882433,12.5170068 C0.225882433,12.4480621 0.23157872,12.3792352 0.242913167,12.3112285 L0.844401715,8.70229719 C1.26001085,6.20864238 3.41752656,4.38095238 5.94557823,4.38095238 Z" id="Rectangle-20" fill="url(#linearGradient-11)" fill-rule="nonzero"></path>
+                                                                    <path d="M5.91436762,5.94557823 L5.97678884,5.94557823 C6.13693099,5.94557823 6.27123018,6.06648266 6.28799463,6.2257449 L6.86454615,11.7029843 C6.87672461,11.8186797 6.82371628,11.9315814 6.72692001,11.9961123 L6.11915788,12.401287 C6.0140465,12.4713613 5.87710996,12.4713613 5.77199858,12.401287 L5.16423645,11.9961123 C5.06744018,11.9315814 5.01443185,11.8186797 5.02661032,11.7029843 L5.60316183,6.2257449 C5.61992628,6.06648266 5.75422547,5.94557823 5.91436762,5.94557823 Z" id="Rectangle-21" fill="#FFFFFF" fill-rule="evenodd"></path>
+                                                                    <circle id="Oval-11" fill="#FFFFFF" fill-rule="evenodd" cx="5.94557823" cy="5.63265306" r="1"></circle>
+                                                                    <circle id="Oval-9" fill="url(#linearGradient-8)" fill-rule="evenodd" cx="5.94557823" cy="2.50340136" r="2.50340136"></circle>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                    <g id="Group-27-Copy-2" stroke="none" stroke-width="1" fill-rule="evenodd" transform="translate(18.149660, 16.272109)">
+                                                        <g id="Group-28">
+                                                            <mask id="mask-13" fill="white">
+                                                                <use xlink:href="#path-12"></use>
+                                                            </mask>
+                                                            <use id="Mask" fill="#FFFFFF" xlink:href="#path-12"></use>
+                                                            <g mask="url(#mask-13)">
+                                                                <g transform="translate(1.251701, 3.755102)">
+                                                                    <path d="M5.94557823,4.38095238 L5.94557823,4.38095238 C8.4736299,4.38095238 10.6311456,6.20864238 11.0467547,8.70229719 L11.6482433,12.3112285 C11.7618915,12.9931179 11.3012411,13.6380285 10.6193517,13.7516767 C10.551345,13.7630112 10.4825181,13.7687075 10.4135733,13.7687075 L1.47758311,13.7687075 C0.786287916,13.7687075 0.225882433,13.208302 0.225882433,12.5170068 C0.225882433,12.4480621 0.23157872,12.3792352 0.242913167,12.3112285 L0.844401715,8.70229719 C1.26001085,6.20864238 3.41752656,4.38095238 5.94557823,4.38095238 Z" id="Rectangle-20" fill="url(#linearGradient-7)"></path>
+                                                                    <path d="M5.91436762,5.94557823 L5.97678884,5.94557823 C6.13693099,5.94557823 6.27123018,6.06648266 6.28799463,6.2257449 L6.86454615,11.7029843 C6.87672461,11.8186797 6.82371628,11.9315814 6.72692001,11.9961123 L6.11915788,12.401287 C6.0140465,12.4713613 5.87710996,12.4713613 5.77199858,12.401287 L5.16423645,11.9961123 C5.06744018,11.9315814 5.01443185,11.8186797 5.02661032,11.7029843 L5.60316183,6.2257449 C5.61992628,6.06648266 5.75422547,5.94557823 5.91436762,5.94557823 Z" id="Rectangle-21" fill="#FFFFFF"></path>
+                                                                    <circle id="Oval-11" fill="#FFFFFF" cx="5.94557823" cy="5.63265306" r="1"></circle>
+                                                                    <circle id="Oval-9" fill="url(#linearGradient-8)" cx="5.94557823" cy="2.50340136" r="2.50340136"></circle>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                            <circle id="Oval-10" stroke="#FCFCFD" stroke-width="6.57142857" opacity="0.5" mask="url(#mask-3)" cx="46.9008923" cy="11.8532732" r="11.2274229"></circle>
+                                            <circle id="Oval-10-Copy" fill="#F9FAFC" opacity="0.5" mask="url(#mask-3)" cx="-3.28571429" cy="17.6802721" r="11.7346939"></circle>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,25 @@
+import styled from 'styled-components'
+
+export default styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: #e5ffff;
+  border: 1px solid #007aaa;
+  border-radius: 4px;
+  padding: 20px;
+  color: #3f4658;
+  font-size: 14px;
+  font-family: Nunito Sans;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: ${props => (props.textCenter ? 'center' : '')};
+
+  ol {
+    margin-bottom: 0;
+  }
+
+  li {
+    margin: 0 0 6px;
+  }
+`

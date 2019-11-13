@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#A0A1EA" offset="0%"></stop>
+            <stop stop-color="#75BAE1" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="22" cy="22" r="22"></circle>
+        <linearGradient x1="50%" y1="25.340609%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#606DD5" offset="0%"></stop>
+            <stop stop-color="#8DC1FF" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-5" cx="6.75275052" cy="7.37027759" r="6.62972241"></circle>
+        <filter x="-22.6%" y="-7.5%" width="130.2%" height="130.2%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.37254902   0 0 0 0 0.423529412   0 0 0 0 0.835294118  0 0 0 0.2 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-940.000000, -263.000000)">
+            <g id="Group-32" transform="translate(940.000000, 263.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#616FD6" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="6.31591962" cy="11.9743115" r="10.7392741"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#616FD6" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="22.5025999" y="31.0500517" width="28.4353741" height="26.3401361"></rect>
+                <g id="Group-6" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(11.720287, 14.000000)">
+                        <rect id="Rectangle" stroke="none" fill="#FFFFFF" x="0.502599875" y="1" width="18" height="18"></rect>
+                        <circle id="Oval" stroke="none" fill="#BECCFF" cx="4.50259988" cy="10" r="1"></circle>
+                        <circle id="Oval-Copy-3" stroke="none" fill="#BECCFF" cx="9.50259988" cy="10" r="1"></circle>
+                        <circle id="Oval-Copy-4" stroke="none" fill="#BECCFF" cx="14.5025999" cy="10" r="1"></circle>
+                        <circle id="Oval-Copy-7" stroke="none" fill="#BECCFF" cx="4.50259988" cy="14" r="1"></circle>
+                        <circle id="Oval-Copy-6" stroke="none" fill="#BECCFF" cx="9.50259988" cy="14" r="1"></circle>
+                        <circle id="Oval-Copy-5" stroke="none" fill="#BECCFF" cx="14.5025999" cy="14" r="1"></circle>
+                        <rect id="Rectangle-Copy-4" stroke="none" fill="#F0F1FF" x="0.502599875" y="1" width="18" height="6"></rect>
+                        <path d="M15.0025999,3 L15.0025999,0.23600294" id="Path-6" stroke="#7390E7" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M4.00259988,3 L4.00259988,0.23600294" id="Path-6-Copy" stroke="#7390E7" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+                <g id="Group-7" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(22.720287, 10.000000)">
+                        <g id="Oval" fill="none">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <use fill="url(#linearGradient-4)" xlink:href="#path-5"></use>
+                        </g>
+                        <polygon id="Star" fill="#FFFFFF" points="6.75275052 8.85900635 5.28328739 9.63154883 5.56392988 7.99527759 4.37510923 6.83646386 6.01801896 6.5977351 6.75275052 5.10900635 7.48748209 6.5977351 9.13039181 6.83646386 7.94157117 7.99527759 8.22221365 9.63154883"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

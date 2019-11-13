@@ -1,0 +1,24 @@
+import styled from 'styled-components'
+import React from 'react'
+
+const TextLabelWrapper = styled.div`
+  font: 15px 'Nunito Sans', sans-serif;
+
+  span {
+    color: #646b7d;
+  }
+
+  p {
+    margin: 0;
+    color: #3f4658;
+  }
+`
+export const TextWithLabel = props => {
+  const { label, text } = props
+  return (
+    <TextLabelWrapper style={props.style}>
+      <span>{label}</span>
+      <p>{text}</p>
+    </TextLabelWrapper>
+  )
+}

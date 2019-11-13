@@ -1,0 +1,25 @@
+import React from 'react'
+import { FlexCol } from './FlexCol'
+import { Label } from './Label'
+import { getNameStringForUserId, formatDateTime } from '../_helpers'
+import { Description } from './Description'
+import { PropsComponent } from './base/PropsComponent'
+
+export class TableDateLabel extends PropsComponent {
+  render() {
+    return (
+      <FlexCol
+        style={{
+          flex: this.props.flex,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden'
+        }}
+      >
+        <Label>{getNameStringForUserId(this.props.updatedById)}</Label>
+        <Description style={{ fontSize: '12px' }}>
+          {formatDateTime(this.props.updated)}
+        </Description>
+      </FlexCol>
+    )
+  }
+}

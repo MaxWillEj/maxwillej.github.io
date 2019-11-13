@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 49</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Employee-Settings---Time-off-with-dates" transform="translate(-608.000000, -775.000000)">
+            <g id="Group-43" transform="translate(513.000000, 657.000000)">
+                <g id="Group-23" transform="translate(96.000000, 87.000000)">
+                    <g id="Group-49" transform="translate(0.000000, 32.000000)">
+                        <circle id="Oval-9" stroke="#D0021B" stroke-width="1.5" fill-rule="nonzero" cx="9" cy="9" r="9"></circle>
+                        <path d="M8.512,11.4723404 L8,5 L10,5 L9.488,11.4723404 L8.512,11.4723404 Z M8.048,12.4808511 L9.952,12.4808511 L9.952,14 L8.048,14 L8.048,12.4808511 Z" id="!" fill="#D0021B"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,38 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import { FlexRow } from './FlexRow'
+import { BackgroundImage } from './BackgroundImage'
+
+export class CompanyLogo extends PropsComponent {
+  render() {
+    const size = parseInt(this.props.size, 10) || 160
+    const sizeInner = parseInt(this.props.sizeInner, 10) || size - 40
+    const padding = (size - sizeInner) / 2
+    return (
+      <FlexRow
+        style={{
+          width: size + 'px',
+          height: size + 'px',
+          backgroundColor: '#fff',
+          border: '1px solid #eee',
+          borderRadius: `${size / 2}px`,
+          padding: padding + 'px',
+          ...this.props.style
+        }}
+        onClick={this.props.onClick}
+      >
+        <BackgroundImage
+          src={this.props.src}
+          size={sizeInner + 'px'}
+          style={{
+            backgroundSize: 'contain',
+            backgroundColor: 'transparent',
+            borderRadius: `${sizeInner / 2}px`,
+            ...this.props.imageStyle
+          }}
+        />
+        {this.props.children}
+      </FlexRow>
+    )
+  }
+}

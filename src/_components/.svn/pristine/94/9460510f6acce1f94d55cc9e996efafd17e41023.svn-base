@@ -1,0 +1,103 @@
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { fadeIn, slideUp } from '../_animations'
+
+const Wrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+`
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  animation: ${fadeIn} 0.2s ease-in-out;
+`
+
+const Content = styled.div`
+  max-width: 600px;
+  min-width: 300px;
+  margin: auto;
+  padding: 42px 20px 12px;
+  position: relative;
+  background: rgba(255, 255, 255, 1);
+  z-index: 200;
+  animation: ${fadeIn} 0.2s ease-in-out, ${slideUp} 0.4s ease-in-out;
+`
+
+const CloseButton = styled.div`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  div {
+    height: 3px;
+    background: #231f20;
+
+    &:nth-child(1) {
+      transform: translateY(13.5px) rotate(45deg);
+    }
+
+    &:nth-child(2) {
+      transform: translateY(10.5px) rotate(-45deg);
+    }
+  }
+`
+
+export class Modal extends Component {
+  componentDidMount() {
+    document.body.style = 'overflow: hidden;'
+    window.addEventListener('keyup', this.handleKeyUp, false)
+  }
+
+  componentWillUnmount() {
+    document.body.style = 'overflow: auto;'
+    window.removeEventListener('keyup', this.handleKeyUp, false)
+  }
+
+  handleKeyUp = e => {
+    const { onClose } = this.props
+    const ESC = 27
+
+    if (onClose && e.keyCode === ESC) {
+      onClose()
+    }
+  }
+
+  render() {
+    const { onClose } = this.props
+
+    return (
+      <Wrapper>
+        <Backdrop onClick={onClose} />
+        <Content>
+          {onClose && (
+            <CloseButton onClick={onClose}>
+              <div />
+              <div />
+            </CloseButton>
+          )}
+
+          {this.props.children}
+        </Content>
+      </Wrapper>
+    )
+  }
+}

@@ -1,0 +1,30 @@
+import React, { Component } from 'react'
+
+export class Checkbox extends Component {
+  render() {
+    const { selected } = this.props
+    return (
+      <div
+        {...this.props}
+        style={{
+          background: '#fff',
+          userSelect: 'none',
+          cursor: this.props.disabled ? '' : 'pointer',
+          boxSizing: 'border-box',
+          width: '24px',
+          height: '24px',
+          lineHeight: '24px',
+          margin: '0',
+          padding: '0',
+          color: '#32B3DE',
+          textAlign: 'center',
+          borderRadius: '3px',
+          border: selected ? '1px solid #9BA4BB66' : '1px solid #9BA4BB',
+          ...this.props.style
+        }}
+      >
+        {selected && '✓'}
+      </div>
+    )
+  }
+}

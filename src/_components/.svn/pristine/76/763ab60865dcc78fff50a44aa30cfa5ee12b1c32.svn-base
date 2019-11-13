@@ -1,0 +1,186 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import styled, { keyframes } from 'styled-components'
+import navSelected from '../images/nav_selected.svg'
+import { Image } from './Image'
+import backIcon from '../images/icons/arrow_left.svg'
+import completedIcon from '../images/icons/onboarding_completed.svg'
+import { Center } from './Center'
+import { bounceIn } from '../_animations'
+import { AnimationDiv } from './AnimationDiv'
+
+const NavItem = styled.div`
+  user-select: none;
+  min-width: 120px;
+  text-align: center;
+  margin: 30px 20px 0;
+  padding: 0 0 30px;
+  position: relative;
+  font: 16px 'Nunito Sans', sans-serif;
+  color: #3f4658;
+  cursor: pointer;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`
+
+const show = keyframes`
+  0% { height: 0px; }
+  100% { height: 16px; }
+`
+
+const hide = keyframes`
+  0% { height: 16px;}
+  100% { height: 0px;}
+`
+
+const fadeIn = keyframes`
+  0% { opacity: 0; }
+  100%{ opacity: 1; }
+`
+
+export class ProgressNavigation extends PropsComponent {
+  componentDidMount() {
+    this.mountTimestamp = Date.now()
+  }
+
+  render() {
+    const { items, onBack } = this.props
+
+    const shouldAnimate = Date.now() - this.mountTimestamp > 400
+    const duration = shouldAnimate ? '0.3s' : '0.0001'
+
+    return (
+      <AnimationDiv
+        animation={this.props.animation}
+        animationKeyframe={this.props.animationKeyframe}
+        style={{
+          boxSizing: 'border-box',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#fff',
+          borderBottom: '1px solid #b8bec5',
+          position: 'relative',
+          zIndex: '1'
+        }}
+      >
+        {onBack && (
+          <Center
+            width="40px"
+            height="40px"
+            style={{ position: 'absolute', left: '20px', cursor: 'pointer' }}
+            onClick={onBack}
+          >
+            <Image src={backIcon} width="20px" height="19px" />
+          </Center>
+        )}
+
+        {items.map((item, index) => {
+          const {
+            label,
+            iconOn,
+            iconOff,
+            active,
+            passed,
+            completed,
+            onClick
+          } = item
+
+          return (
+            <NavItem
+              key={index.toString()}
+              style={{ color: active ? '#009ECE' : '' }}
+              onClick={onClick}
+            >
+              {completed && (
+                <AnimationDiv
+                  animation={'0.6s ease-in-out'}
+                  animationKeyframe={bounceIn}
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    position: 'absolute',
+                    top: '-10px',
+                    left: 'calc(50% + 10px)'
+                  }}
+                >
+                  <Image src={completedIcon} size="32px" />
+                </AnimationDiv>
+              )}
+              <div>
+                <Image
+                  src={active || passed || completed ? iconOn : iconOff}
+                  size="60px"
+                />
+                {label}
+              </div>
+              <AnimationDiv
+                animation={
+                  active
+                    ? `${duration} ease-out ${duration} forwards`
+                    : `${duration} ease-in forwards`
+                }
+                animationKeyframe={active ? show : hide}
+                style={{
+                  left: 'calc(50% - 22px)',
+                  position: 'absolute',
+                  bottom: '-1px',
+                  width: '44px',
+                  opacity: shouldAnimate ? '1' : '0',
+                  height: '0'
+                }}
+              >
+                <Image
+                  src={navSelected}
+                  style={{
+                    width: '100%',
+                    height: '100%'
+                  }}
+                />
+              </AnimationDiv>
+
+              <AnimationDiv
+                animation={
+                  active
+                    ? 'none'
+                    : `${duration} cubic-bezier(0.895, 0.030, 0.585, 0.220)`
+                }
+                animationKeyframe={active ? undefined : fadeIn}
+                style={{
+                  left: 'calc(50% - 22px)',
+                  position: 'absolute',
+                  bottom: '-1px',
+                  width: '44px',
+                  height: '1px',
+                  opacity: '0',
+                  background: 'rgb(184, 190, 197)'
+                }}
+              />
+              <AnimationDiv
+                animation={
+                  active
+                    ? `${duration} cubic-bezier(0.895, 0.030, 0.585, 0.220)`
+                    : 'none'
+                }
+                animationKeyframe={active ? fadeIn : undefined}
+                style={{
+                  left: 'calc(50% - 22px)',
+                  position: 'absolute',
+                  bottom: '-1px',
+                  width: '44px',
+                  height: '1px',
+                  opacity: '0',
+                  background: 'rgb(184, 190, 197)'
+                }}
+              />
+            </NavItem>
+          )
+        })}
+      </AnimationDiv>
+    )
+  }
+}

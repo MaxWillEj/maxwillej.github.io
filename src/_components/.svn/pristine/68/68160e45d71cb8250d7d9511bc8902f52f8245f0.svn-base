@@ -1,0 +1,303 @@
+import React from 'react'
+import moment from 'moment'
+import { FlexRow, Image, Label, FlexCol, BasicInput } from '../_components'
+import { PropsComponent } from '../_components/base/PropsComponent'
+import { DatePickerBase } from './DatePickerBase'
+import { Dropdown } from './Dropdown'
+import { PhoneInput } from './PhoneInput'
+import { colors } from '../_styling'
+import { HoverInfoButton } from './HoverInfoButton'
+import { Checkbox } from './Checkbox'
+import { i18n } from '../_helpers'
+
+function getBasicInputStyle(props) {
+  return {
+    visibility: props.editing ? 'visible' : 'hidden',
+    height: props.editing ? '26px' : '0',
+    margin: '0',
+    transform: 'translate(-4px, 0)',
+    padding: '0 4px',
+    fontSize: '14px',
+    letterSpacing: '0.04em',
+    color: '#3f4658',
+    borderRadius: '4px',
+    border: '1px solid ' + (props.editing ? '#949EB6' : '#fff'),
+    ...props.inputStyle
+    // transition style does not work for CRAP 'react-datepicker'-lib
+    // transition: 'border 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)'
+  }
+}
+
+export class EditableInfoField extends PropsComponent {
+  onChange = event => {
+    if (this.props.onChange) {
+      this.props.onChange(event)
+    }
+
+    if (this.props.onValueChange) {
+      if (this.props.type === 'int' || this.props.type === 'number') {
+        // legacy support for "number"
+        if (this.props.allowNegative) {
+          // Allow negative integer values
+          this.props.onValueChange(
+            event.target.value.replace(/(?!^)-|[^\d-]/g, '')
+          )
+        } else {
+          // Only accept integer values
+          this.props.onValueChange(event.target.value.replace(/\D/g, ''))
+        }
+      } else if (this.props.type === 'float') {
+        // Only accept positive numeral values with comma or period
+
+        let newValue = event.target.value.replace(',', '.')
+        if (!isNaN(newValue) && parseFloat(newValue) >= 0) {
+          this.props.onValueChange(newValue.trim())
+        } else if (event.target.value.length === 0) {
+          this.props.onValueChange('')
+        }
+      } else {
+        this.props.onValueChange(event.target.value)
+      }
+    }
+  }
+
+  renderSelect() {
+    if (!this.props.editing) {
+      return null
+    }
+    let selectedIndex = 0
+    if (this.props.value) {
+      selectedIndex = this.props.valueOptions.items.findIndex(
+        item => item.key === this.props.value
+      )
+      if (this.props.valueOptions.emptyOption) {
+        selectedIndex++
+      }
+    }
+    return (
+      <Dropdown
+        key={'EditableInfoField.Dropdown'}
+        selectedIndex={selectedIndex > 0 ? selectedIndex : 0}
+        onSelectItem={this.props.onValueChange}
+        emptyOption={this.props.valueOptions.emptyOption}
+        propsList={this.props.valueOptions.items}
+        error={this.props.error}
+        style={{ transform: 'translate(-4px, 0)' }}
+        compact
+      />
+    )
+  }
+
+  renderDateOrDateTime() {
+    if (!this.props.editing) {
+      // layout is broken by CRAP 'react-datepicker'-lib if we render <DatePickerBase>
+      return null
+    } else {
+      return (
+        <DatePickerBase
+          inputStyle={getBasicInputStyle(this.props)}
+          time={this.props.type === 'datetime'}
+          // customInput={<Label />}
+          placeholder={this.props.title}
+          value={this.props.value}
+          error={this.props.error}
+          onChange={this.onChange}
+        />
+      )
+    }
+  }
+
+  renderBasicInput() {
+    return (
+      <div
+        style={{
+          position: 'relative',
+          visibility: this.props.editing ? 'visible' : 'hidden',
+          height: this.props.editing ? '26px' : '0'
+        }}
+      >
+        <BasicInput
+          style={getBasicInputStyle(this.props)}
+          value={this.props.value}
+          placeholder={this.props.title}
+          onChange={this.onChange}
+        />
+        {this.props.error && (
+          <Label
+            style={{
+              position: 'absolute',
+              left: '2px',
+              fontSize: '11px',
+              fontWeight: '400',
+              color: colors.RED,
+              ...this.props.errorStyle
+            }}
+          >
+            {this.props.error}
+          </Label>
+        )}
+      </div>
+    )
+  }
+
+  renderPhone() {
+    if (!this.props.editing) {
+      return null
+    }
+    return (
+      <PhoneInput
+        style={{
+          height: '26px',
+          transform: 'translate(-4px, 0)',
+          position: 'relative',
+          zIndex: '1'
+        }}
+        buttonStyle={{
+          borderRadius: '4px',
+          width: '52px'
+        }}
+        inputStyle={{
+          borderRadius: '4px',
+          fontSize: '14px',
+          letterSpacing: '0.04em',
+          padding: '0 0 0 4px'
+        }}
+        dropdownStyle={{ top: '22px' }}
+        value={this.props.value}
+        error={this.props.error}
+        errorStyle={{
+          bottom: undefined,
+          left: '63px'
+        }}
+        onChange={this.onChange}
+      />
+    )
+  }
+
+  renderValue() {
+    if (this.props.type === 'select') {
+      if (this.props.value) {
+        if (this.props.value === '-1') {
+          return this.props.valueOptions.items[0].children
+        }
+        const selectedItem = this.props.valueOptions.items.find(
+          item => item.key === this.props.value
+        )
+        // console.log('selectedItem', selectedItem)
+        if (selectedItem) {
+          return selectedItem.children
+        } else if (this.props.valueOptions.emptyOption) {
+          return this.props.valueOptions.emptyOption.children
+        } else {
+          return this.props.valueOptions.items[0].children
+        }
+      } else if (this.props.valueOptions.emptyOption) {
+        return this.props.valueOptions.emptyOption.children
+      } else {
+        return this.props.valueOptions.items[0].children
+      }
+    } else if (this.props.value === '') {
+      return '-'
+    } else if (this.props.type === 'date') {
+      // TODO: we need to handle falsy values for this.props.value
+      return moment.utc(this.props.value).format('YYYY-MM-DD')
+    } else if (this.props.type === 'datetime') {
+      return moment(this.props.value).format('YYYY-MM-DD HH:mm')
+    } else if (this.props.value === true || this.props.value === false) {
+      return i18n.t(`field.${this.props.value}`)
+    } else {
+      return this.props.value
+    }
+  }
+
+  renderCheckbox() {
+    if (!this.props.editing) {
+      return null
+    }
+
+    return (
+      <Checkbox
+        style={{ marginTop: '5px' }}
+        selected={this.props.value}
+        onClick={() => {
+          this.onChange({ target: { value: !this.props.value } })
+        }}
+      />
+    )
+  }
+
+  renderInput() {
+    switch (this.props.type) {
+      case 'select':
+        return this.renderSelect()
+      case 'date':
+      case 'datetime':
+        return this.renderDateOrDateTime()
+      case 'phone':
+        return this.renderPhone()
+      case 'checkbox':
+        return this.renderCheckbox()
+      case 'number':
+      default:
+        return this.renderBasicInput()
+    }
+  }
+
+  render() {
+    return (
+      <FlexRow
+        style={{
+          alignItems: 'start',
+          margin: '20px 10px 0',
+          width: 'calc(50% - 20px)',
+          ...this.props.style
+        }}
+      >
+        {this.props.src && (
+          <Image
+            style={{ marginRight: '10px' }}
+            src={this.props.src}
+            size="20px"
+          />
+        )}
+        <FlexCol
+          style={{
+            flex: '1',
+            minHeight: '50px'
+          }}
+        >
+          <FlexRow>
+            <Label
+              style={{
+                fontSize: '13px',
+                fontWeight: '400',
+                color: '#646B7D'
+              }}
+            >
+              {this.props.title}
+            </Label>
+            {this.props.helpText && (
+              <HoverInfoButton
+                style={{ marginLeft: '5px' }}
+                hoverText={this.props.helpText}
+              />
+            )}
+          </FlexRow>
+          {!this.props.editing && (
+            <Label
+              style={{
+                margin: '4px 1px 1px 1px',
+                paddingBottom: '1px',
+                cursor: this.props.readOnlyOnClick ? 'pointer' : ''
+              }}
+              onClick={this.props.readOnlyOnClick}
+            >
+              {this.renderValue()}
+            </Label>
+          )}
+          {this.renderInput()}
+        </FlexCol>
+      </FlexRow>
+    )
+  }
+}

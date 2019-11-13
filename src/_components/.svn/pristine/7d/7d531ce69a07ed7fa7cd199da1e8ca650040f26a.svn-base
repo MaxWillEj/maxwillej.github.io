@@ -1,0 +1,45 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+import { Image } from './Image'
+import selectedColumnIcon from '../images/icons/report_column_selected.svg'
+import unselectedColumnIcon from '../images/icons/report_column_unselected.svg'
+import { Loader } from './Loader'
+
+const ColumnItem = styled.div`
+  box-sizing: border-box;
+  width: 23%;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 1% 20px;
+  padding: 6px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: ${props => (props.selected ? '#EEFBFE' : '#F9F9FC')};
+  color: #3f4658;
+  cursor: pointer;
+  user-select: none;
+
+  img {
+    margin: 0 8px 0 0;
+  }
+`
+
+export class SelectItem extends PureComponent {
+  render() {
+    return (
+      <ColumnItem {...this.props}>
+        {this.props.loading ? (
+          <Loader size="24px" />
+        ) : (
+          <Image
+            src={
+              this.props.selected ? selectedColumnIcon : unselectedColumnIcon
+            }
+            size="24px"
+          />
+        )}
+        {this.props.text}
+      </ColumnItem>
+    )
+  }
+}

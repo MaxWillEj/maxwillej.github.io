@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="28px" viewBox="0 0 16 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>arrowLeft</title>
+    <desc>Created with Sketch.</desc>
+    <g id="arrowLeft" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <polyline id="Rectangle-11" stroke="#C5CBDA" stroke-width="5.5" fill-rule="nonzero" transform="translate(12.925952, 13.925952) scale(-1, 1) rotate(-45.000000) translate(-12.925952, -13.925952) " points="19.8519031 7 19.8519031 20.8519031 6 20.8519031"></polyline>
+    </g>
+</svg>

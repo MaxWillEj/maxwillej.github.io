@@ -1,0 +1,83 @@
+import React, { Fragment } from 'react'
+import { SelectDocumentRow } from './SelectDocumentRow'
+import { FileDropzone } from './FileDropzone'
+import { i18n } from '../_helpers'
+import { showToast } from '../AppStateComponent'
+import { StateComponent } from './base/StateComponent'
+import { Biz } from '../_biz/Biz'
+import { FILE_TYPE } from '../_constants/haxType'
+import { FlexRow } from './FlexRow'
+import { Description } from './Description'
+
+export class SelectDocumentList extends StateComponent {
+  state = {}
+
+  render() {
+    // TODO add loader logic for fetching Documents if not supplied in props?
+    return (
+      <Fragment>
+        <FlexRow style={{ marginBottom: '30px' }}>
+          <FileDropzone
+            // accept="application/pdf"
+            onDrop={async (acceptedFiles, rejectedFiles) => {
+              this.op.log('files:', acceptedFiles, rejectedFiles)
+
+              this.setState({ uploadingDoc: true })
+
+              try {
+                const result = await Biz.file.upload(
+                  acceptedFiles[0],
+                  FILE_TYPE.DOCUMENT
+                )
+
+                const createDocResponse = await Biz.document.create(
+                  Biz.company.getCached().id,
+                  {
+                    fileId: result.data.upload.id, // upload.id
+                    title: acceptedFiles[0].name,
+                    signable: false
+                  },
+                  this
+                )
+                this.op.log('createDocResponse', createDocResponse)
+                const createdDoc = createDocResponse.data.document.create
+                this.op.log('createdDoc', createdDoc)
+
+                this.props.onSelectDocument(createdDoc)
+                // TODO REFRESH ALL DOCUMENTS SO THAT CALLER OF THIS FUNCTIONALITY... NEED REF TO CALLER?
+
+                // TODO HOW TO DISPLAY THIS AS A SelectDocumentRow ?
+
+                showToast({
+                  type: 'success',
+                  title: i18n.t('documents.toast_upload_success')
+                })
+              } catch (error) {
+                console.error(error)
+              }
+
+              this.setState({ uploadingDoc: false })
+            }}
+            loading={this.state.uploadingDoc}
+            header={i18n.t('dropzone.header')}
+          />
+        </FlexRow>
+        <Description style={{ marginBottom: '10px' }}>
+          {i18n.t('select_document_list.description')}
+        </Description>
+        {this.props.docs.map(doc => (
+          <SelectDocumentRow
+            key={doc.id}
+            doc={doc}
+            selected={
+              this.props.selectedDocs && this.props.selectedDocs[doc.id]
+            }
+            onSelect={() => {
+              this.props.onSelectDocument(doc)
+            }}
+          />
+        ))}
+      </Fragment>
+    )
+  }
+}

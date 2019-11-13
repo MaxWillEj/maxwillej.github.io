@@ -1,0 +1,318 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import { FlexRow } from './FlexRow'
+import { Label } from './Label'
+import { FlexCol } from './FlexCol'
+import moment from 'moment'
+import { ThinBorder } from './ThinBorder'
+
+const rowStyle = {
+  width: '100%',
+  height: '26px'
+}
+
+const cellStyle = {
+  flex: '1',
+  boxSizing: 'border-box',
+  cursor: 'default',
+  height: '20px',
+  padding: '1px 0 0',
+  margin: '0 1px',
+  color: '#404852',
+  textAlign: 'center',
+  fontWeight: '500'
+}
+
+export class Calendar extends PropsComponent {
+  renderTitleRow() {
+    const cellStyleTitle = {
+      ...this.getCellStyle(),
+      fontWeight: '600',
+      color: '#949EB6'
+    }
+
+    return (
+      <FlexRow style={this.getRowStyle()}>
+        <Label style={cellStyleTitle}>M</Label>
+        <Label style={cellStyleTitle}>T</Label>
+        <Label style={cellStyleTitle}>O</Label>
+        <Label style={cellStyleTitle}>T</Label>
+        <Label style={cellStyleTitle}>F</Label>
+        <Label style={cellStyleTitle}>L</Label>
+        <Label style={cellStyleTitle}>S</Label>
+      </FlexRow>
+    )
+  }
+
+  renderRow(date, highlightToday) {
+    const skipCols = date.isoWeekday() !== 1 ? date.isoWeekday() - 1 : 0
+
+    const countCols =
+      date.daysInMonth() - date.date() < 6
+        ? date.daysInMonth() - date.date() + 1
+        : 7
+
+    // console.log(
+    //   date.toISOString(),
+    //   ' | skip:',
+    //   skipCols,
+    //   ' | count:',
+    //   countCols,
+    //   ' #### ',
+    //   date.date(),
+    //   date.daysInMonth()
+    // )
+
+    return (
+      <FlexRow style={this.getRowStyle()} key={date.toISOString()}>
+        {this.renderRowCell(
+          skipCols < 1 && countCols >= 1 ? date.date() - skipCols : null,
+          moment(date).date(date.date() - skipCols),
+          highlightToday
+        )}
+        {this.renderRowCell(
+          skipCols < 2 && countCols >= 2 ? date.date() - skipCols + 1 : null,
+          moment(date).date(date.date() - skipCols + 1),
+          highlightToday
+        )}
+        {this.renderRowCell(
+          skipCols < 3 && countCols >= 3 ? date.date() - skipCols + 2 : null,
+          moment(date).date(date.date() - skipCols + 2),
+          highlightToday
+        )}
+        {this.renderRowCell(
+          skipCols < 4 && countCols >= 4 ? date.date() - skipCols + 3 : null,
+          moment(date).date(date.date() - skipCols + 3),
+          highlightToday
+        )}
+        {this.renderRowCell(
+          skipCols < 5 && countCols >= 5 ? date.date() - skipCols + 4 : null,
+          moment(date).date(date.date() - skipCols + 4),
+          highlightToday
+        )}
+        {this.renderRowCell(
+          skipCols < 6 && countCols >= 6 ? date.date() - skipCols + 5 : null,
+          moment(date).date(date.date() - skipCols + 5),
+          highlightToday
+        )}
+        {this.renderRowCell(
+          skipCols < 7 && countCols >= 7 ? date.date() - skipCols + 6 : null,
+          moment(date).date(date.date() - skipCols + 6),
+          highlightToday
+        )}
+      </FlexRow>
+    )
+  }
+
+  getRowStyle() {
+    return {
+      ...rowStyle,
+      ...this.props.rowStyle
+    }
+  }
+
+  getCellStyle() {
+    return {
+      ...cellStyle,
+      ...this.props.cellStyle
+    }
+  }
+
+  renderRowCell(content, dateInMonth, highlightToday) {
+    const isToday = dateInMonth.isSame(highlightToday, 'date') && content
+    const cellAction =
+      content !== null &&
+      this.props.actions &&
+      this.props.actions[dateInMonth.format('YYYY-MM-DD')] // 2018-12-12
+    const cellColors =
+      cellAction && cellAction.colors && cellAction.colors.length
+        ? cellAction.colors
+        : null
+
+    // if (content !== null) {
+    //   console.log(
+    //     'dateInMonth:',
+    //     dateInMonth,
+    //     'actions:',
+    //     this.props.actions[dateInMonth]
+    //   )
+    // }
+
+    if (!cellColors || cellColors.length === 1) {
+      return (
+        <Label
+          onClick={
+            cellAction && cellAction.action ? cellAction.action : undefined
+          }
+          style={
+            cellColors
+              ? {
+                  ...this.getCellStyle(),
+                  cursor: cellAction.action ? 'pointer' : '',
+                  background: cellColors ? cellColors[0] : '',
+                  color: cellColors ? '#fff' : '',
+                  borderRadius: '4px',
+                  border: isToday ? '1px solid #7AB7FF' : '',
+                  margin: isToday ? '0' : '0 1px',
+                  padding: isToday ? '0' : '1px 0 0'
+                }
+              : {
+                  ...this.getCellStyle(),
+                  borderRadius: isToday ? '4px' : '',
+                  border: isToday ? '1px solid #7AB7FF' : '',
+                  margin: isToday ? '0' : '0 1px',
+                  padding: isToday ? '0' : '1px 0 0'
+                }
+          }
+        >
+          {content !== null && content}
+        </Label>
+      )
+    } else {
+      return (
+        <FlexCol
+          onClick={
+            cellAction && cellAction.action ? cellAction.action : undefined
+          }
+          style={{ flex: '1', position: 'relative', cursor: 'pointer' }}
+        >
+          <Label
+            style={{
+              ...this.getCellStyle(),
+              cursor: 'pointer',
+              borderRadius: isToday ? '6px' : '',
+              border: isToday ? '1px solid #7AB7FF' : '',
+              margin: isToday ? '0' : '0 1px',
+              padding: isToday ? '0' : '1px 0 0'
+            }}
+          >
+            {content !== null && content}
+          </Label>
+          <FlexRow
+            style={{
+              position: 'absolute',
+              bottom: '-4px',
+              left: '1px',
+              right: '1px',
+              height: '8px',
+              justifyContent: 'center'
+            }}
+          >
+            {this.renderActionDots(cellColors)}
+          </FlexRow>
+        </FlexCol>
+      )
+    }
+  }
+
+  renderActionDots(cellColors) {
+    return cellColors.map((color, index) => {
+      return (
+        <div
+          key={index}
+          style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '4px',
+            marginLeft: index !== 0 ? '1px' : '',
+            background: color
+          }}
+        />
+      )
+    })
+  }
+
+  calcWeeksInMonth(date) {
+    const dateFirst = moment(date).date(1)
+    const dateLast = moment(date).date(date.daysInMonth())
+    const startWeek = dateFirst.isoWeek()
+    const endWeek = dateLast.isoWeek()
+
+    if (endWeek < startWeek) {
+      // cater to end of year (dec/jan)
+      return dateFirst.weeksInYear() - startWeek + 1 + endWeek
+    } else {
+      return endWeek - startWeek + 1
+    }
+  }
+
+  renderMonthLabel(date) {
+    if (this.props.hideLabel) {
+      return null
+    } else {
+      return (
+        <FlexCol style={{ position: 'relative', marginBottom: '6px' }}>
+          <Label
+            style={{
+              textTransform: 'capitalize',
+              paddingLeft: '6px',
+              marginBottom: '6px',
+              fontWeight: '700',
+              ...this.props.labelStyle
+            }}
+          >
+            {date.format('MMMM YYYY')}
+          </Label>
+          <ThinBorder />
+        </FlexCol>
+      )
+    }
+  }
+
+  render() {
+    const date = moment(this.props.date)
+    const dateNow = moment()
+    const dateFirst = moment(this.props.date).date(1)
+    const weeksInMonth = this.calcWeeksInMonth(date)
+    // const dateLast = moment(this.props.date).date(date.daysInMonth())
+
+    // console.log('NOW:', dateNow.toISOString())
+
+    const highlightToday =
+      dateNow.diff(date, 'days') === 0 ? dateNow : undefined
+
+    // console.log('#### ---- -start- DATE ---- ####')
+    // console.log('DATE:', date.toISOString())
+    // console.log('isoWeekday', date.isoWeekday())
+    // console.log('week', date.week())
+    // console.log(' ')
+    // console.log('FIRST:', dateFirst.toISOString())
+    // console.log('isoWeekday', dateFirst.isoWeekday())
+    // console.log('week', dateFirst.week())
+    // console.log(' ')
+    // console.log('LAST:', dateLast.toISOString())
+    // console.log('isoWeekday', dateLast.isoWeekday())
+    // console.log('week', dateLast.week())
+    // console.log('--------------------------------')
+    // console.log('daysInMonth', date.daysInMonth())
+    // console.log('weeksInMonth', this.calcWeeksInMonth(date))
+    // console.log('#### ---- - end - DATE ---- ####')
+
+    let weekDate = moment(dateFirst)
+    const weekRows = []
+    for (let i = 0; i < weeksInMonth; i++) {
+      weekRows.push(this.renderRow(weekDate, highlightToday))
+      if (weekDate.isoWeekday() !== 1) {
+        weekDate = moment(weekDate).date(
+          weekDate.date() + (8 - weekDate.isoWeekday())
+        )
+      } else {
+        weekDate = moment(weekDate).date(weekDate.date() + 7)
+      }
+    }
+
+    return (
+      <FlexCol
+        style={{
+          boxSizing: 'content-box',
+          width: '224px',
+          ...this.props.style
+        }}
+      >
+        {this.renderMonthLabel(date)}
+        {this.renderTitleRow()}
+        {weekRows}
+      </FlexCol>
+    )
+  }
+}

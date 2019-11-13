@@ -1,0 +1,66 @@
+import React from 'react'
+import { FlexRow } from './FlexRow'
+import { Label } from './Label'
+import { StateComponent } from './base/StateComponent'
+
+export class Tabs extends StateComponent {
+  state = {
+    getDerivedState: nextProps => {
+      if (
+        this.state.activeTab === undefined ||
+        nextProps.activeTab !== this.props.activeTab
+      ) {
+        return { activeTab: nextProps.activeTab || 0 }
+      }
+      return null
+    }
+  }
+
+  render() {
+    const activeTab =
+      this.props.forceActiveTab !== undefined
+        ? this.props.forceActiveTab
+        : this.state.activeTab
+    return (
+      <FlexRow
+        style={{
+          position: 'relative',
+          userSelect: 'none',
+          background: '#E9EAF2',
+          height: '44px',
+          borderRadius: '22px',
+          zIndex: '10',
+          boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)',
+          ...this.props.style
+        }}
+      >
+        {this.props.items.map((item, index) => (
+          <Label
+            style={{
+              whiteSpace: 'nowrap',
+              background: activeTab === index ? '#fff' : 'transparent',
+              color: activeTab === index ? '#3f4658' : '#949eb6',
+              display: 'inline-block',
+              height: '44px',
+              lineHeight: '45px',
+              borderRadius: '25px',
+              padding: '0 24px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+            }}
+            key={item.title}
+            onClick={() => {
+              this.setState({ activeTab: index })
+              if (item.action) {
+                item.action()
+              }
+            }}
+          >
+            {item.title}
+          </Label>
+        ))}
+      </FlexRow>
+    )
+  }
+}

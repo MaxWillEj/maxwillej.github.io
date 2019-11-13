@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 3</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Documents-Edit-view-" transform="translate(-1187.000000, -53.000000)" fill-rule="nonzero">
+            <g id="Menu">
+                <g id="Group-14-Copy-3" transform="translate(1165.183530, 42.000000)">
+                    <g id="Team-icon" transform="translate(20.261469, 9.275850)">
+                        <g id="Group-4" transform="translate(0.942478, 0.778328)">
+                            <rect id="Rectangle-3" x="0.972790145" y="0.994601568" width="18" height="18"></rect>
+                            <ellipse id="Oval" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" cx="5.9782637" cy="6.78678571" rx="2.78609187" ry="2.78678571"></ellipse>
+                            <rect id="Rectangle-4" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" x="3" y="10.3165453" width="5.9565274" height="4.91308369"></rect>
+                            <path d="M16.2509363,8.22962897 L11.2871635,8.22962897" id="Rectangle-4-Copy" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M13.7690499,10.7115154 L13.7690499,5.74774255" id="Rectangle-4-Copy-2" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

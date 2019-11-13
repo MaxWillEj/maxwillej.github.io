@@ -1,0 +1,81 @@
+import React from 'react'
+import { FlexRow } from './FlexRow'
+import { Label } from './Label'
+import { StateComponent } from './base/StateComponent'
+import styled from 'styled-components'
+import { fonts } from '../_styling/fonts'
+import { Theme } from '../_styling/theme'
+
+const Underline = styled.div`
+  width: 100%;
+  height: 4px;
+  border-radius: 0px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: ${props =>
+    props.active ? getUnderlineColor(props.theme) : '#fff'};
+`
+
+function getUnderlineColor(theme) {
+  return Theme[theme] ? Theme[theme].subNavUnderlineColor : '#ccc'
+}
+
+export class NavigationTabs extends StateComponent {
+  state = {
+    getDerivedState: nextProps => {
+      if (
+        this.state.activeTab === undefined ||
+        nextProps.activeTab !== this.props.activeTab
+      ) {
+        return { activeTab: nextProps.activeTab || 0 }
+      }
+      return null
+    }
+  }
+
+  render() {
+    return (
+      <FlexRow
+        style={{
+          height: '100%',
+          position: 'relative',
+          ...this.props.style
+        }}
+      >
+        {this.props.items.map((item, index) => {
+          const active = this.state.activeTab === index
+          return (
+            <Label
+              style={{
+                whiteSpace: 'nowrap',
+                boxSizing: 'border-box',
+                height: '100%',
+                textTransform: 'uppercase',
+                color: active ? '#3f4658' : '#949eb6',
+                cursor: 'pointer',
+                position: 'relative',
+                padding: '16px 0 0',
+                margin: '0 30px 0 0',
+                font: `500 13px ${fonts.MAIN}`,
+                letterSpacing: '0.5',
+                transition: 'color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)'
+              }}
+              key={item.title}
+              onClick={() => {
+                this.setState({ activeTab: index })
+                if (item.action) {
+                  item.action()
+                }
+                window.scrollTo(0, 0)
+              }}
+            >
+              {item.title}
+              <Underline active={active} theme={item.theme} />
+            </Label>
+          )
+        })}
+      </FlexRow>
+    )
+  }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 4 Copy 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#9FC3F5" offset="0%"></stop>
+            <stop stop-color="#A597EC" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="12" cy="12" r="12"></circle>
+        <linearGradient x1="50%" y1="25.340609%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#4840AB" offset="0%"></stop>
+            <stop stop-color="#6B9CE6" offset="100%"></stop>
+        </linearGradient>
+        <path d="M3.67932132,5.65984632 L8.20737467,5.65984632 C8.84113509,5.65984632 9.43935816,5.36709263 9.82821663,4.86665147 L9.82821663,4.86665147 C10.2170751,4.36621031 10.8152982,4.07345662 11.4490586,4.07345662 L12.8586406,4.07345662 C13.8336923,4.07345662 14.6241279,4.8638922 14.6241279,5.8389439 C14.6241279,6.02050655 14.596121,6.20098277 14.5410952,6.37400635 L13.2124858,10.5516963 C12.9484953,11.3817901 12.1776085,11.9455606 11.3065478,11.9455606 L2.95525551,11.9455606 C1.85068601,11.9455606 0.955255506,11.0501301 0.955255506,9.94556061 C0.955255506,9.74063985 0.986748808,9.53693621 1.04863259,9.3415829 L1.7726984,7.05586862 C2.03600127,6.22468019 2.80742534,5.65984632 3.67932132,5.65984632 Z" id="path-5"></path>
+        <filter x="-4.9%" y="-38.1%" width="110.3%" height="150.8%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="-2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.420168113   0 0 0 0 0.354797181   0 0 0 0 0.812393707  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-16.000000, -368.000000)">
+            <g id="Group-4-Copy-4" transform="translate(16.000000, 368.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#6B5ACF" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="3.44504707" cy="5.27781838" r="5.85778585"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#6B5ACF" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="12.2741454" y="15.6827676" width="15.5102041" height="14.3673469"></rect>
+                <g id="Group-3" mask="url(#mask-3)">
+                    <g transform="translate(5.454545, 6.000000)">
+                        <rect id="Rectangle" stroke="none" fill="url(#linearGradient-4)" fill-rule="nonzero" opacity="0.5" x="0.223747681" y="2.80270346" width="12.5454545" height="9.14285714" rx="2"></rect>
+                        <polygon id="Rectangle" stroke="none" fill="#F9FAFC" fill-rule="evenodd" points="4.18330098 0.0816886774 14.4055659 0.0816886774 12.2237477 10.367403 2.0014828 10.367403"></polygon>
+                        <path d="M5.59470579,2.32764267 L8.7302114,2.32764267" id="Path-6" stroke="#186360" stroke-width="1" fill="none" opacity="0.200000003" fill-rule="nonzero"></path>
+                        <path d="M5.04925124,3.69596142 L10.3072058,3.69596142" id="Path-6-Copy" stroke="#186360" stroke-width="1" fill="none" opacity="0.200000003" fill-rule="nonzero"></path>
+                        <g id="Rectangle-Copy-2" stroke="none" fill="none" fill-rule="nonzero">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <use fill="url(#linearGradient-4)" xlink:href="#path-5"></use>
+                        </g>
+                        <path d="M7.65806979,10.6816887 L11.4545455,10.6816887" id="Path" stroke="#F9FAFC" stroke-width="1" fill="none" fill-rule="nonzero"></path>
+                        <path d="M10.3853425,9.53883153 L12,9.53883153" id="Path-Copy" stroke="#F9FAFC" stroke-width="1" fill="none" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

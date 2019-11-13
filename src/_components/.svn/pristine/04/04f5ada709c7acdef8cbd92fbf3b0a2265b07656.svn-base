@@ -1,0 +1,86 @@
+import _ from 'lodash'
+import React, { Component } from 'react'
+import { Route, Redirect } from 'react-router-dom'
+import { PATH } from '../_helpers'
+import { AppState } from '../AppStateComponent'
+import { Biz } from '../_biz/Biz'
+import { ROLES } from '../_constants/roles'
+import { Loader } from './Loader'
+
+export class PrivateRoute extends Component {
+  constructor(props) {
+    super(props)
+    this.strippedProps = _.omit(this.props, ['component'])
+    this.ChildComponent = this.props.component
+  }
+
+  render() {
+    return (
+      <Route
+        {...this.strippedProps}
+        render={props => {
+          return (
+            <AppState>
+              {value => {
+                if (
+                  value.isLoadingRemoteData &&
+                  !this.props.ignoreIsLoadingRemoteData
+                ) {
+                  if (this.props.ignoreAppStateLoader) {
+                    return null
+                  } else {
+                    return <Loader />
+                  }
+                } else if (
+                  this.props.accessLevelRequired === ROLES.OWNER &&
+                  !Biz.member.isMeOwner()
+                ) {
+                  return (
+                    <Redirect
+                      to={{
+                        pathname: this.props.accessLevelRedirectRoute,
+                        state: { from: props.location }
+                      }}
+                    />
+                  )
+                } else if (
+                  this.props.accessLevelRequired === ROLES.ADMIN &&
+                  !Biz.member.isMeOwner() &&
+                  !Biz.member.isMeAdmin()
+                ) {
+                  return (
+                    <Redirect
+                      to={{
+                        pathname: this.props.accessLevelRedirectRoute,
+                        state: { from: props.location }
+                      }}
+                    />
+                  )
+                } else if (value.token) {
+                  return (
+                    <this.ChildComponent
+                      {...props}
+                      me={value.me}
+                      membership={value.membership}
+                      company={value.company}
+                      actions={value.actions}
+                    />
+                  )
+                } else {
+                  return (
+                    <Redirect
+                      to={{
+                        pathname: PATH.LANDING,
+                        state: { from: props.location }
+                      }}
+                    />
+                  )
+                }
+              }}
+            </AppState>
+          )
+        }}
+      />
+    )
+  }
+}

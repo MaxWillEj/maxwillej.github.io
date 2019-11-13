@@ -1,0 +1,44 @@
+import React, { Component } from 'react'
+import { Tooltip } from './Tooltip'
+import _ from 'lodash'
+
+export class HoverInfoButton extends Component {
+  state = { isHovering: false }
+
+  render() {
+    return (
+      <div
+        style={{
+          position: 'relative',
+          borderRadius: '50%',
+          width: '16px',
+          height: '16px',
+          fontSize: '10px',
+          color: '#3f4658',
+          border: 'solid 1px #3f4658',
+          textAlign: 'center',
+          cursor: 'help',
+          boxSizing: 'border-box',
+          ...this.props.style
+        }}
+        onMouseEnter={() => this.setState({ isHovering: true })}
+        onMouseLeave={() => this.setState({ isHovering: false })}
+        {..._.omit(this.props, ['style', 'hoverText', 'tooltipStyle'])}
+      >
+        ?
+        <Tooltip
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            minWidth: '300px',
+            fontSize: '12px',
+            ...this.props.tooltipStyle
+          }}
+          show={this.state.isHovering}
+        >
+          {this.props.hoverText}
+        </Tooltip>
+      </div>
+    )
+  }
+}

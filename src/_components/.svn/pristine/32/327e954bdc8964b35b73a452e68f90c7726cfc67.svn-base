@@ -1,0 +1,29 @@
+import React, { Component } from 'react'
+
+export class DeleteButton extends Component {
+  render() {
+    // TODO Add default style for text
+    // TODO: add disabled prop so this works like other buttons and inputs
+    return (
+      <div
+        {...this.props}
+        style={{
+          margin: '0',
+          padding: '0',
+          fontSize: '13px',
+          color: '#fff',
+          background: '#3f4658',
+          width: '24px',
+          height: '24px',
+          lineHeight: '24px',
+          borderRadius: '12px',
+          textAlign: 'center',
+          cursor: 'pointer',
+          ...this.props.style
+        }}
+      >
+        ✖
+      </div>
+    )
+  }
+}

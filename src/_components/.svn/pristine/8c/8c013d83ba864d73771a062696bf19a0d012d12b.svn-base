@@ -1,0 +1,48 @@
+import React from 'react'
+import styled from 'styled-components'
+import { bounce } from '../_animations'
+
+const Wrapper = styled.div`
+  display: ${props => (props.inline ? 'inline-block' : 'block')};
+`
+
+const calculateSize = props => props.size || '80px'
+const animationDuration = 2.2
+const Inner = styled.div`
+  width: ${calculateSize};
+  height: ${calculateSize};
+  margin: 0 auto;
+
+  position: relative;
+
+  div {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    animation: ${bounce} ${animationDuration}s infinite ease-in-out;
+
+    &:nth-child(2) {
+      animation-delay: -${animationDuration / 2}s;
+    }
+  }
+`
+
+/**
+ * @deprecated use <Loader /> component instead
+ */
+export const Spinner = props => {
+  return (
+    <Wrapper {...props}>
+      <Inner {...props}>
+        <div />
+        <div />
+      </Inner>
+    </Wrapper>
+  )
+}

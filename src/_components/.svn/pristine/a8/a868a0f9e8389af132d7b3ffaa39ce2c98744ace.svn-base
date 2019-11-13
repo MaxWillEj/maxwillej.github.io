@@ -1,0 +1,120 @@
+import React, { Component } from 'react'
+import { FlexCol } from './FlexCol'
+import { Label } from './Label'
+import { colors } from '../_styling'
+
+export class LabelInput extends Component {
+  initialHeight = 20
+  state = {
+    scrollHeight: this.initialHeight
+  }
+  componentDidMount() {
+    this.refs.refTextarea.select()
+    this.refs.refTextarea.style.height = `${this.initialHeight}px`
+    this.setState({
+      scrollHeight: this.refs.refTextarea.scrollHeight
+    })
+  }
+  render() {
+    if (this.refs.refTextarea) {
+      this.refs.refTextarea.style.height = '100%'
+    }
+    return (
+      <FlexCol
+        style={{
+          position: 'relative',
+          flex: '1',
+          height: `${this.state.scrollHeight}px`,
+          ...this.props.style
+        }}
+        onClick={this.props.onClick}
+      >
+        <textarea
+          placeholder={this.props.placeholder}
+          disabled={this.props.disabled}
+          ref="refTextarea"
+          name={this.props.name}
+          value={this.props.value}
+          // defaultValue={!this.props.value && this.props.defaultValue}
+          onBlur={this.props.onBlur}
+          onChange={event => {
+            // console.log(event, this.refs.refTextarea.value)e)
+            // console.log('contentHeight', this.refs.refTextarea.scrollHeight)
+
+            // NEED to reset height for shrinking height to work
+            this.refs.refTextarea.style.height = `${this.initialHeight}px`
+            this.setState({
+              scrollHeight: this.refs.refTextarea.scrollHeight
+            })
+
+            if (this.props.onChange) {
+              this.props.onChange(event)
+            }
+
+            if (this.props.onValueChange) {
+              this.props.onValueChange(this.refs.refTextarea.value)
+            }
+          }}
+          onPaste={event => {
+            if (this.props.singleLine) {
+              const clipboardData = event.clipboardData || window.clipboardData
+              const pastedData = clipboardData.getData('Text')
+              if (pastedData && pastedData.indexOf('\n') !== -1) {
+                event.preventDefault()
+              }
+            }
+          }}
+          onKeyDown={event => {
+            // console.log('onKeyDown', event, event.keyCode)
+
+            if (event.keyCode === 13 && this.props.singleLine) {
+              // ENTER key with this.props.singleLine === true
+              event.preventDefault()
+              this.refs.refTextarea.blur()
+            } else if (event.keyCode === 27) {
+              // ESC key
+              this.refs.refTextarea.blur()
+            }
+            if (this.props.onKeyDown) {
+              this.props.onKeyDown(event)
+            }
+          }}
+          // wrap="soft" // TODO wrap value should behave in the same way as in Label component
+          style={{
+            outline: 'none',
+            border: 'none',
+            background: 'transparent',
+            margin: '0',
+            padding: '0 0 1px 0',
+            display: 'block',
+            boxSizing: 'border-box',
+            resize: 'none',
+            width: '100%',
+            height: '100%',
+            fontSize: '14px',
+            fontFamily: 'Montserrat',
+            fontWeight: '500',
+            letterSpacing: '0.04em',
+            color: '#3f4658',
+            ...this.props.inputStyle
+          }}
+        />
+        {this.props.error && (
+          <Label
+            style={{
+              position: 'absolute',
+              left: '16px',
+              bottom: '0',
+              fontSize: '11px',
+              fontWeight: '400',
+              color: colors.RED,
+              ...this.props.errorStyle
+            }}
+          >
+            {this.props.error}
+          </Label>
+        )}
+      </FlexCol>
+    )
+  }
+}

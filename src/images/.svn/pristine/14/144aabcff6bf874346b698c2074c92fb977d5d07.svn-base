@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="19px" viewBox="0 0 17 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Edit</title>
+    <desc>Created with Sketch.</desc>
+    <g id="4.2:-Företag---Frånvaro" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4.2.1:-Företag---Frånvaro" transform="translate(-1217.000000, -605.000000)" fill-rule="nonzero">
+            <g id="Edit" transform="translate(1215.000000, 604.000000)">
+                <rect id="Rectangle-14" x="0" y="0" width="20" height="20"></rect>
+                <polygon id="Rectangle-11" stroke="#32B3DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(9.211343, 9.134029) rotate(-315.000000) translate(-9.211343, -9.134029) " points="7 1 11.4226862 1 11.4226862 14.2680587 9.21134312 17.2680587 7 14.2680587"></polygon>
+                <path d="M3.0641252,18.2638171 L17.4835815,18.2638171" id="Path-6" stroke="#32B3DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

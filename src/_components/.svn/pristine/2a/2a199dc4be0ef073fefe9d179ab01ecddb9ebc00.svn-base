@@ -1,0 +1,58 @@
+import React, { useState } from 'react'
+import { BasicInput } from '../BasicInput'
+import { Util } from '../../_helpers/Utilz'
+
+export default function(props) {
+  const [inputText, setInputText] = useState(props.value)
+
+  const hasValueChanged =
+    !inputText && !props.value
+      ? false
+      : inputText && props.value
+      ? !Util.isEqual(inputText + '', props.value + '')
+      : !Util.isEqual(inputText, props.value)
+
+  // if (hasValueChanged) {
+  //   console.log(
+  //     hasValueChanged,
+  //     props.value,
+  //     inputText,
+  //     !!props.value,
+  //     props.value + '' !== inputText + '',
+  //     inputText !== ''
+  //   )
+  // }
+
+  return (
+    <BasicInput
+      style={{
+        flex: props.flex ? props.flex : '12',
+        padding: '0 0 0 8px',
+        minWidth: '200px', // also set in ExcelisTable
+        height: '30px',
+        color: '#0C1325',
+        fontSize: '13px',
+        fontWeight: '400',
+        letterSpacing: '0.03em',
+        borderWidth: '0 1px 1px 0',
+        borderStyle: 'solid',
+        borderColor: '#3f4658',
+        background: hasValueChanged
+          ? '#5CDC8366'
+          : props.background
+          ? props.background
+          : '#fff',
+        borderRadius: '0'
+      }}
+      placeholder={props.placeholder} // TODO
+      // inputStyle={{ minHeight: '60px' }}
+      // error={this.op.state('validation.user.presentation')}
+      value={inputText || ''}
+      onChange={e => {
+        const value = e.target.value || null
+        props.onValueChange(value)
+        setInputText(value)
+      }}
+    />
+  )
+}

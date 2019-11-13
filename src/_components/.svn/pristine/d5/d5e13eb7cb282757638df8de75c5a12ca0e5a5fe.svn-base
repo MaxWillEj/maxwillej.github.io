@@ -1,0 +1,1679 @@
+import React from 'react'
+import { TitleInline } from '../_components'
+import { Avatar } from './Avatar'
+import { Label } from './Label'
+import { FlexCol } from './FlexCol'
+import emailIcon from '../images/icons/email.svg'
+import phoneIcon from '../images/icons/phone.svg'
+import officeIcon from '../images/icons/office.svg'
+import tieIcon from '../images/icons/tie.svg'
+import calendarIcon from '../images/icons/calendar.svg'
+import briefcaseIcon from '../images/icons/briefcase.svg'
+import { Btn } from './Btn'
+import {
+  getNameString,
+  i18n,
+  history,
+  PATH,
+  getCountryString,
+  formatDate
+} from '../_helpers'
+import { FlexRow } from './FlexRow'
+import { SectionHeader } from './SectionHeader'
+import { Section } from './Section'
+import { EditableInfoField } from './EditableInfoField'
+import { ThinBorder } from './ThinBorder'
+import { StateComponent } from './base/StateComponent'
+import { Biz } from '../_biz/Biz'
+import { DropzoneBase } from './DropzoneBase'
+import { FILE_TYPE } from '../_constants/haxType'
+import { LabelInput } from './LabelInput'
+import moment from 'moment'
+import profileInfoIcon from '../images/icons/profile_info.svg'
+import locationIcon from '../images/icons/location_marker.svg'
+import { Separator } from './Separator'
+import { PAYOUT_PERIOD, PAYOUT_FREQUENCY } from '../_constants/compensation'
+import leftArrow from '../images/icons/calendar_arrow_left.svg'
+import rightArrow from '../images/icons/calendar_arrow_right.svg'
+import { Image } from './Image'
+import { CURRENCIES } from '../_constants/currency'
+import {
+  validateMember,
+  showValidationFailedToast
+} from '../_helpers/validation'
+import { Input } from './Input'
+import { addCostCenterDialog } from './dialog/Dialogs'
+import { Dialog } from './Dialog'
+import { Badge } from './Badge'
+
+const taxTables = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+const taxColumns = [1, 2, 3, 4, 5]
+
+export class MembershipCard extends StateComponent {
+  state = {}
+
+  // TODO move this to util class?
+  getDateString(date, includeTime) {
+    const momentDate = moment(date)
+    if (includeTime) {
+      return momentDate.toISOString()
+    } else {
+      return momentDate.format('YYYY-MM-DD')
+    }
+  }
+
+  clearInput = () => {
+    this.op.input('user', null)
+    this.op.input('employee', null)
+    this.op.state('validation', {})
+  }
+
+  updateData = async () => {
+    const userInput = this.op.cloneDeep(this.op.input('user'))
+    const employeeInput = this.op.cloneDeep(this.op.input('employee'))
+
+    // this.op.log('userInput:', userInput, 'employeeInput:', employeeInput)
+
+    if (!userInput && !employeeInput) {
+      this.op.inputActive(false)
+      return
+    }
+
+    const { membership } = this.props
+
+    if (userInput) {
+      // populate missing input-values from existing membership-data
+      if (userInput.bankAccount && membership.user.bankAccount) {
+        userInput.bankAccount = {
+          ...membership.user.bankAccount,
+          ...userInput.bankAccount
+        }
+      }
+
+      if (
+        userInput.bankAccount &&
+        !userInput.bankAccount.bank &&
+        !userInput.bankAccount.clearing &&
+        !userInput.bankAccount.number
+      ) {
+        userInput.bankAccount = null
+      }
+    }
+
+    if (employeeInput) {
+      // Employment
+      if (employeeInput.employment) {
+        const existingEmployment = this.getSelectedEmployment()
+        const employmentId =
+          employeeInput.employment.id || this.op.get(existingEmployment, 'id')
+        if (employmentId) {
+          // UPDATE Employment
+          employeeInput.employment.id = employmentId
+
+          if (employeeInput.employment.startDate) {
+            employeeInput.employment.startDate = this.getDateString(
+              employeeInput.employment.startDate
+            )
+          }
+
+          if (employeeInput.employment.endDate) {
+            employeeInput.employment.endDate = this.getDateString(
+              employeeInput.employment.endDate
+            )
+          }
+
+          if (employeeInput.employment.rate) {
+            employeeInput.employment.rate = this.input.castInt(
+              employeeInput.employment.rate
+            )
+          }
+
+          if (
+            existingEmployment &&
+            employeeInput.employment.terminated &&
+            !employeeInput.employment.endDate
+          ) {
+            employeeInput.employment.endDate = this.getDateString(
+              existingEmployment.endDate
+            )
+          }
+
+          if (employeeInput.employment.note === '') {
+            employeeInput.employment.note = null
+          }
+        } else {
+          // CREATE Employment
+          employeeInput.employment.companyId = membership.companyId
+          employeeInput.employment.userId = membership.user.id
+          employeeInput.employment.employeeId = membership.employee.id
+
+          if (!employeeInput.employment.typeId) {
+            employeeInput.employment.typeId = Biz.member.getEmploymentTypes()[0].id
+          }
+
+          employeeInput.employment.startDate = this.getDateString(
+            employeeInput.employment.startDate
+          )
+
+          if (employeeInput.employment.endDate) {
+            employeeInput.employment.endDate = this.getDateString(
+              employeeInput.employment.endDate
+            )
+          }
+
+          employeeInput.employment.rate = employeeInput.employment.rate
+            ? this.input.castInt(employeeInput.employment.rate)
+            : 100
+
+          if (!employeeInput.employment.country) {
+            employeeInput.employment.country = this.props.countries[0].code
+          }
+
+          if (employeeInput.employment.note === '') {
+            employeeInput.employment.note = null
+          }
+        }
+      }
+
+      // Compensation
+      if (employeeInput.compensation) {
+        const compensationId =
+          employeeInput.compensation.id ||
+          this.op.get(this.getSelectedCompensation(), 'id')
+        if (compensationId) {
+          // UPDATE Compensation
+          employeeInput.compensation.id = compensationId
+
+          if (employeeInput.compensation.effectiveDate) {
+            employeeInput.compensation.effectiveDate = this.getDateString(
+              employeeInput.compensation.effectiveDate
+            )
+          }
+
+          if (employeeInput.compensation.payoutDay) {
+            employeeInput.compensation.payoutDay = this.input.castInt(
+              employeeInput.compensation.payoutDay,
+              25
+            )
+          }
+
+          if (employeeInput.compensation.note === '') {
+            employeeInput.compensation.note = null
+          }
+        } else {
+          // CREATE Compensation
+
+          employeeInput.compensation.companyId = membership.companyId
+          employeeInput.compensation.userId = membership.user.id
+          employeeInput.compensation.employeeId = membership.employee.id
+
+          employeeInput.compensation.effectiveDate = this.getDateString(
+            employeeInput.compensation.effectiveDate
+          )
+
+          if (employeeInput.compensation.amount) {
+            employeeInput.compensation.amount = this.input.castFloat(
+              employeeInput.compensation.amount
+            )
+          }
+
+          employeeInput.compensation.paidOvertime = !!employeeInput.compensation
+            .paidOvertime
+
+          if (employeeInput.compensation.payoutDay) {
+            employeeInput.compensation.payoutDay = this.input.castInt(
+              employeeInput.compensation.payoutDay,
+              25
+            )
+          } else {
+            employeeInput.compensation.payoutDay = 25
+          }
+
+          if (!employeeInput.compensation.currency) {
+            employeeInput.compensation.currency = 'SEK'
+          }
+
+          if (!employeeInput.compensation.payoutPeriod) {
+            employeeInput.compensation.payoutPeriod = PAYOUT_PERIOD.MONTHLY
+          }
+
+          if (!employeeInput.compensation.payoutFrequency) {
+            employeeInput.compensation.payoutFrequency = PAYOUT_FREQUENCY.MONTH
+          }
+
+          if (employeeInput.compensation.note === '') {
+            employeeInput.compensation.note = null
+          }
+        }
+      }
+
+      if (
+        employeeInput.vacationAllowance &&
+        membership.employee.vacationAllowance
+      ) {
+        employeeInput.vacationAllowance = {
+          ...membership.employee.vacationAllowance,
+          ...employeeInput.vacationAllowance
+        }
+        if (employeeInput.vacationAllowance.limit) {
+          employeeInput.vacationAllowance.limit = this.input.castFloat(
+            employeeInput.vacationAllowance.limit
+          )
+        } else {
+          employeeInput.vacationAllowance.limit = null
+        }
+        if (employeeInput.vacationAllowance.adjustment) {
+          employeeInput.vacationAllowance.adjustment = this.input.castFloat(
+            employeeInput.vacationAllowance.adjustment
+          )
+        } else {
+          employeeInput.vacationAllowance.adjustment = 0
+        }
+      }
+
+      if (employeeInput.tax && membership.employee.tax) {
+        employeeInput.tax = {
+          ...membership.employee.tax,
+          ...employeeInput.tax
+        }
+      }
+    }
+
+    // extra validations that can't easily be run with our validation framework
+    let extraValidations = {}
+    if (this.props.requireDepartment) {
+      const group = Biz.group.getGroupForUserId(membership.user.id)
+      const currentGroupId = group ? group.id : null
+      const newGroupId = employeeInput ? employeeInput.groupId : undefined
+
+      // if you try to set the group as null or if no group is previously or newly set
+      if (newGroupId === null || (!currentGroupId && !newGroupId)) {
+        extraValidations = {
+          employee: { groupId: i18n.t('departments.validation.required') },
+          valid: false
+        }
+      }
+    }
+
+    const validation = {
+      ...validateMember({
+        user: userInput,
+        employee: employeeInput
+      }),
+      ...extraValidations
+    }
+
+    this.op.state('validation', validation)
+
+    if (!validation.valid) {
+      showValidationFailedToast(validation)
+    } else {
+      await this.props.actions
+        .updateMember({
+          companyId: this.props.membership.companyId,
+          userId: this.props.membership.user.id,
+          employeeId: this.props.membership.employee.id,
+          user: userInput,
+          employee: employeeInput
+        })
+        .then(() => {
+          // clear input data after fetch is complete
+          this.op.input('user', null)
+          this.op.input('employee', null)
+        })
+
+      this.op.inputActive(false)
+
+      this.setSelectedEmployment('-1')
+      this.setSelectedCompensation('-1')
+    }
+  }
+
+  setSelectedEmployment = employment => {
+    if (!this.op.equal(this.state.selectedEmployment, employment)) {
+      this.op.state('selectedEmployment', employment)
+      this.op.input('employee.employment', null)
+    }
+  }
+
+  setSelectedCompensation = compensation => {
+    if (!this.op.equal(this.state.selectedCompensation, compensation)) {
+      this.op.state('selectedCompensation', compensation)
+      this.op.input('employee.compensation', null)
+    }
+  }
+
+  getSelectedEmployment = () => {
+    const existingEmployments = this.props.membership.employee.employments
+    const selectedEmployment =
+      this.state.selectedEmployment === '-1'
+        ? existingEmployments[0]
+        : this.state.selectedEmployment ||
+          this.state.selectedEmployment === null
+        ? this.state.selectedEmployment
+        : existingEmployments && existingEmployments.length > 0
+        ? existingEmployments[0]
+        : undefined
+    return selectedEmployment
+  }
+
+  renderEmployment = () => {
+    if (!this.props.editable) {
+      return null
+    }
+
+    const canEditEmployment =
+      this.props.editorOwner ||
+      this.props.editorAdmin ||
+      this.props.editorManager
+
+    if (
+      !canEditEmployment &&
+      (!this.props.membership.employee.employments ||
+        this.props.membership.employee.employments.length === 0)
+    ) {
+      return null
+    }
+
+    const isInputActive = canEditEmployment && this.op.inputActive()
+
+    const existingEmployments = this.props.membership.employee.employments
+    const selectedEmployment = this.getSelectedEmployment()
+    const selectedEmploymentIndex =
+      selectedEmployment && existingEmployments
+        ? existingEmployments.findIndex(
+            iterEmployment => selectedEmployment.id === iterEmployment.id
+          )
+        : -1
+    const existingEmployment =
+      selectedEmploymentIndex !== -1
+        ? existingEmployments[selectedEmploymentIndex]
+        : selectedEmployment
+
+    const hasEmployments = existingEmployments && existingEmployments.length > 0
+    const hasPrevAction =
+      existingEmployment && hasEmployments && selectedEmploymentIndex !== 0
+    const hasNextAction =
+      existingEmployment &&
+      hasEmployments &&
+      selectedEmploymentIndex !== existingEmployments.length - 1
+
+    return (
+      <FlexRow
+        style={{
+          position: 'relative',
+          padding: '30px 80px 20px',
+          flexWrap: 'wrap'
+        }}
+      >
+        {hasEmployments && !existingEmployment && isInputActive && (
+          <Btn
+            style={{ position: 'absolute', top: '30px', right: '20px' }}
+            smaller
+            onClick={async () => {
+              this.setSelectedEmployment(existingEmployments[0])
+            }}
+          >
+            {i18n.t('general.cancel')}
+          </Btn>
+        )}
+        {existingEmployment && isInputActive && (
+          <FlexRow
+            style={{
+              position: 'absolute',
+              top: '30px',
+              right: '20px'
+            }}
+          >
+            <Btn
+              style={{ marginRight: '10px' }}
+              positive
+              smaller
+              onClick={async () => {
+                this.setSelectedEmployment(null)
+              }}
+            >
+              {i18n.t('general.add')}
+            </Btn>
+            <Btn
+              secondary
+              negative
+              smaller
+              onClick={async () => {
+                if (existingEmployments.length === 1) {
+                  this.setSelectedEmployment(null)
+                } else if (selectedEmploymentIndex === 0) {
+                  this.setSelectedEmployment(existingEmployments[1])
+                } else {
+                  this.setSelectedEmployment(existingEmployments[0])
+                }
+                // this.op.inputActiveToggle()
+                await Biz.member.removeEmployment(existingEmployment.id)
+                await this.props.actions.fetchMembership()
+              }}
+            >
+              {i18n.t('general.remove')}
+            </Btn>
+          </FlexRow>
+        )}
+        <Separator
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            right: '0'
+          }}
+          description={`${
+            existingEmployment
+              ? i18n.t('employee.employment.existing_label', {
+                  name: existingEmployment.startDate
+                })
+              : i18n.t('employee.employment.new_label')
+          }${
+            selectedEmploymentIndex !== -1
+              ? ` (${selectedEmploymentIndex + 1}/${
+                  existingEmployments.length
+                })`
+              : ''
+          }`}
+        />
+        {hasPrevAction && (
+          <Image
+            src={leftArrow}
+            width="16px"
+            height="28px"
+            style={{
+              position: 'absolute',
+              padding: '10px',
+              borderRadius: '6px',
+              // background: '#f5f5f5',
+              top: 'calc(50% - 14px)',
+              left: '20px',
+              lineHeight: '24px',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }}
+            onClick={() => {
+              this.setSelectedEmployment(
+                existingEmployments[selectedEmploymentIndex - 1]
+              )
+            }}
+          />
+        )}
+        {hasNextAction && (
+          <Image
+            src={rightArrow}
+            width="16px"
+            height="28px"
+            style={{
+              position: 'absolute',
+              padding: '10px',
+              borderRadius: '6px',
+              // background: '#f5f5f5',
+              top: 'calc(50% - 14px)',
+              right: '20px',
+              lineHeight: '24px',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }}
+            onClick={() => {
+              this.setSelectedEmployment(
+                existingEmployments[selectedEmploymentIndex + 1]
+              )
+            }}
+          />
+        )}
+        <EditableInfoField
+          type="date"
+          src={briefcaseIcon}
+          editing={isInputActive}
+          title={i18n.t('field.employee.employment.startDate')}
+          error={this.op.state('validation.employee.employment.startDate')}
+          value={this.op.inputOr(
+            'employee.employment.startDate',
+            this.op.get(existingEmployment, 'startDate') || ''
+          )}
+          onValueChange={text => {
+            this.op.input('employee.employment.startDate', text)
+          }}
+        />
+        <EditableInfoField
+          type="select"
+          src={briefcaseIcon}
+          title={i18n.t('field.employee.employment.type')}
+          // TODO should this be changed to "typeId"?: error={this.op.state('validation.employee.employment.typeId')}
+          error={this.op.state('validation.employee.employment.type')}
+          editing={isInputActive}
+          valueOptions={{
+            items: Biz.member.getEmploymentTypes().map(employmentType => {
+              return {
+                key: employmentType.id,
+                children: employmentType.displayName
+              }
+            })
+          }}
+          value={this.op.inputOr(
+            'employee.employment.typeId',
+            this.op.get(existingEmployment, 'typeId') || ''
+          )}
+          onValueChange={item => {
+            this.op.input('employee.employment.typeId', item.key)
+          }}
+        />
+        {canEditEmployment && (
+          <EditableInfoField
+            type="date"
+            src={briefcaseIcon}
+            editing={isInputActive}
+            title={i18n.t('field.employee.employment.endDate')}
+            error={this.op.state('validation.employee.employment.endDate')}
+            value={this.op.inputOr(
+              'employee.employment.endDate',
+              this.op.get(existingEmployment, 'endDate') || ''
+            )}
+            onValueChange={text => {
+              this.op.input('employee.employment.endDate', text)
+            }}
+          />
+        )}
+        <EditableInfoField
+          type="int"
+          src={calendarIcon}
+          title={i18n.t('field.employee.employment.rate')}
+          error={this.op.state('validation.employee.employment.rate')}
+          editing={isInputActive}
+          value={this.op.inputOr(
+            'employee.employment.rate',
+            this.op.get(existingEmployment, 'rate') || ''
+          )}
+          onValueChange={text => {
+            this.op.input('employee.employment.rate', text)
+          }}
+        />
+        {canEditEmployment && (
+          <EditableInfoField
+            type="select"
+            src={briefcaseIcon}
+            title={i18n.t('field.employee.employment.terminated')}
+            editing={isInputActive}
+            valueOptions={{
+              items: [
+                {
+                  key: 'terminated.false',
+                  children: i18n.t('field.employee.employment.terminated.false')
+                },
+                {
+                  key: 'terminated.true',
+                  children: i18n.t('field.employee.employment.terminated.true')
+                }
+              ]
+            }}
+            value={
+              this.op.input('employee.employment.terminated') ||
+              this.op.get(existingEmployment, 'terminated')
+                ? 'terminated.true'
+                : 'terminated.false'
+            }
+            onValueChange={item => {
+              this.op.input(
+                'employee.employment.terminated',
+                item.key === 'terminated.true'
+              )
+            }}
+          />
+        )}
+        <EditableInfoField
+          src={locationIcon}
+          type="select"
+          editing={isInputActive}
+          title={i18n.t('field.employee.employment.country')}
+          error={this.op.state('validation.employee.employment.country')}
+          valueOptions={{
+            // emptyOption: {
+            //   key: '-1',
+            //   children: i18n.t(
+            //     'field.employee.employment.country.emptyOption'
+            //   )
+            // },
+            items: this.props.countries.map(country => {
+              return {
+                key: country.code,
+                children: getCountryString(country)
+              }
+            })
+          }}
+          value={this.op.inputOr(
+            'employee.employment.country',
+            this.op.get(existingEmployment, 'country') || ''
+          )}
+          onValueChange={item => {
+            if (item.key === '-1') {
+              this.op.input('employee.employment.country', null)
+            } else {
+              this.op.input('employee.employment.country', item.key)
+            }
+          }}
+        />
+        {canEditEmployment && (
+          <EditableInfoField
+            src={officeIcon}
+            title={i18n.t('field.employee.employment.note')}
+            editing={isInputActive}
+            value={this.op.inputOr(
+              'employee.employment.note',
+              this.op.get(existingEmployment, 'note') || ''
+            )}
+            onValueChange={text => {
+              this.op.input('employee.employment.note', text)
+            }}
+          />
+        )}
+      </FlexRow>
+    )
+  }
+
+  getSelectedCompensation = () => {
+    const existingCompensations = this.props.membership.employee.compensations
+    const selectedCompensation =
+      this.state.selectedCompensation === '-1'
+        ? existingCompensations[0]
+        : this.state.selectedCompensation ||
+          this.state.selectedCompensation === null
+        ? this.state.selectedCompensation
+        : existingCompensations && existingCompensations.length > 0
+        ? existingCompensations[0]
+        : undefined
+    return selectedCompensation
+  }
+
+  renderCompensation = () => {
+    // NOTE: Compensation access = Company-OWNER and User-Manager can edit, and SELF-User can read.
+
+    const canEditCompensation =
+      this.props.editorOwner || this.props.editorManager
+    const canViewCompensation = canEditCompensation || this.props.editorSelf
+
+    if (!canViewCompensation) {
+      return null
+    } else if (
+      !canEditCompensation &&
+      (!this.props.membership.employee.compensations ||
+        this.props.membership.employee.compensations.length === 0)
+    ) {
+      return null
+    }
+
+    const isInputActive = canEditCompensation && this.op.inputActive()
+
+    const existingCompensations = this.props.membership.employee.compensations
+    const selectedCompensation = this.getSelectedCompensation()
+    const selectedCompensationIndex =
+      selectedCompensation && existingCompensations
+        ? existingCompensations.findIndex(
+            iterCompensation => selectedCompensation.id === iterCompensation.id
+          )
+        : -1
+    const existingCompensation =
+      selectedCompensationIndex !== -1
+        ? existingCompensations[selectedCompensationIndex]
+        : selectedCompensation
+
+    const hasCompensations =
+      existingCompensations && existingCompensations.length > 0
+    const hasPrevAction =
+      existingCompensation &&
+      hasCompensations &&
+      selectedCompensationIndex !== 0
+    const hasNextAction =
+      existingCompensation &&
+      hasCompensations &&
+      selectedCompensationIndex !== existingCompensations.length - 1
+
+    return (
+      <FlexRow
+        style={{
+          position: 'relative',
+          padding: '30px 80px 20px',
+          flexWrap: 'wrap'
+        }}
+      >
+        {hasCompensations && !existingCompensation && isInputActive && (
+          <Btn
+            style={{ position: 'absolute', top: '30px', right: '20px' }}
+            smaller
+            onClick={async () => {
+              this.setSelectedCompensation(existingCompensations[0])
+            }}
+          >
+            {i18n.t('general.cancel')}
+          </Btn>
+        )}
+        {existingCompensation && isInputActive && (
+          <FlexRow
+            style={{
+              position: 'absolute',
+              top: '30px',
+              right: '20px'
+            }}
+          >
+            <Btn
+              style={{ marginRight: '10px' }}
+              positive
+              smaller
+              onClick={async () => {
+                this.setSelectedCompensation(null)
+              }}
+            >
+              {i18n.t('general.add')}
+            </Btn>
+            <Btn
+              secondary
+              negative
+              smaller
+              onClick={async () => {
+                if (existingCompensations.length === 1) {
+                  this.setSelectedCompensation(null)
+                } else if (selectedCompensationIndex === 0) {
+                  this.setSelectedCompensation(existingCompensations[1])
+                } else {
+                  this.setSelectedCompensation(existingCompensations[0])
+                }
+                // this.op.inputActiveToggle()
+                await Biz.member.removeCompensation(existingCompensation.id)
+                await this.props.actions.fetchMembership()
+              }}
+            >
+              {i18n.t('general.remove')}
+            </Btn>
+          </FlexRow>
+        )}
+        <Separator
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            right: '0'
+          }}
+          description={`${
+            existingCompensation
+              ? i18n.t('employee.compensation.existing_label', {
+                  name: this.getDateString(existingCompensation.effectiveDate)
+                })
+              : i18n.t('employee.compensation.new_label')
+          }${
+            selectedCompensationIndex !== -1
+              ? ` (${selectedCompensationIndex + 1}/${
+                  existingCompensations.length
+                })`
+              : ''
+          }`}
+        />
+        {hasPrevAction && (
+          <Image
+            src={leftArrow}
+            width="16px"
+            height="28px"
+            style={{
+              position: 'absolute',
+              padding: '10px',
+              borderRadius: '6px',
+              // background: '#f5f5f5',
+              top: 'calc(50% - 14px)',
+              left: '20px',
+              lineHeight: '24px',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }}
+            onClick={() => {
+              this.setSelectedCompensation(
+                existingCompensations[selectedCompensationIndex - 1]
+              )
+            }}
+          />
+        )}
+        {hasNextAction && (
+          <Image
+            src={rightArrow}
+            width="16px"
+            height="28px"
+            style={{
+              position: 'absolute',
+              padding: '10px',
+              borderRadius: '6px',
+              // background: '#f5f5f5',
+              top: 'calc(50% - 14px)',
+              right: '20px',
+              lineHeight: '24px',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }}
+            onClick={() => {
+              this.setSelectedCompensation(
+                existingCompensations[selectedCompensationIndex + 1]
+              )
+            }}
+          />
+        )}
+        <EditableInfoField
+          type="date"
+          src={briefcaseIcon}
+          editing={isInputActive}
+          title={i18n.t('field.employee.compensation.effectiveDate')}
+          error={this.op.state(
+            'validation.employee.compensation.effectiveDate'
+          )}
+          value={this.op.inputOr(
+            'employee.compensation.effectiveDate',
+            this.op.get(existingCompensation, 'effectiveDate') || ''
+          )}
+          onValueChange={text => {
+            this.op.input('employee.compensation.effectiveDate', text)
+          }}
+        />
+        <EditableInfoField
+          type="int"
+          src={calendarIcon}
+          title={i18n.t('field.employee.compensation.payoutDay')}
+          editing={isInputActive}
+          error={this.op.state('validation.employee.compensation.payoutDay')}
+          value={this.op.inputOr(
+            'employee.compensation.payoutDay',
+            this.op.get(existingCompensation, 'payoutDay') || '25'
+          )}
+          onValueChange={text => {
+            this.op.input('employee.compensation.payoutDay', text)
+          }}
+        />
+        <EditableInfoField
+          type="float"
+          src={calendarIcon}
+          title={i18n.t('field.employee.compensation.amount')}
+          error={this.op.state('validation.employee.compensation.amount')}
+          editing={!existingCompensation && isInputActive}
+          value={
+            this.op.inputOr(
+              'employee.compensation.amount',
+              this.op.get(existingCompensation, 'amount') || ''
+            ) || ''
+          }
+          onValueChange={text => {
+            if (text) {
+              this.op.input('employee.compensation.amount', text)
+            } else {
+              if (
+                this.op.input('employee.compensation.amount') &&
+                Object.keys(this.op.input('employee.compensation')).length === 1
+              ) {
+                this.op.input('employee.compensation', null)
+              } else {
+                this.op.input('employee.compensation.amount', null)
+              }
+            }
+          }}
+        />
+        <EditableInfoField
+          type="select"
+          src={briefcaseIcon}
+          title={i18n.t('field.employee.compensation.currency')}
+          error={this.op.state('validation.employee.compensation.currency')}
+          editing={!existingCompensation && isInputActive}
+          valueOptions={{
+            // emptyOption: {
+            //   key: null,
+            //   children: '-'
+            // },
+            items: Object.keys(CURRENCIES).map(currency => {
+              return {
+                key: currency,
+                children: currency + ' - ' + CURRENCIES[currency]
+              }
+            })
+          }}
+          value={this.op.inputOr(
+            'employee.compensation.currency',
+            this.op.get(existingCompensation, 'currency') || ''
+          )}
+          onValueChange={item => {
+            if (item.key === '-1') {
+              this.op.input('employee.compensation.currency', null)
+            } else {
+              this.op.input('employee.compensation.currency', item.key)
+            }
+          }}
+        />
+        <EditableInfoField
+          type="select"
+          src={briefcaseIcon}
+          title={i18n.t('field.employee.compensation.payoutPeriod')}
+          error={this.op.state('validation.employee.compensation.payoutPeriod')}
+          editing={!existingCompensation && isInputActive}
+          valueOptions={{
+            items: Object.values(PAYOUT_PERIOD).map(period => {
+              return {
+                key: period,
+                children: i18n.t(
+                  `field.employee.compensation.payoutPeriod.${period}`
+                )
+              }
+            })
+          }}
+          value={this.op.inputOr(
+            'employee.compensation.payoutPeriod',
+            this.op.get(existingCompensation, 'payoutPeriod') ||
+              PAYOUT_PERIOD.MONTHLY
+          )}
+          onValueChange={item => {
+            if (item.key === '-1') {
+              this.op.input('employee.compensation.payoutPeriod', null)
+            } else {
+              this.op.input('employee.compensation.payoutPeriod', item.key)
+            }
+          }}
+        />
+        <EditableInfoField
+          type="select"
+          src={briefcaseIcon}
+          title={i18n.t('field.employee.compensation.payoutFrequency')}
+          error={this.op.state(
+            'validation.employee.compensation.payoutFrequency'
+          )}
+          editing={!existingCompensation && isInputActive}
+          valueOptions={{
+            items: Object.values(PAYOUT_FREQUENCY).map(period => {
+              return {
+                key: period,
+                children: i18n.t(
+                  `field.employee.compensation.payoutFrequency.${period}`
+                )
+              }
+            })
+          }}
+          value={this.op.inputOr(
+            'employee.compensation.payoutFrequency',
+            this.op.get(existingCompensation, 'payoutFrequency') || ''
+          )}
+          onValueChange={item => {
+            if (item.key === '-1') {
+              this.op.input('employee.compensation.payoutFrequency', null)
+            } else {
+              this.op.input('employee.compensation.payoutFrequency', item.key)
+            }
+          }}
+        />
+        <EditableInfoField
+          type="select"
+          src={briefcaseIcon}
+          title={i18n.t('field.employee.compensation.paidOvertime')}
+          editing={!existingCompensation && isInputActive}
+          valueOptions={{
+            items: [
+              {
+                key: 'paidOvertime.false',
+                children: i18n.t(
+                  'field.employee.compensation.paidOvertime.false'
+                )
+              },
+              {
+                key: 'paidOvertime.true',
+                children: i18n.t(
+                  'field.employee.compensation.paidOvertime.true'
+                )
+              }
+            ]
+          }}
+          value={
+            this.op.input('employee.compensation.paidOvertime') ||
+            this.op.get(existingCompensation, 'paidOvertime')
+              ? 'paidOvertime.true'
+              : 'paidOvertime.false'
+          }
+          onValueChange={item => {
+            this.op.input(
+              'employee.compensation.paidOvertime',
+              item.key === 'paidOvertime.true'
+            )
+          }}
+        />
+        {canEditCompensation && (
+          <EditableInfoField
+            src={officeIcon}
+            title={i18n.t('field.employee.compensation.note')}
+            error={this.op.state('validation.employee.compensation.note')}
+            editing={isInputActive}
+            value={this.op.inputOr(
+              'employee.compensation.note',
+              this.op.get(existingCompensation, 'note') || ''
+            )}
+            onValueChange={text => {
+              this.op.input('employee.compensation.note', text)
+            }}
+          />
+        )}
+      </FlexRow>
+    )
+  }
+
+  render() {
+    const { membership, enableCostCenters } = this.props
+    const office = Biz.office.getOfficeForUserId(membership.user.id)
+    const officeId = office ? office.id : null
+
+    const group = Biz.group.getGroupForUserId(membership.user.id)
+    const groupId = group ? group.id : null
+
+    const costCenterId = membership.employee.costCenterId
+
+    let departmentCostCenter
+    if (group && group.costCenterId && Biz.costCenter.getCostCenters()) {
+      departmentCostCenter = Biz.costCenter
+        .getCostCenters()
+        .find(costCenter => costCenter.id === group.costCenterId)
+    }
+
+    if (this.managerListUserId !== membership.user.id) {
+      this.managerListUserId = membership.user.id
+      this.managerList = Biz.member
+        .getAllManagers(membership.user.id)
+        .map(member => {
+          return {
+            key: member.user.id,
+            children: getNameString(member.user)
+          }
+        })
+    }
+
+    return (
+      <Section {...this.props}>
+        <SectionHeader
+          title={i18n.t('profile.information.header')}
+          icon={profileInfoIcon}
+        >
+          {!!membership.employee.offboardDate ? (
+            !moment(membership.employee.offboardDate).isAfter(
+              moment().endOf('day')
+            ) ? (
+              <Badge
+                small
+                danger
+                style={{ marginRight: '20px' }}
+                label={i18n.t('profile.label.offboarded')}
+              />
+            ) : (
+              <Badge
+                small
+                warning
+                style={{ marginRight: '20px' }}
+                label={i18n.t('profile.label.offboarding', {
+                  date: formatDate(membership.employee.offboardDate)
+                })}
+              />
+            )
+          ) : (
+            !membership.active && (
+              <Badge
+                small
+                danger
+                style={{ marginRight: '20px' }}
+                label={i18n.t('profile.label.offboarded')}
+              />
+            )
+          )}
+          {this.op.inputActive() && (
+            <Btn
+              small
+              positive
+              style={{ marginRight: '20px' }}
+              onClick={this.updateData}
+            >
+              {i18n.t('button.save')}
+            </Btn>
+          )}
+          {this.props.editable && (
+            <Btn
+              small
+              secondary={!this.op.inputActive()}
+              onClick={() => {
+                this.clearInput()
+                this.op.inputActiveToggle()
+              }}
+            >
+              {this.op.inputActive()
+                ? i18n.t('button.cancel')
+                : i18n.t('button.edit')}
+            </Btn>
+          )}
+        </SectionHeader>
+        <FlexCol style={{ position: 'relative' }}>
+          <FlexRow style={{ backgroundColor: '#fff', padding: '20px' }}>
+            <Avatar
+              style={{ margin: '-30px 30px 0 0' }}
+              inputStyle={{ fontSize: '32px' }}
+              size="120px"
+              user={membership.user}
+            />
+            {this.op.inputActive() && (
+              <DropzoneBase
+                style={{
+                  borderRadius: '80px',
+                  position: 'absolute',
+                  left: '20px',
+                  width: '120px',
+                  height: '120px',
+                  top: '20px'
+                }}
+                description={i18n.t('profile.change_profile_picture')}
+                fileOnly
+                fileType={FILE_TYPE.USER_AVATAR}
+                accept={['image/png', 'image/svg+xml', 'image/jpeg']}
+                onUpload={async upload => {
+                  const userUpdate = {
+                    avatarFileId: upload.id
+                  }
+                  await Biz.user.update(membership.user.id, userUpdate, this)
+                  await this.props.actions.fetchMembership()
+                }}
+              />
+            )}
+            <FlexCol style={{ flex: '1', height: '150px' }}>
+              {this.op.inputActive() ? (
+                <FlexRow>
+                  <Input
+                    style={{ margin: '0 5px 0 0', maxWidth: '200px' }}
+                    inputStyle={{
+                      fontSize: '14px',
+                      height: '40px',
+                      padding: '10px',
+                      borderRadius: '4px'
+                    }}
+                    errorStyle={{ left: '11px' }}
+                    placeholder={i18n.t('field.user.firstName')}
+                    error={this.op.state('validation.user.firstName')}
+                    value={this.op.inputOr(
+                      'user.firstName',
+                      membership.user.firstName || ''
+                    )}
+                    onChange={e => {
+                      this.op.input('user.firstName', e.target.value)
+                    }}
+                  />
+                  <Input
+                    inputStyle={{
+                      fontSize: '14px',
+                      maxWidth: '200px',
+                      height: '40px',
+                      padding: '10px',
+                      margin: '0',
+                      borderRadius: '4px'
+                    }}
+                    errorStyle={{ left: '11px' }}
+                    placeholder={i18n.t('field.user.lastName')}
+                    error={this.op.state('validation.user.lastName')}
+                    value={this.op.inputOr(
+                      'user.lastName',
+                      membership.user.lastName || ''
+                    )}
+                    onChange={e => {
+                      this.op.input('user.lastName', e.target.value)
+                    }}
+                  />
+                </FlexRow>
+              ) : (
+                <TitleInline>{getNameString(membership.user)}</TitleInline>
+              )}
+              {this.op.inputActive() && this.props.editableFull ? (
+                <Input
+                  style={{ margin: '5px 0 0' }}
+                  inputStyle={{
+                    fontSize: '14px',
+                    maxWidth: '200px',
+                    height: '40px',
+                    padding: '10px',
+                    borderRadius: '4px'
+                  }}
+                  errorStyle={{ left: '11px' }}
+                  placeholder={i18n.t('field.employee.title')}
+                  error={this.op.state('validation.employee.title')}
+                  value={this.op.inputOr(
+                    'employee.title',
+                    membership.employee.title || ''
+                  )}
+                  onChange={e => {
+                    this.op.input('employee.title', e.target.value)
+                  }}
+                />
+              ) : (
+                <Label>{membership.employee.title}</Label>
+              )}
+              {this.op.inputActive() ? (
+                <LabelInput
+                  style={{
+                    margin: '4px 0 0',
+                    padding: '4px 10px',
+                    maxWidth: '410px',
+                    height: '50px',
+                    border: '1px solid #949EB6',
+                    borderRadius: '4px'
+                  }}
+                  placeholder={i18n.t('field.user.presentation')}
+                  // inputStyle={{ minHeight: '60px' }}
+                  error={this.op.state('validation.user.presentation')}
+                  value={this.op.inputOr(
+                    'user.presentation',
+                    membership.user.presentation || ''
+                  )}
+                  onValueChange={text => {
+                    this.op.input('user.presentation', text)
+                  }}
+                />
+              ) : (
+                <Label style={{ marginTop: '12px' }}>
+                  {membership.user.presentation}
+                </Label>
+              )}
+            </FlexCol>
+          </FlexRow>
+          <ThinBorder />
+        </FlexCol>
+        <FlexRow style={{ padding: '10px 20px 20px', flexWrap: 'wrap' }}>
+          <EditableInfoField
+            src={emailIcon}
+            title={i18n.t('field.employee.workEmail')}
+            error={this.op.state('validation.employee.workEmail')}
+            editing={this.props.editableFull && this.op.inputActive()}
+            value={
+              this.op.inputOr(
+                'employee.workEmail',
+                membership.employee.workEmail
+              ) || ''
+            }
+            onValueChange={text => {
+              this.op.input('employee.workEmail', text ? text : null)
+            }}
+          />
+          <EditableInfoField
+            type="phone"
+            src={phoneIcon}
+            title={i18n.t('field.employee.workPhone')}
+            error={this.op.state('validation.employee.workPhone')}
+            editing={this.props.editableFull && this.op.inputActive()}
+            value={this.op.inputOr(
+              'employee.workPhone',
+              membership.employee.workPhone || ''
+            )}
+            onValueChange={text => {
+              this.op.input('employee.workPhone', text)
+            }}
+          />
+          {this.managerList && this.managerList.length > 0 && (
+            <EditableInfoField
+              type="select"
+              src={briefcaseIcon}
+              title={i18n.t('field.employee.reportsTo')}
+              error={this.op.state('validation.employee.managerUserId')}
+              editing={this.props.editableFull && this.op.inputActive()}
+              valueOptions={{
+                emptyOption: {
+                  key: '-1',
+                  children: i18n.t('field.employee.reportsTo.empty_option')
+                },
+                items: this.managerList
+              }}
+              value={this.op.inputOr(
+                'employee.managerUserId',
+                membership.employee.managerUserId
+                  ? membership.employee.managerUserId
+                  : ''
+              )}
+              onValueChange={item => {
+                if (item.key !== '-1') {
+                  this.op.input('employee.managerUserId', item.key)
+                } else {
+                  this.op.input('employee.managerUserId', null)
+                }
+              }}
+            />
+          )}
+          {Biz.group.getAll() && (
+            <EditableInfoField
+              type="select"
+              src={tieIcon}
+              title={i18n.t('field.employee.group')}
+              error={this.op.state('validation.employee.groupId')}
+              editing={this.props.editableFull && this.op.inputActive()}
+              valueOptions={{
+                emptyOption: {
+                  key: '-1',
+                  children: i18n.t('profile.dropdown.no_group_item')
+                },
+                items: Biz.group
+                  .getAll()
+                  .map(group => {
+                    return {
+                      key: group.id,
+                      children: group.name
+                    }
+                  })
+                  .sort((groupOne, groupTwo) => {
+                    return (groupOne.children || '').localeCompare(
+                      groupTwo.children,
+                      'en',
+                      { sensitivity: 'base' }
+                    )
+                  })
+              }}
+              value={this.op.inputOr('employee.groupId', groupId)}
+              onValueChange={item => {
+                if (item.key !== '-1') {
+                  this.op.input('employee.groupId', item.key)
+                } else {
+                  this.op.input('employee.groupId', null)
+                }
+              }}
+              readOnlyOnClick={
+                this.op.inputOr('employee.groupId', groupId)
+                  ? e => {
+                      history.push(
+                        PATH.COLLEAGUES_DEPARTMENTS_ID.replace(
+                          ':id',
+                          this.op.inputOr('employee.groupId', groupId)
+                        )
+                      )
+                    }
+                  : undefined
+              }
+            />
+          )}
+          {Biz.office.getAll() && (
+            <EditableInfoField
+              type="select"
+              src={officeIcon}
+              title={i18n.t('field.employee.office')}
+              editing={this.props.editableFull && this.op.inputActive()}
+              valueOptions={{
+                emptyOption: {
+                  key: '-1',
+                  children: i18n.t('profile.dropdown.no_office')
+                },
+                items: Biz.office
+                  .getAll()
+                  .map(office => {
+                    return {
+                      key: office.id,
+                      children: office.name
+                    }
+                  })
+                  .sort((officeOne, officeTwo) => {
+                    return (officeOne.children || '').localeCompare(
+                      officeTwo.children,
+                      'en',
+                      { sensitivity: 'base' }
+                    )
+                  })
+              }}
+              value={this.op.inputOr('employee.officeId', officeId)}
+              onValueChange={item => {
+                if (item.key !== '-1') {
+                  this.op.input('employee.officeId', item.key)
+                } else {
+                  this.op.input('employee.officeId', null)
+                }
+              }}
+              readOnlyOnClick={
+                this.op.inputOr('employee.officeId', officeId)
+                  ? e => {
+                      history.push(
+                        PATH.COLLEAGUES_OFFICES_ID.replace(
+                          ':id',
+                          this.op.inputOr('employee.officeId', officeId)
+                        )
+                      )
+                    }
+                  : undefined
+              }
+            />
+          )}
+
+          {enableCostCenters && this.props.editable && (
+            <EditableInfoField
+              type="select"
+              src={officeIcon}
+              title={i18n.t('field.cost_center')}
+              editing={this.props.editableFull && this.op.inputActive()}
+              valueOptions={{
+                emptyOption: {
+                  key: '-1',
+                  children: i18n.t('cost_center.inherit', {
+                    costCenter: departmentCostCenter
+                      ? departmentCostCenter.displayName
+                      : i18n.t('cost_center.empty_option')
+                  })
+                },
+                items: [
+                  ...Biz.costCenter
+                    .getCostCenters()
+                    .map(costCenter => {
+                      return {
+                        key: costCenter.id,
+                        children: costCenter.displayName
+                      }
+                    })
+                    .sort((itemA, itemB) => {
+                      return (itemA.children || '').localeCompare(
+                        itemB.children,
+                        'en',
+                        { sensitivity: 'base' }
+                      )
+                    }),
+                  {
+                    key: '-2',
+                    children: `+ ${i18n.t('cost_center.new_option')}`
+                  }
+                ]
+              }}
+              value={this.op.inputOr('employee.costCenterId', costCenterId)}
+              onValueChange={item => {
+                if (item.key === '-1') {
+                  this.op.input('employee.costCenterId', null)
+                } else if (item.key === '-2') {
+                  // enable "Cancel" action by storing the ID and temporarily setting the current ID to null
+                  const prevId = this.input.get('employee.costCenterId')
+                  this.input.set('employee.costCenterId', null)
+
+                  this.op.state(
+                    'addCostCenterDialog',
+                    addCostCenterDialog(
+                      this,
+                      this.props.membership.companyId,
+                      () => {
+                        const costCenters = Biz.costCenter.getCostCenters()
+                        const newCostCenter = costCenters[0]
+
+                        // select the newly-added cost center
+                        this.op.input('employee.costCenterId', newCostCenter.id)
+                      },
+                      () => {
+                        // reset the selected cost center to the previous ID
+                        this.input.set('employee.costCenterId', prevId)
+                      }
+                    )
+                  )
+                } else {
+                  this.op.input('employee.costCenterId', item.key)
+                }
+              }}
+            />
+          )}
+
+          {/* NOTE: BELOW FRAGMENT IS ONLY VISIBLE TO EDITORS */}
+          {this.props.editable && (
+            <>
+              <FlexRow style={{ width: '100%' }}>
+                <EditableInfoField
+                  type="number"
+                  src={calendarIcon}
+                  title={i18n.t('field.employee.vacationAllowance.limit')}
+                  error={this.op.state(
+                    'validation.employee.vacationAllowance.limit'
+                  )}
+                  editing={this.props.editableFull && this.op.inputActive()}
+                  value={this.op.inputOr(
+                    'employee.vacationAllowance.limit',
+                    this.op.get(
+                      membership.employee,
+                      'vacationAllowance.limit'
+                    ) || ''
+                  )}
+                  onValueChange={text => {
+                    this.op.input('employee.vacationAllowance.limit', text)
+                  }}
+                />
+                <EditableInfoField
+                  type="number"
+                  allowNegative
+                  src={calendarIcon}
+                  title={i18n.t('field.employee.vacationAllowance.adjustment')}
+                  error={this.op.state(
+                    'validation.employee.vacationAllowance.adjustment'
+                  )}
+                  editing={this.props.editableFull && this.op.inputActive()}
+                  value={this.op.inputOr(
+                    'employee.vacationAllowance.adjustment',
+                    this.op.get(
+                      membership.employee,
+                      'vacationAllowance.adjustment'
+                    ) || ''
+                  )}
+                  onValueChange={text => {
+                    this.op.input('employee.vacationAllowance.adjustment', text)
+                  }}
+                  helpText={i18n.t('vacationAllowance.adjustment.description')}
+                />
+              </FlexRow>
+              <FlexRow style={{ width: '100%' }}>
+                <EditableInfoField
+                  type="select"
+                  src={briefcaseIcon}
+                  title={i18n.t('field.employee.tax.table')}
+                  editing={this.props.editableFull && this.op.inputActive()}
+                  error={this.op.state('validation.employee.tax.table')}
+                  valueOptions={{
+                    emptyOption: {
+                      key: null,
+                      children: '-'
+                    },
+                    items: taxTables.map(taxTable => {
+                      return {
+                        key: taxTable,
+                        children: taxTable
+                      }
+                    })
+                  }}
+                  value={this.op.inputOr(
+                    'employee.tax.table',
+                    this.op.get(membership.employee, 'tax.table') || ''
+                  )}
+                  onValueChange={item => {
+                    this.op.input('employee.tax.table', item.key)
+                  }}
+                />
+                <EditableInfoField
+                  type="select"
+                  src={briefcaseIcon}
+                  title={i18n.t('field.employee.tax.column')}
+                  editing={this.props.editableFull && this.op.inputActive()}
+                  error={this.op.state('validation.tax.column')}
+                  valueOptions={{
+                    emptyOption: {
+                      key: null,
+                      children: '-'
+                    },
+                    items: taxColumns.map(taxColumn => {
+                      return {
+                        key: taxColumn,
+                        children: taxColumn
+                      }
+                    })
+                  }}
+                  value={this.op.inputOr(
+                    'employee.tax.column',
+                    this.op.get(membership.employee, 'tax.column') || ''
+                  )}
+                  onValueChange={item => {
+                    this.op.input('employee.tax.column', item.key)
+                  }}
+                />
+              </FlexRow>
+              <FlexRow style={{ width: '100%' }}>
+                <EditableInfoField
+                  style={{ width: 'calc(44% - 20px)', maxWidth: '250px' }}
+                  src={briefcaseIcon}
+                  title={i18n.t('field.user.bankAccount.bank')}
+                  error={this.op.state('validation.user.bankAccount.bank')}
+                  editing={this.op.inputActive()}
+                  value={this.op.inputOr(
+                    'user.bankAccount.bank',
+                    this.op.get(membership.user, 'bankAccount.bank') || ''
+                  )}
+                  onValueChange={text => {
+                    this.op.input('user.bankAccount.bank', text)
+                  }}
+                />
+                <EditableInfoField
+                  style={{ width: 'calc(26% - 20px)', maxWidth: '200px' }}
+                  title={i18n.t('field.user.bankAccount.clearing')}
+                  error={this.op.state('validation.user.bankAccount.clearing')}
+                  editing={this.op.inputActive()}
+                  value={this.op.inputOr(
+                    'user.bankAccount.clearing',
+                    this.op.get(membership.user, 'bankAccount.clearing') || ''
+                  )}
+                  onValueChange={text => {
+                    this.op.input('user.bankAccount.clearing', text)
+                  }}
+                />
+                <EditableInfoField
+                  style={{ width: 'calc(30% - 20px)', maxWidth: '300px' }}
+                  title={i18n.t('field.user.bankAccount.number')}
+                  error={this.op.state('validation.user.bankAccount.number')}
+                  editing={this.op.inputActive()}
+                  value={this.op.inputOr(
+                    'user.bankAccount.number',
+                    this.op.get(membership.user, 'bankAccount.number') || ''
+                  )}
+                  onValueChange={text => {
+                    this.op.input('user.bankAccount.number', text)
+                  }}
+                />
+              </FlexRow>
+              <FlexRow style={{ width: '100%' }}>
+                <EditableInfoField
+                  style={{ maxWidth: '300px' }}
+                  type="checkbox"
+                  src={briefcaseIcon}
+                  title={i18n.t('field.employee.hasOccupationalPension')}
+                  error={this.op.state(
+                    'validation.employee.hasOccupationalPension'
+                  )}
+                  editing={this.op.inputActive()}
+                  value={this.op.inputOr(
+                    'employee.hasOccupationalPension',
+                    this.op.get(
+                      membership.employee,
+                      'hasOccupationalPension'
+                    ) || false
+                  )}
+                  onValueChange={check => {
+                    this.op.input('employee.hasOccupationalPension', check)
+                  }}
+                />
+              </FlexRow>
+            </>
+          )}
+        </FlexRow>
+        {this.props.editable && this.renderEmployment()}
+        {this.props.editable && this.renderCompensation()}
+        <Dialog {...this.state.addCostCenterDialog} />
+      </Section>
+    )
+  }
+}

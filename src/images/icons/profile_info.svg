@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-1.11022302e-14%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#E192DE" offset="0%"></stop>
+            <stop stop-color="#FF9AB3" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="21.9102041" cy="21.9102041" r="21.9102041"></circle>
+        <linearGradient x1="81.5413816%" y1="100%" x2="36.3282849%" y2="14.9799486%" id="linearGradient-4">
+            <stop stop-color="#B44764" offset="0%"></stop>
+            <stop stop-color="#871B78" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-5" cx="7.62302811" cy="8.24055518" r="7.5"></circle>
+        <filter x="-20.0%" y="-6.7%" width="126.7%" height="126.7%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.541176471   0 0 0 0 0.117647059   0 0 0 0 0.462745098  0 0 0 0.2 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-282.000000, -193.000000)">
+            <g id="Group-6" transform="translate(282.000000, 193.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#891D77" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="6.31591962" cy="7.13905732" r="10.7392741"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#891D77" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="22.5025999" y="26.2147975" width="28.4353741" height="26.3401361"></rect>
+                <g id="Group-7" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(11.000000, 13.000000)">
+                        <rect id="Rectangle" stroke="none" fill="#FFE9F0" x="0.170930016" y="2.58668393" width="21.4785481" height="17" rx="3"></rect>
+                        <rect id="Rectangle" stroke="#A72E96" stroke-width="2" fill="none" x="6.41020408" y="0.0866839348" width="9" height="5" rx="2.5"></rect>
+                        <rect id="Rectangle-Copy-2" stroke="none" fill="#FFFFFF" x="0.170930016" y="2.58668393" width="21.4785481" height="10.6281135" rx="3"></rect>
+                        <path d="M4.96355813,10.5089989 L4.96355813,15.0089989" id="Path-3" stroke="#A72E96" stroke-width="2" fill="none"></path>
+                        <path d="M15.9635581,10.5089989 L15.9635581,15.0089989" id="Path-3-Copy" stroke="#A72E96" stroke-width="2" fill="none"></path>
+                    </g>
+                </g>
+                <g id="Group-8" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(23.000000, 7.164746)">
+                        <g id="Oval" fill="none">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <use fill="url(#linearGradient-4)" xlink:href="#path-5"></use>
+                        </g>
+                        <polygon id="Path" fill="#FFFFFF" points="7.93708093 3.70107666 5.35027976 8.84037964 7.93708093 9.38745916 7.93708093 12.8926808 10.2908228 7.76438671 7.93708093 7.26499629"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

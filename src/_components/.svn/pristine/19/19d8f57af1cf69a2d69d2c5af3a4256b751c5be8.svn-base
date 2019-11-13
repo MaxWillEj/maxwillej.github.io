@@ -1,0 +1,84 @@
+import React, { Component, Fragment } from 'react'
+import { Tooltip, Label, FlexCol, FlexRow, Avatar } from './'
+import styled from 'styled-components'
+import { getNameString } from '../_helpers'
+
+const UserAvatarWrapper = styled.div`
+  position: relative;
+  cursor: ${props => (props.onClick ? 'pointer' : '')};
+`
+
+export class UserAvatar extends Component {
+  state = { isHovering: false }
+  render() {
+    const { user, title, compact, expanded, style, truncate } = this.props
+    return (
+      <UserAvatarWrapper
+        style={{ overflow: truncate ? 'hidden' : 'visible', ...style }}
+        onMouseEnter={() => this.setState({ isHovering: true })}
+        onMouseLeave={() => this.setState({ isHovering: false })}
+        onClick={this.props.onClick}
+      >
+        <FlexRow>
+          <Avatar user={user} size={this.props.size} />
+          <FlexCol
+            style={{
+              overflow: truncate ? 'hidden' : 'visible'
+            }}
+          >
+            <FlexCol
+              style={{
+                flexDirection: this.props.titleOnTop ? 'column-reverse' : ''
+              }}
+            >
+              {!compact && (
+                <Label
+                  truncate={truncate}
+                  style={{ marginLeft: '10px', ...this.props.labelStyle }}
+                >
+                  {getNameString(user)}
+                </Label>
+              )}
+              {title && (
+                <Label
+                  truncate={truncate}
+                  style={{
+                    marginLeft: '10px',
+                    color: '#A1A1A1',
+                    fontSize: '13px',
+                    ...this.props.labelStyle, // TODO: remove usage of this style here
+                    ...this.props.titleStyle
+                  }}
+                >
+                  {title}
+                </Label>
+              )}
+            </FlexCol>
+            {expanded && (
+              <Fragment>
+                {user.email && user.firstName && (
+                  <Label style={{ marginLeft: '10px' }}>{user.email}</Label>
+                )}
+                {user.phone && (
+                  <Label style={{ marginLeft: '10px' }}>{user.phone}</Label>
+                )}
+              </Fragment>
+            )}
+          </FlexCol>
+        </FlexRow>
+        {compact && (
+          <Tooltip show={this.state.isHovering}>
+            <Label
+              style={{
+                whiteSpace: this.props.toolTip ? '' : 'nowrap',
+                minWidth: this.props.toolTip ? '200px' : ''
+              }}
+            >
+              {this.props.toolTip ? this.props.toolTip : getNameString(user)}
+            </Label>
+          </Tooltip>
+        )}
+      </UserAvatarWrapper>
+    )
+  }
+}

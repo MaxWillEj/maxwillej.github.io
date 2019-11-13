@@ -1,0 +1,68 @@
+import React, { useState, useEffect } from 'react'
+import { Util } from '../_helpers/Utilz'
+
+export default function(props) {
+  const [scrollValue, setScrollValue] = useState(window.scrollY)
+  const [scrollData] = useState({ loadScrollY: window.scrollY })
+
+  // TODO CHECK THIS COMMENT !!!!
+  // Move preloadSize into scrollData and when scrollValue === window.scrollY we preload only...
+  // ... one viewport, this should increase initial loading of UI wrapped with LazyLoader!
+  const preloadSize = props.preloadSize || window.innerHeight * 3
+
+  const [stateData] = useState({
+    scrollListener: Util.debounce(e => {
+      if (scrollData.loadScrollY < window.scrollY) {
+        // scrolling down
+        if (window.scrollY - scrollData.loadScrollY > preloadSize / 2) {
+          // console.log('scroll DOWN triggered')
+          scrollData.loadScrollY = window.scrollY
+          setScrollValue(window.scrollY)
+        }
+      } else {
+        // scrolling up
+        if (scrollData.loadScrollY - window.scrollY > preloadSize / 2) {
+          // console.log('scroll UP triggered')
+          scrollData.loadScrollY = window.scrollY
+          setScrollValue(window.scrollY)
+        }
+      }
+    }, 10)
+  })
+
+  useEffect(() => {
+    // console.log('mounted')
+    window.addEventListener('scroll', stateData.scrollListener)
+  }, [stateData.scrollListener])
+
+  useEffect(() => {
+    return () => {
+      // console.log('will unmount')
+      window.removeEventListener('scroll', stateData.scrollListener)
+    }
+  }, [stateData.scrollListener])
+
+  return (
+    <>
+      {props.dataList.map((data, index) => {
+        const viewPortTop = scrollValue
+        const viewPortBottom = viewPortTop + window.innerHeight
+        const elementTop = props.offsetTop + props.itemSize * index
+        const elementBottom = elementTop + props.itemSize
+        if (
+          elementTop > viewPortBottom + preloadSize ||
+          elementBottom < viewPortTop - preloadSize
+        ) {
+          // TODO maybe use "'LazyLoaderSpace' + data.id" as key-prop for empty-div?
+          return (
+            <div
+              key={'LazyLoaderSpace' + index}
+              style={{ height: props.itemSize }}
+            />
+          )
+        }
+        return props.renderer(data, index)
+      })}
+    </>
+  )
+}

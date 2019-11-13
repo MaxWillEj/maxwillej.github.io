@@ -1,0 +1,77 @@
+import React, { PureComponent } from 'react'
+import { FlexRow } from './FlexRow'
+import { TitleInline } from './TitleInline'
+import { Description } from './Description'
+import { FlexCol } from './FlexCol'
+import { spacing } from '../_styling'
+
+export class Separator extends PureComponent {
+  render() {
+    if (!this.props.description && !this.props.title && !this.props.count) {
+      return (
+        <hr
+          style={{
+            background: 'rgba(165, 167, 190, 0.4)',
+            flex: '1',
+            ...this.props.style
+          }}
+        />
+      )
+    } else {
+      return (
+        <FlexRow style={{ ...this.props.style }}>
+          <hr
+            style={{
+              background: 'rgba(165, 167, 190, 0.4)',
+              flex: '1',
+              margin: '0 ' + spacing.MEDIUM + ' 0 0'
+            }}
+          />
+          <FlexCol>
+            <Description style={{ textAlign: 'center', fontSize: '13px' }}>
+              {this.props.description}
+            </Description>
+            <FlexRow>
+              <TitleInline
+                style={{
+                  textAlign: 'center',
+                  fontWeight: '400',
+                  color: '#949EB6'
+                }}
+              >
+                {this.props.title}
+              </TitleInline>
+              {!!this.props.count && (
+                <TitleInline
+                  style={{
+                    fontSize: '14px',
+                    backgroundColor: this.props.countBackgroundColor
+                      ? this.props.countBackgroundColor
+                      : '#DDDFE5',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: '10px',
+                    color: this.props.countColor || '#3F4658'
+                  }}
+                >
+                  {this.props.count}
+                </TitleInline>
+              )}
+            </FlexRow>
+          </FlexCol>
+          <hr
+            style={{
+              background: 'rgba(165, 167, 190, 0.4)',
+              flex: '1',
+              margin: '0 0 0 ' + spacing.MEDIUM
+            }}
+          />
+        </FlexRow>
+      )
+    }
+  }
+}

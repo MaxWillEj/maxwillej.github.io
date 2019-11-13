@@ -1,0 +1,138 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+import dateIcon from '../images/icons/date.svg'
+import 'react-datepicker/dist/react-datepicker.css'
+import { Label } from './Label'
+import { FlexRow } from './FlexRow'
+import { DatePickerBase } from './DatePickerBase'
+import { colors } from '../_styling'
+
+/**
+<DateInput
+  disabled
+  time
+  name="dueDate"
+  value={dueDate}
+  placeholder="Select date"
+  onChange={this.handleChange}
+  error="Illegal date provided!"
+/>
+ */
+
+const DateWrapper = styled.div`
+  width: 100%;
+  position: relative;
+
+  input {
+    cursor: pointer;
+  }
+
+  .react-datepicker-wrapper {
+    &,
+    & > div {
+      display: block;
+    }
+  }
+`
+
+const Icon = styled.div`
+  display: inline-flex;
+  justify-content: center;
+  height: 100%;
+  padding: 0 12px;
+  border-left: 1px solid #949eb6;
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+`
+
+export class DateInput extends PureComponent {
+  renderDateWrapper(dateWrapperStyle) {
+    const {
+      time,
+      value,
+      name,
+      onChange,
+      disabled,
+      placeholder,
+      selectsStart,
+      selectsEnd,
+      startDate,
+      endDate,
+      minDate,
+      maxDate
+    } = this.props
+    const dateFormat = time ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'
+    return (
+      <DateWrapper
+        style={{
+          marginLeft: this.props.label ? 'auto' : '',
+          maxWidth: this.props.label ? '70%' : '',
+          ...dateWrapperStyle
+        }}
+      >
+        <DatePickerBase
+          disabled={disabled}
+          dateFormat={
+            this.props.dateFormat ? this.props.dateFormat : dateFormat
+          }
+          time={time}
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          value={value}
+          placeholder={placeholder}
+          onChange={onChange}
+          name={name}
+          // range selection
+          selectsStart={selectsStart}
+          selectsEnd={selectsEnd}
+          startDate={startDate}
+          endDate={endDate}
+          minDate={minDate}
+          maxDate={maxDate}
+        />
+        <Icon>
+          <img src={dateIcon} alt="" />
+        </Icon>
+        {this.props.error && (
+          <Label
+            style={{
+              position: 'absolute',
+              left: '17px',
+              bottom: '2px',
+              fontSize: '11px',
+              fontWeight: '400',
+              color: colors.RED
+            }}
+          >
+            {this.props.error}
+          </Label>
+        )}
+      </DateWrapper>
+    )
+  }
+
+  render() {
+    if (this.props.label) {
+      return (
+        <FlexRow style={{ flex: 1, position: 'relative', ...this.props.style }}>
+          {this.props.label && (
+            <Label
+              style={{
+                margin: '0 20px 0 0',
+                fontSize: '16px',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {this.props.label}
+            </Label>
+          )}
+          {this.renderDateWrapper({})}
+        </FlexRow>
+      )
+    } else {
+      return this.renderDateWrapper(this.props.style)
+    }
+  }
+}

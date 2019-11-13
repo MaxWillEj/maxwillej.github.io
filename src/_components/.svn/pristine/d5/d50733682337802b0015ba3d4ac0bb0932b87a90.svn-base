@@ -1,0 +1,66 @@
+import React from 'react'
+import { Dialog } from '../Dialog'
+import { MountableComponent } from '../MountableComponent'
+import { Spinner } from '../Spinner'
+
+/**
+ * Example:
+<DialogAsyncData
+  dataLazyLoad=true/false
+  dataRefetch=true/false
+  dataPurge=true/false
+  dataProvider={this.state.dataProvider}
+  renderer={asyncData => {
+    return <Label>DYNAMIC HERE! length: {JSON.stringify(asyncData)}</Label>
+  }}
+  ...Dialog.props
+/>
+ */
+export class DialogAsyncData extends MountableComponent {
+  state = {}
+
+  async fetchDataFromProvider() {
+    const asyncData = await this.props.dataProvider()
+    if (!this._unmounted) {
+      this.setState({ asyncData })
+    }
+  }
+
+  componentDidMount() {
+    super.componentDidMount() // calls MountableComponent.componentDidMount()
+    if (!this.props.dataLazyLoad) {
+      this.fetchDataFromProvider()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      (this.props.dataRefetch ||
+        (this.props.dataLazyLoad && !this.state.asyncData) ||
+        (this.props.dataPurge && !this.state.asyncData)) &&
+      this.props.showing &&
+      !prevProps.showing
+    ) {
+      // re-fetch data when dialog shows
+      this.fetchDataFromProvider()
+    }
+
+    if (this.props.dataPurge && !this.props.showing && prevProps.showing) {
+      if (!this._unmounted) {
+        this.setState({ asyncData: null })
+      }
+    }
+  }
+
+  render() {
+    return (
+      <Dialog {...this.props}>
+        {this.state.asyncData ? (
+          this.props.renderer(this.state.asyncData)
+        ) : (
+          <Spinner />
+        )}
+      </Dialog>
+    )
+  }
+}

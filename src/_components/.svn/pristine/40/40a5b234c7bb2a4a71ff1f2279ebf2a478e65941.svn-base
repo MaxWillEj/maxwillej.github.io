@@ -1,0 +1,35 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const StyledTable = styled.table`
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead {
+    th {
+      vertical-align: bottom;
+      border-bottom: 2px solid #dee2e6;
+    }
+  }
+
+  th,
+  td {
+    padding: 12px 12px 10px;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  button {
+    margin: 0;
+  }
+`
+
+export const TableDeprecated = props => {
+  return <StyledTable>{props.children}</StyledTable>
+}

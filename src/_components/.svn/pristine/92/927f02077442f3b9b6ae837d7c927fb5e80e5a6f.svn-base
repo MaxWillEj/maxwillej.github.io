@@ -1,0 +1,56 @@
+import React from 'react'
+import { Label, FlexRow } from './'
+import { getNameString } from '../_helpers'
+import { PropsComponent } from './base/PropsComponent'
+import { Avatar } from './Avatar'
+
+export class UserChip extends PropsComponent {
+  render() {
+    // this.props.user
+    return (
+      <FlexRow
+        {...this.props}
+        style={{
+          background: '#fff',
+          padding: '5px',
+          cursor: this.props.onClick ? 'pointer' : 'default',
+          borderRadius: '8px',
+          border: '1px solid #949EB6',
+          ...this.props.style
+        }}
+      >
+        <Avatar
+          user={this.props.user}
+          style={{ width: '30px', height: '30px' }}
+        />
+        <Label style={{ marginLeft: '5px' }}>
+          {getNameString(this.props.user)}
+        </Label>
+        {this.props.onCancel && (
+          <Label
+            style={{
+              boxSizing: 'border-box',
+              background: '#949EB619',
+              marginLeft: '5px',
+              width: '24px',
+              height: '24px',
+              lineHeight: '26px',
+              borderRadius: '12px',
+              textAlign: 'center',
+              fontSize: '10px',
+              fontWeight: '500',
+              cursor: 'pointer'
+            }}
+            onClick={e => {
+              e.preventDefault()
+              e.stopPropagation()
+              this.props.onCancel()
+            }}
+          >
+            X
+          </Label>
+        )}
+      </FlexRow>
+    )
+  }
+}

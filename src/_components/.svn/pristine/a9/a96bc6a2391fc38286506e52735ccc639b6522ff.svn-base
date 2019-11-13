@@ -1,0 +1,132 @@
+import React from 'react'
+import ExcelisCell from './ExcelisCell'
+import styled from 'styled-components'
+import { FlexCol } from '../FlexCol'
+import { FlexRow } from '../FlexRow'
+import LazyLoader from '../LazyLoader'
+import { i18n } from '../../_helpers'
+import { Util } from '../../_helpers/Utilz'
+import { Biz } from '../../_biz/Biz'
+
+export const Cell = styled.div`
+  flex: 12;
+  /*overflow: hidden;*/
+  height: ${props => (props.rowHeight ? props.rowHeight : 'auto')};
+`
+
+const requestedFullMember = {}
+
+// PureComponent / PropsComponent functionality with React.memo()
+// https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-shouldcomponentupdate
+
+// TODO Add React.memo() logic to this component!!!!
+// TODO Maybe need to pass in full-data as prop to this from parent for it to work correctly with request-full-member logic.
+export default function(props) {
+  return (
+    <div style={{ overflowX: 'scroll', maxWidth: '100%' }}>
+      <FlexCol
+        style={{
+          minWidth: `${200 * props.fields.length}px`, // also set in ExcelisCell
+          borderWidth: '1px 0 0 1px',
+          borderStyle: 'solid',
+          borderColor: '#3f4658'
+        }}
+      >
+        <LazyLoader
+          preloadSize={600} // NOTE: To big preloadSize makes input-rerender sluggish
+          dataList={props.rows}
+          renderer={(row, index) => {
+            return (
+              <FlexRow
+                key={row.id}
+                style={{ background: index % 2 === 0 ? '#fff' : '#f5f6f8' }}
+              >
+                {props.fields.map(field => {
+                  const fullMember = Biz.member.full(row.userId)
+                  // NOTE Removed "!fullMember"-check so that full-data is always up-to-date when ExcelisTable is loaded!
+                  if (!requestedFullMember[row.userId]) {
+                    // console.log('Request readOneFull() for userId:', row.userId)
+                    requestedFullMember[row.userId] = true
+                    Biz.member.readOneFull(row)
+                  }
+
+                  const indexOfArrayFieldString = field.indexOf('s[0]')
+                  // console.log('indexOfArrayFieldString', indexOfArrayFieldString)
+
+                  const arrayFieldIdValue =
+                    indexOfArrayFieldString > -1
+                      ? Util.get(
+                          fullMember || row,
+                          field.substring(0, indexOfArrayFieldString + 4) +
+                            '.id',
+                          undefined
+                        ) // employee.employments[0] + '.id' for example
+                      : undefined
+
+                  const singularObjectField =
+                    indexOfArrayFieldString > -1
+                      ? field.substring(0, indexOfArrayFieldString)
+                      : field
+
+                  const singularObjectNestedField =
+                    indexOfArrayFieldString > -1
+                      ? field.substring(
+                          indexOfArrayFieldString + 4,
+                          field.length
+                        )
+                      : ''
+
+                  const singularField =
+                    indexOfArrayFieldString > -1
+                      ? singularObjectField + singularObjectNestedField
+                      : field
+                  // console.log('singularField:', singularField)
+
+                  const i18nPlaceholder =
+                    indexOfArrayFieldString > -1
+                      ? i18n.t(`field.${singularObjectField}`) +
+                        ': ' +
+                        i18n.t(
+                          `field.${field.substring(0, indexOfArrayFieldString) +
+                            field.substring(
+                              indexOfArrayFieldString + 4,
+                              field.length
+                            )}`
+                        )
+                      : i18n.t(`field.${field}`)
+
+                  return (
+                    <ExcelisCell
+                      key={'ExcelisCell.' + field}
+                      // flex="18"
+                      background={
+                        row.active
+                          ? fullMember
+                            ? 'transparent'
+                            : '#009ECE55'
+                          : '#F9CE6855'
+                      }
+                      placeholder={i18nPlaceholder}
+                      value={Util.get(fullMember || row, field, '')}
+                      onValueChange={value => {
+                        props.setInputListItem(
+                          row,
+                          index,
+                          singularField,
+                          value || null,
+                          arrayFieldIdValue
+                        )
+                      }}
+                    />
+                  )
+                })}
+              </FlexRow>
+            )
+          }}
+          itemSize={30}
+          offsetTop={300}
+        />
+      </FlexCol>
+    </div>
+  )
+}

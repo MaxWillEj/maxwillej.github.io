@@ -1,0 +1,284 @@
+import React, { useState } from 'react'
+import { FlexCol } from './FlexCol'
+import { FlexRow } from './FlexRow'
+import { Checkbox } from './Checkbox'
+import { Label } from './Label'
+import sortArrowAscActive from '../images/icons/sort_arrow_asc_active.svg'
+import sortArrowDescActive from '../images/icons/sort_arrow_desc_active.svg'
+import { Image } from './Image'
+import { i18n } from '../_helpers'
+import LazyLoader from './LazyLoader'
+import styled from 'styled-components'
+
+/**
+ * TODO
+ * Should we add support for rendering columns instead of rows if we want to add resizable columns and stuff?
+ * Drag & drop
+ * Column resizing
+ */
+
+const borderColor = '#EAEBF2'
+
+export const TABLE_SORT_DIRECTION = {
+  ASC: 'ASC',
+  DESC: 'DESC'
+}
+
+function getAndUpdateNewSortingState(
+  columnIndex,
+  sortDirection,
+  setSortDirection,
+  currentSortingColumn,
+  columnSortState,
+  setColumnSortState
+) {
+  let newSortDirection = sortDirection
+  let isSorting = false
+  if (currentSortingColumn && currentSortingColumn !== columnIndex) {
+    columnSortState[currentSortingColumn].isSorting = false
+    newSortDirection = TABLE_SORT_DIRECTION.DESC
+    setSortDirection(TABLE_SORT_DIRECTION.DESC)
+  }
+  if (
+    columnSortState[columnIndex].isSorting &&
+    sortDirection === TABLE_SORT_DIRECTION.DESC
+  ) {
+    isSorting = true
+    newSortDirection = TABLE_SORT_DIRECTION.ASC
+    setSortDirection(TABLE_SORT_DIRECTION.ASC)
+  } else if (columnSortState[columnIndex].isSorting) {
+    columnSortState[columnIndex].isSorting = false
+    newSortDirection = TABLE_SORT_DIRECTION.DESC
+    setSortDirection(TABLE_SORT_DIRECTION.DESC)
+    setColumnSortState([...columnSortState])
+  } else {
+    isSorting = true
+    columnSortState[columnIndex].isSorting = true
+    setColumnSortState([...columnSortState])
+  }
+  return { isSorting, newSortDirection }
+}
+
+const ColumnHeader = styled.div`
+  position: relative;
+  display: flex;
+  height: 100%;
+  cursor: ${props => (props.sortable ? 'pointer' : '')};
+
+  .arrow {
+    display: none;
+  }
+
+  &:hover {
+    .arrow {
+      display: block;
+    }
+  }
+`
+
+export default function(props) {
+  const { columns, dataSet, onSelect, selectedRows, onSort } = props
+  const renderSelect = onSelect && selectedRows
+  const [sortDirection, setSortDirection] = useState(TABLE_SORT_DIRECTION.DESC)
+  const [columnSortState, setColumnSortState] = useState(
+    columns.map(column => {
+      return { isSorting: false }
+    })
+  )
+  const [currentSortingColumn, setCurrentSortingColumn] = useState(null)
+
+  return (
+    <FlexCol style={{ overflowX: 'auto' }}>
+      <FlexRow
+        style={{
+          borderBottom: `1px solid ${borderColor}`,
+          height: '65px',
+          width: 'min-content'
+        }}
+      >
+        {renderSelect && (
+          <div
+            style={{
+              padding: '20px',
+              boxSizing: 'border-box',
+              borderRight: `1px solid ${borderColor}`
+            }}
+          >
+            <Checkbox
+              selected={selectedRows.length === (dataSet && dataSet.length)}
+              onClick={() => {
+                if (selectedRows.length === (dataSet && dataSet.length)) {
+                  onSelect([])
+                } else {
+                  onSelect(dataSet)
+                }
+              }}
+            />
+          </div>
+        )}
+        {columns.map((column, index) => (
+          <ColumnHeader
+            sortable={column.sortable}
+            style={{
+              borderRight:
+                index < columns.length - 1 ? `1px solid ${borderColor}` : '',
+              ...columns[index].style
+            }}
+            key={index}
+            onClick={() => {
+              if (column.sortable) {
+                const sortState = getAndUpdateNewSortingState(
+                  index,
+                  sortDirection,
+                  setSortDirection,
+                  currentSortingColumn,
+                  columnSortState,
+                  setColumnSortState
+                )
+                setCurrentSortingColumn(index)
+                onSort(sortState.isSorting, index, sortState.newSortDirection)
+              }
+            }}
+          >
+            <FlexRow style={{ paddingLeft: '16px', userSelect: 'none' }}>
+              <Label
+                style={{
+                  fontSize: '12px',
+                  color: '#656D7F',
+                  fontWeight: '600'
+                }}
+              >
+                {column.title}
+              </Label>
+              {column.sortable && !columnSortState[index].isSorting && (
+                <Image
+                  className="arrow"
+                  style={{
+                    position: 'absolute',
+                    right: '16px',
+                    opacity: '0.2'
+                  }}
+                  src={sortArrowDescActive}
+                  size="18px"
+                />
+              )}
+              {column.sortable && columnSortState[index].isSorting && (
+                <Image
+                  style={{ position: 'absolute', right: '16px' }}
+                  src={
+                    columnSortState[index].isSorting
+                      ? sortDirection === TABLE_SORT_DIRECTION.ASC
+                        ? sortArrowAscActive
+                        : sortArrowDescActive
+                      : ''
+                  }
+                  size="18px"
+                />
+              )}
+            </FlexRow>
+          </ColumnHeader>
+        ))}
+      </FlexRow>
+      <FlexCol
+        style={{ width: dataSet && dataSet.length > 0 ? 'min-content' : '' }}
+      >
+        {!dataSet || dataSet.length === 0 ? (
+          <div
+            style={{
+              width: '100%',
+              textAlign: 'center',
+              margin: '20px 0'
+            }}
+          >
+            {i18n.t('data_table.empty_state')}
+          </div>
+        ) : (
+          // Row rendering
+          <LazyLoader
+            dataList={dataSet}
+            renderer={(row, rowIndex) => {
+              const selectedRowIndex = renderSelect
+                ? selectedRows.findIndex(
+                    selectedRow => selectedRow[0].id === row[0].id
+                  )
+                : -1
+              const rowSelected = renderSelect ? selectedRowIndex !== -1 : false
+              return (
+                <FlexRow
+                  key={rowIndex}
+                  style={{
+                    borderBottom: `1px solid ${borderColor}`,
+                    height: '65px'
+                  }}
+                >
+                  {renderSelect && (
+                    <div
+                      style={{
+                        padding: '20px',
+                        boxSizing: 'border-box',
+                        borderRight: `1px solid ${borderColor}`
+                      }}
+                    >
+                      <Checkbox
+                        selected={rowSelected}
+                        onClick={() => {
+                          if (!rowSelected) {
+                            selectedRows.push(row)
+                          } else {
+                            selectedRows.splice(selectedRowIndex, 1)
+                          }
+                          onSelect(selectedRows)
+                        }}
+                      />
+                    </div>
+                  )}
+                  {row.map((cell, cellIndex) => (
+                    <div
+                      key={cellIndex}
+                      style={{
+                        height: '100%',
+                        overflow: 'hidden',
+                        borderRight:
+                          cellIndex < row.length - 1
+                            ? `1px solid ${borderColor}`
+                            : '',
+                        ...columns[cellIndex].style
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          boxSizing: 'border-box',
+                          padding: '0 16px'
+                        }}
+                      >
+                        <div
+                          style={{
+                            lineHeight: '1.4',
+                            fontSize: '13px',
+                            fontWeight: '500',
+                            overflow: 'hidden',
+                            color: '#656D7F',
+                            fontFamily: 'Montserrat',
+                            wordBreak: 'break-word'
+                          }}
+                        >
+                          {cell.renderer ? cell.renderer(cell.data) : cell.data}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </FlexRow>
+              )
+            }}
+            itemSize={65}
+            offsetTop={props.offsetTop}
+          />
+        )}
+      </FlexCol>
+    </FlexCol>
+  )
+}

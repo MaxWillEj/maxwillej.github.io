@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="61px" height="60px" viewBox="0 0 61 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Onbaording---Requiered-information-(1)" transform="translate(-418.000000, -49.000000)" fill-rule="nonzero">
+            <g id="Group-106" transform="translate(418.000000, 47.000000)">
+                <g id="Group-100" transform="translate(0.000000, 2.000000)">
+                    <g id="Group" transform="translate(7.000000, 4.000000)">
+                        <path d="M9.31520134,5.62856756 L43.4356175,5.62856756 C45.6447565,5.62856756 47.4356175,7.41942856 47.4356175,9.62856756 L47.4356175,49.8916774 C47.4356175,52.1008164 45.6447565,53.8916774 43.4356175,53.8916774 L9.31520134,53.8916774 C7.10606234,53.8916774 5.31520134,52.1008164 5.31520134,49.8916774 L5.31520134,9.62856756 C5.31520134,7.41942856 7.10606234,5.62856756 9.31520134,5.62856756 Z" id="Rectangle-Copy" fill="#373A5B" opacity="0.100000001"></path>
+                        <path d="M4.28229386,0.890063648 L38.40271,0.890063648 C40.611849,0.890063648 42.40271,2.68092465 42.40271,4.89006365 L42.40271,45.1531734 C42.40271,47.3623124 40.611849,49.1531734 38.40271,49.1531734 L4.28229386,49.1531734 C2.07315486,49.1531734 0.282293858,47.3623124 0.282293858,45.1531734 L0.282293858,4.89006365 C0.282293858,2.68092465 2.07315486,0.890063648 4.28229386,0.890063648 Z" id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <g id="Group-2" transform="translate(5.877551, 7.144907)">
+                            <g id="Group-4">
+                                <path d="M16.9091644,8.64201945 L30.0848025,8.64201945" id="Path-21-Copy-8" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M16.9091644,3.65164595 L25.1868433,3.65164595" id="Path-21-Copy-7" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <rect id="Rectangle-2-Copy" fill="#373A5B" opacity="0.100000001" x="3.64904355" y="3.49326146" width="10.7755102" height="10.9788217"></rect>
+                                <rect id="Rectangle-2" stroke="#32B3DE" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" x="0.710268042" y="0.499037351" width="10.7755102" height="10.9788217"></rect>
+                            </g>
+                        </g>
+                        <g id="Group-3" transform="translate(6.592653, 26.948017)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M10.5669917,2.8988111 L29.6201809,2.8988111" id="Path-21-Copy-6" stroke="#C5C7CC"></path>
+                            <polyline id="Path-2" stroke="#3F4658" points="0.1936705 3.2831987 1.83493538 4.95543085 5.87200377 0.842191362"></polyline>
+                        </g>
+                        <g id="Group-3-Copy" transform="translate(6.592653, 35.930689)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M10.5669917,2.8988111 L19.8242625,2.8988111" id="Path-21-Copy-6" stroke="#C5C7CC"></path>
+                            <polyline id="Path-2" stroke="#3F4658" points="0.1936705 3.2831987 1.83493538 4.95543085 5.87200377 0.842191362"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

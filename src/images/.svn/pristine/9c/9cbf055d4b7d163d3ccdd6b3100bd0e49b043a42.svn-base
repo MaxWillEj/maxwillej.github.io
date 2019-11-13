@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#9FC3F5" offset="0%"></stop>
+            <stop stop-color="#A597EC" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="22" cy="22" r="22"></circle>
+        <linearGradient x1="50%" y1="25.340609%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#4840AB" offset="0%"></stop>
+            <stop stop-color="#6B9CE6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.3.1:-Profil---Mina-dokument" transform="translate(-300.000000, -680.000000)">
+            <g id="Group-4" transform="translate(300.000000, 680.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#6B5ACF" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="6.31591962" cy="9.67600036" r="10.7392741"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#6B5ACF" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="22.5025999" y="28.7517405" width="28.4353741" height="26.3401361"></rect>
+                <g id="Group-3" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(10.000000, 15.000000)">
+                        <rect id="Rectangle" stroke="none" fill="url(#linearGradient-4)" opacity="0.5" x="0.410204082" y="0.904731062" width="23" height="16" rx="2"></rect>
+                        <path d="M5.5042329,5.90473106 L15.0985887,5.90473106 C16.2310941,5.90473106 17.303437,5.39493413 18.0183972,4.51664008 L18.0183972,4.51664008 C18.7333574,3.63834603 19.8057002,3.12854909 20.9382056,3.12854909 L25.225581,3.12854909 C26.3301505,3.12854909 27.225581,4.02397959 27.225581,5.12854909 C27.225581,5.343414 27.1909572,5.55687508 27.1230411,5.76072388 L23.865921,15.5369058 C23.5937793,16.3537337 22.8294305,16.9047311 21.9684608,16.9047311 L3.18118842,16.9047311 C2.07661892,16.9047311 1.18118842,16.0093006 1.18118842,14.9047311 C1.18118842,14.6906549 1.21555847,14.477967 1.28298647,14.2747871 L3.60603095,7.27478713 C3.87748486,6.45681854 4.64239774,5.90473106 5.5042329,5.90473106 Z" id="Rectangle-Copy-2" stroke="none" fill="url(#linearGradient-4)"></path>
+                        <path d="M14.0397946,14.1429552 L21,14.1429552" id="Path" stroke="#F9FAFC" stroke-width="1" fill="none"></path>
+                        <path d="M19.0397946,12.1429552 L22,12.1429552" id="Path-Copy" stroke="#F9FAFC" stroke-width="1" fill="none"></path>
+                    </g>
+                </g>
+                <g id="Group-6" mask="url(#mask-3)" fill-rule="nonzero">
+                    <g transform="translate(13.000000, 7.000000)" id="Rectangle">
+                        <rect stroke="#FFFFFF" stroke-width="2" fill="none" x="3.8519475" y="0.621300107" width="6" height="9" rx="3"></rect>
+                        <rect stroke="none" fill="#FFFFFF" x="0.851947501" y="3.81889765" width="12" height="8.36220471" rx="1"></rect>
+                        <rect stroke="none" fill="#6B5ACF" x="5.8519475" y="7.02395532" width="2" height="3" rx="1"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

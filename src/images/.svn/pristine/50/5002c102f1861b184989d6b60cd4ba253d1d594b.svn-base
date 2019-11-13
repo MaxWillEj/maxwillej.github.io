@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_ice_on</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_ice_on" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-10" transform="translate(3.000000, 8.500000)" fill-rule="nonzero">
+            <g id="Group-9" transform="translate(0.870064, 0.000000)">
+                <g id="Group">
+                    <path d="M6.72248233,4.57816122 L48.3912967,4.57816122 C50.6004357,4.57816122 52.3912967,6.36902222 52.3912967,8.57816122 L52.3912967,44.59459 C52.3912967,46.803729 50.6004357,48.59459 48.3912967,48.59459 L6.72248233,48.59459 C4.51334333,48.59459 2.72248233,46.803729 2.72248233,44.59459 L2.72248233,8.57816122 C2.72248233,6.36902222 4.51334333,4.57816122 6.72248233,4.57816122 Z" id="Rectangle-Copy" fill="#373A5B" opacity="0.100000001"></path>
+                    <path d="M4,0 L43.6688143,0 C45.8779533,-4.05812251e-16 47.6688143,1.790861 47.6688143,4 L47.6688143,40.0164287 C47.6688143,42.2255677 45.8779533,44.0164287 43.6688143,44.0164287 L4,44.0164287 C1.790861,44.0164287 2.705415e-16,42.2255677 0,40.0164287 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z" id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <g id="Group-17" transform="translate(2.000000, 3.000000)">
+                        <g id="Group-8" transform="translate(8.000000, 7.000000)">
+                            <path d="M26.6340582,28.2001342 L24.5987093,22.2852329 C24.4871,21.9607039 24.1778406,21.7424061 23.8299441,21.7424061 L23.7118411,21.7424061 L23.7118411,10.1512842 C23.7118411,4.55387773 19.0875609,-1.77635684e-12 13.4034383,-1.77635684e-12 C7.71931573,-1.77635684e-12 3.0950356,4.5537978 3.0950356,10.1512842 L3.0950356,21.7424061 L2.97693261,21.7424061 C2.62903609,21.7424061 2.3197767,21.9607039 2.20816734,22.2852329 L0.17289966,28.2001342 C0.0888882514,28.4441705 0.129554643,28.712986 0.281992735,28.9224112 C0.434430827,29.1317564 0.679971416,29.2559727 0.941664924,29.2559727 L25.8652929,29.2559727 C26.1269864,29.2559727 26.372527,29.1317564 26.5249651,28.9224112 C26.6774032,28.712986 26.7180696,28.4441705 26.6340582,28.2001342 Z M4.71844446,10.1513641 C4.71844446,5.43546165 8.61454455,1.59874512 13.4034383,1.59874512 C18.1923321,1.59874512 22.0884322,5.43546165 22.0884322,10.1513641 L22.0884322,21.7424861 L4.71844446,21.7424861 L4.71844446,10.1513641 Z M2.07374909,27.6573874 L3.55892468,23.3411513 L23.2478708,23.3411513 L24.7331276,27.6573874 L2.07374909,27.6573874 Z" id="Shape" fill="#3F4658"></path>
+                            <path d="M19.7041076,8.90559976 L19.7041076,15.117555" id="Path-2-Copy-2" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(19.704108, 12.405600) scale(1, -1) translate(-19.704108, -12.405600) "></path>
+                            <path d="M19.7041076,18.8111995 L19.7041076,20.117555" id="Path-2-Copy-2" stroke="#009ECE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(19.704108, 19.405600) scale(1, -1) translate(-19.704108, -19.405600) "></path>
+                        </g>
+                        <g id="Group-2" transform="translate(0.000000, 15.000000)" stroke="#3F4658" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M2.90559976,0.372309002 L4.95526084,1.71898936" id="Path-2"></path>
+                            <path d="M2.90559976,15.372309 L4.95526084,16.7189894" id="Path-2-Copy" transform="translate(3.930430, 16.045649) scale(1, -1) translate(-3.930430, -16.045649) "></path>
+                            <path d="M0.905599756,8.57417182 L2.95526084,8.57417182" id="Path-2-Copy-2" transform="translate(1.930430, 8.574172) scale(1, -1) translate(-1.930430, -8.574172) "></path>
+                        </g>
+                        <g id="Group-2-Copy" transform="translate(39.500000, 23.500000) scale(-1, 1) translate(-39.500000, -23.500000) translate(37.000000, 15.000000)" stroke="#3F4658" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M2.90559976,0.372309002 L4.95526084,1.71898936" id="Path-2"></path>
+                            <path d="M2.90559976,15.372309 L4.95526084,16.7189894" id="Path-2-Copy" transform="translate(3.930430, 16.045649) scale(1, -1) translate(-3.930430, -16.045649) "></path>
+                            <path d="M0.905599756,8.57417182 L2.95526084,8.57417182" id="Path-2-Copy-2" transform="translate(1.930430, 8.574172) scale(1, -1) translate(-1.930430, -8.574172) "></path>
+                        </g>
+                        <g id="Group-2-Copy" transform="translate(21.500000, 2.500000) scale(-1, 1) rotate(-270.000000) translate(-21.500000, -2.500000) translate(19.000000, -6.000000)" stroke="#009ECE" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <path d="M2.90559976,0.372309002 L4.95526084,1.71898936" id="Path-2"></path>
+                            <path d="M2.90559976,15.372309 L4.95526084,16.7189894" id="Path-2-Copy" transform="translate(3.930430, 16.045649) scale(1, -1) translate(-3.930430, -16.045649) "></path>
+                            <path d="M0.905599756,8.57417182 L2.95526084,8.57417182" id="Path-2-Copy-2" transform="translate(1.930430, 8.574172) scale(1, -1) translate(-1.930430, -8.574172) "></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

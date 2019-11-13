@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_about_you_on</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_about_you_on" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-12" transform="translate(6.000000, 4.000000)">
+            <g id="Group-5">
+                <g id="Group-2-Copy" transform="translate(28.000000, 35.307692)"></g>
+                <g id="Group-4" fill-rule="nonzero">
+                    <g id="Group" transform="translate(0.000000, 0.039573)">
+                        <path d="M8.43615852,5.07487379 L43.4340834,5.07487379 C45.6432224,5.07487379 47.4340834,6.86573479 47.4340834,9.07487379 L47.4340834,48.837358 C47.4340834,51.0464969 45.6432224,52.837358 43.4340834,52.837358 L8.43615852,52.837358 C6.22701952,52.837358 4.43615852,51.0464969 4.43615852,48.837358 L4.43615852,9.07487379 C4.43615852,6.86573479 6.22701952,5.07487379 8.43615852,5.07487379 Z" id="Rectangle-Copy" fill="#373A5B" opacity="0.100000001"></path>
+                        <path d="M4.28817498,0.264275222 L39.2860998,0.264275222 C41.4952388,0.264275222 43.2860998,2.05513622 43.2860998,4.26427522 L43.2860998,44.0267594 C43.2860998,46.2358984 41.4952388,48.0267594 39.2860998,48.0267594 L4.28817498,48.0267594 C2.07903598,48.0267594 0.28817498,46.2358984 0.28817498,44.0267594 L0.28817498,4.26427522 C0.28817498,2.05513622 2.07903598,0.264275222 4.28817498,0.264275222 Z" id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                    <g id="Group-11" transform="translate(14.000000, 17.653846)">
+                        <path d="M15.2897237,15.063482 C11.7348941,15.063482 8.85313534,12.0708863 8.85313534,8.37933255 C8.85313534,4.68777876 11.7348941,1.69518313 15.2897237,1.69518313 C18.8445532,1.69518313 21.726312,4.68777876 21.726312,8.37933255 C21.726312,12.0708863 18.8445532,15.063482 15.2897237,15.063482 Z M25.9085477,26.0907223 L4.67089964,26.0907223 C4.67089964,20.0005456 9.4251091,15.063482 15.2897237,15.063482 C21.1543382,15.063482 25.9085477,20.0005456 25.9085477,26.0907223 Z" id="Combined-Shape" fill="#EBEBEE"></path>
+                        <g id="Group-2" transform="translate(0.979959, 0.501710)" fill="#FFFFFF" stroke="#009ECE" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <ellipse id="Oval-3" cx="11.585859" cy="6.68414942" rx="6.43658833" ry="6.68414942"></ellipse>
+                            <path d="M22.204683,24.3955392 C22.204683,18.3053625 17.4504736,13.3682988 11.585859,13.3682988 C5.72124442,13.3682988 0.967034963,18.3053625 0.967034963,24.3955392 L22.204683,24.3955392 Z" id="Oval-3-Copy"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-3" transform="translate(6.000000, 7.269231)" fill-rule="nonzero" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                <path d="M8.54857603,5.54168097 L29.9987066,5.54168097" id="Path-21-Copy-8" stroke="#009ECE"></path>
+                <path d="M8.54857603,1.38783481 L16.9987066,1.38783481" id="Path-21-Copy-7" stroke="#3F4658"></path>
+                <ellipse id="Oval" stroke="#3F4658" fill="#FFFFFF" cx="2.07427482" cy="3.63461538" rx="2" ry="2.07692308"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

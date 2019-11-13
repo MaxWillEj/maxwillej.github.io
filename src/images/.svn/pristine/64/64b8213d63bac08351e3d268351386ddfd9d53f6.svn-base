@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Group 10 Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="14.876977" cy="14.876977" r="14.876977"></circle>
+    </defs>
+    <g id="9:-Design---Hover,-Animationer,-illustrationer" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-1290.000000, -549.000000)">
+            <g id="Group-10-Copy-2" transform="translate(1291.000000, 550.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Oval-6" stroke="#949EB6" opacity="0.100000001" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group-29" mask="url(#mask-2)" stroke-linecap="round" stroke-linejoin="round">
+                    <g transform="translate(8.586654, 7.618912)">
+                        <g id="Group-28">
+                            <circle id="Oval-15" stroke="#949EB6" stroke-width="1.5" fill-rule="nonzero" cx="6.15835777" cy="3.69501466" r="3.69501466"></circle>
+                            <path d="M9.39047892,8.30536058 C8.4509806,7.72496342 7.34378321,7.39002933 6.15835777,7.39002933 C2.75719069,7.39002933 0,10.14722 0,13.5483871 C3.29725301,13.5483871 5.77019277,13.5483871 7.41881928,13.5483871" id="Oval-15-Copy" stroke="#949EB6" stroke-width="1.5" fill-rule="nonzero"></path>
+                        </g>
+                        <g id="Group-26" transform="translate(9.304817, 9.923823)">
+                            <path d="M2.42122947,0.0145604227 L2.42122947,3.86802384" id="Path-50" stroke="#009ECE" stroke-width="1.5" fill-rule="nonzero"></path>
+                            <path d="M4.34796118,1.94129213 L0.494497758,1.94129213" id="Path-50-Copy" stroke="#009ECE" stroke-width="1.5" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

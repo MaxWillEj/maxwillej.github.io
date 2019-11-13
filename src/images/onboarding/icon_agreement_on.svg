@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="61px" height="60px" viewBox="0 0 61 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Onbaording---Requiered-information-(1)" transform="translate(-1036.000000, -49.000000)" fill-rule="nonzero">
+            <g id="Group-106" transform="translate(418.000000, 47.000000)">
+                <g id="Group-4" transform="translate(587.000000, 2.000000)">
+                    <g id="Group" transform="translate(38.000000, 4.000000)">
+                        <path d="M9.31520134,5.52433483 L43.4356175,5.52433483 C45.6447565,5.52433483 47.4356175,7.31519583 47.4356175,9.52433483 L47.4356175,48.8936833 C47.4356175,51.1028223 45.6447565,52.8936833 43.4356175,52.8936833 L9.31520134,52.8936833 C7.10606234,52.8936833 5.31520134,51.1028223 5.31520134,48.8936833 L5.31520134,9.52433483 C5.31520134,7.31519583 7.10606234,5.52433483 9.31520134,5.52433483 Z" id="Rectangle-Copy" fill="#373A5B" opacity="0.100000001"></path>
+                        <path d="M4.28229386,0.873580988 L38.40271,0.873580988 C40.611849,0.873580988 42.40271,2.66444199 42.40271,4.87358099 L42.40271,44.2429295 C42.40271,46.4520685 40.611849,48.2429295 38.40271,48.2429295 L4.28229386,48.2429295 C2.07315486,48.2429295 0.282293858,46.4520685 0.282293858,44.2429295 L0.282293858,4.87358099 C0.282293858,2.66444199 2.07315486,0.873580988 4.28229386,0.873580988 Z" id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83673469,8.77899724 L16.1144136,8.77899724" id="Path-21-Copy-2" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83673469,14.0028657 L34.7266585,14.0028657" id="Path-21-Copy" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83673469,19.2267342 L24.9307402,19.2267342" id="Path-21-Copy-3" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83673469,39.7981628 L21.0123728,39.7981628" id="Path-21-Copy-5" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83673469,34.9002036 L16.1144136,34.9002036" id="Path-21-Copy-6" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <g id="Group-2" transform="translate(24.489796, 22.493283)">
+                            <g id="Group-3-Copy" transform="translate(2.799739, 1.785047)" fill="#373A5B" opacity="0.100000001">
+                                <path d="M10.3834868,11.5410977 L10.3834868,20.5714286 L6.81992908,17.6326531 L3.25637136,20.5714286 L3.25637136,11.5410977 C1.82810151,10.4613415 0.905164275,8.74841704 0.905164275,6.81992908 C0.905164275,3.55329468 3.55329468,0.905164275 6.81992908,0.905164275 C10.0865635,0.905164275 12.7346939,3.55329468 12.7346939,6.81992908 C12.7346939,8.74841704 11.8117566,10.4613415 10.3834868,11.5410977 Z" id="Combined-Shape"></path>
+                            </g>
+                            <g id="Group-3" fill="#FFFFFF" stroke="#32B3DE" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                <polygon id="Rectangle-2" points="10.3834868 11.755102 10.3834868 20.5714286 6.81992908 17.6326531 3.25637136 20.5714286 3.25637136 11.755102"></polygon>
+                                <circle id="Oval-2" cx="6.81992908" cy="6.81992908" r="5.9147648"></circle>
+                            </g>
+                            <polygon id="Star" fill="#3F4658" points="6.81992908 8.04441887 5.38045499 8.80119519 5.65537008 7.19831723 4.49081108 6.06315276 6.10019203 5.82929602 6.81992908 4.37094948 7.53966612 5.82929602 9.14904708 6.06315276 7.98448808 7.19831723 8.25940316 8.80119519"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  overflow-x: ${props => (props.horizontal || props.both ? 'auto' : 'visible')};
+  overflow-y: ${props => (props.horizontal ? 'visible' : 'auto')};
+`
+
+/**
+ * Renders a scrollable wrapper that scrolls in either direction (or both) when content overflows.
+ * By default, only vertical scrolling is enabled.
+ *
+ * props:
+ * - horizontal: only enables horizontal scrolling
+ * - both: enables both horizontal and vertical scrolling
+ */
+export class ScrollWrapper extends PureComponent {
+  render() {
+    return <Wrapper {...this.props}>{this.props.children}</Wrapper>
+  }
+}

@@ -1,0 +1,55 @@
+import React, { Component } from 'react'
+import arrowDown from '../images/icons/arrow_down.svg'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  user-select: none;
+  cursor: ${props => (props.disabled ? '' : 'pointer')};
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 13px;
+  color: #27a0cd;
+  background: #27a0cd0f;
+
+  img {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &.expanded {
+    img {
+      transform: rotate(180deg) translateY(1px);
+    }
+  }
+`
+
+export class ExpandButton extends Component {
+  render() {
+    return (
+      <Wrapper
+        onClick={() => {
+          if (this.props.disabled) {
+            return
+          }
+          this.props.onClick()
+        }}
+        className={this.props.expanded && 'expanded'}
+        style={this.props.style}
+      >
+        <img
+          style={{
+            width: '10px',
+            height: '6px',
+            margin: '0 0 1px 0'
+          }}
+          src={arrowDown}
+          alt=""
+        />
+      </Wrapper>
+    )
+  }
+}

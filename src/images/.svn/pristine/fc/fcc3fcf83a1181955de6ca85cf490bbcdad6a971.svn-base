@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 3</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Documents-Edit-view-" transform="translate(-1015.000000, -53.000000)" fill-rule="nonzero">
+            <g id="Menu">
+                <g id="Group-14-Copy-2" transform="translate(997.000000, 42.000000)">
+                    <g id="share-copy-3" transform="translate(17.516047, 11.000000)">
+                        <rect id="Rectangle-3" x="2.42105263" y="1.04107817" width="15.1578947" height="15.1578947"></rect>
+                        <g id="Group-3" transform="translate(11.523220, 11.133634) rotate(-45.000000) translate(-11.523220, -11.133634) translate(3.523220, 5.133634)" stroke="#009ECE" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <g id="Group-4" transform="translate(2.134038, 0.000000)">
+                                <polygon id="Rectangle" transform="translate(6.187216, 1.934968) rotate(-360.000000) translate(-6.187216, -1.934968) " points="1.8243052 0.2385808 12.2998952 0.2385808 12.2998952 3.63135493 1.8243052 3.63135493 0.0745358614 1.93496787"></polygon>
+                                <path d="M10.0134759,0.250568226 L10.0134759,1.96502284" id="Path-2"></path>
+                            </g>
+                            <path d="M0.582998325,3.60831126 L8.11415342,11.1394663" id="Path-3"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

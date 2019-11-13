@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="26px" viewBox="0 0 22 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Onboarding---Documents-Signing-preview" transform="translate(-351.000000, -1846.000000)" fill-rule="nonzero">
+            <g id="Group-4" transform="translate(327.000000, 1827.000000)">
+                <g id="Group-3" transform="translate(19.313975, 17.217287)">
+                    <rect id="Rectangle-2" x="0" y="0" width="30" height="30"></rect>
+                    <path d="M6,13 L25,13 L25,17.5 C25,22.7467051 20.7467051,27 15.5,27 L15.5,27 C10.2532949,27 6,22.7467051 6,17.5 L6,13 Z" id="Rectangle-3" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M14.6959323,19.8317999 C13.9917437,19.522252 13.5,18.8185524 13.5,18 C13.5,16.8954305 14.3954305,16 15.5,16 C16.6045695,16 17.5,16.8954305 17.5,18 C17.5,18.8185524 17.0082563,19.522252 16.3040677,19.8317999 L17,23.3114615 L14,23.3114615 L14.6959323,19.8317999 Z" id="Combined-Shape" stroke="#32B3DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M10,12.5 L10,8.5 C10,5.46243388 12.4624339,3 15.5,3 C18.5375661,3 21,5.46243388 21,8.5 L21,12.5" id="Rectangle-4" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

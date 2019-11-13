@@ -1,0 +1,25 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import iconArrow from '../images/icons/breadcrumb_arrow.svg'
+import { Image } from './Image'
+import { FlexRow } from './FlexRow'
+
+export class BreadcrumbItem extends PropsComponent {
+  render() {
+    return (
+      <FlexRow
+        style={{
+          background: '#E7F0F3',
+          justifyContent: 'center',
+          margin: '0 10px',
+          width: '20px',
+          height: '20px',
+          borderRadius: '10px',
+          ...this.props.style
+        }}
+      >
+        <Image style={{ marginRight: '0px' }} src={iconArrow} size="10px" />
+      </FlexRow>
+    )
+  }
+}

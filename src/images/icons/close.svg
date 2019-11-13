@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Delete</title>
+    <desc>Created with Sketch.</desc>
+    <g id="7:-Global-sök-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Global-search" transform="translate(-189.000000, -176.000000)" fill-rule="nonzero">
+            <g id="Delete" transform="translate(189.000000, 176.000000)">
+                <path d="M8.5,0 L8.5,0 C13.1944204,-8.62351033e-16 17,3.80557963 17,8.5 L17,8.5 C17,13.1944204 13.1944204,17 8.5,17 L8.5,17 C3.80557963,17 5.74900688e-16,13.1944204 0,8.5 L0,8.5 C-5.74900688e-16,3.80557963 3.80557963,8.62351033e-16 8.5,0 Z" id="Rectangle-10" fill="#3F4658"></path>
+                <g id="Group-11" transform="translate(8.842641, 8.742641) rotate(-45.000000) translate(-8.842641, -8.742641) translate(5.842641, 5.742641)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <path d="M2.92780854,0.0502267574 L2.92780854,5.54706811" id="Path-11"></path>
+                    <path d="M5.67622921,2.79864744 L0.179387859,2.79864744" id="Path-11-Copy"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Confirm icon Copy</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Documents-Parties-&amp;-signing" transform="translate(-839.000000, -304.000000)" fill-rule="nonzero">
+            <g id="Menu">
+                <g id="Group-4" transform="translate(540.000000, 161.000000)">
+                    <g id="Confirm-icon-Copy" transform="translate(299.000000, 143.000000)">
+                        <rect id="Rectangle-Copy-3" fill="#373A5B" opacity="0.100000001" x="4.99361199" y="5" width="48" height="48" rx="4"></rect>
+                        <rect id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" x="0.993611994" y="1" width="48" height="48" rx="4"></rect>
+                        <path d="M24.4698972,19.7269496 L38.9200277,19.7269496 C40.0245972,19.7269496 40.9200277,20.6223801 40.9200277,21.7269496 L40.9200277,38.8987487 C40.9200277,40.0033182 40.0245972,40.8987487 38.9200277,40.8987487 L24.4698972,40.8987487 C23.3653277,40.8987487 22.4698972,40.0033182 22.4698972,38.8987487 L22.4698972,21.7269496 C22.4698972,20.6223801 23.3653277,19.7269496 24.4698972,19.7269496 Z" id="Rectangle-Copy" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <polygon id="Combined-Shape-Copy" fill="#373A5B" opacity="0.100000001" points="37.4064447 36.5001277 43.7869484 41.4184265 39.4346147 45.8770144 34.4502293 39.3666912 31.6024259 45.0052789 29.8368805 31.8788328 42.9633266 33.6443782"></polygon>
+                        <polygon id="Combined-Shape" stroke="#32B3DE" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="38.4064447 32.5001277 44.7869484 37.4184265 40.4346147 41.8770144 35.4502293 35.3666912 32.6024259 41.0052789 30.8368805 27.8788328 43.9633266 29.6443782"></polygon>
+                        <path d="M20.6933706,8.26690185 L29.1435012,8.26690185" id="Path-21" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83651359,25.2669018 L13.2866442,25.2669018" id="Path-21-Copy-2" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M7.83651359,21 L18.2866442,21" id="Path-21-Copy-3" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M15.6933706,13.2669018 L34.1435012,13.2669018" id="Path-21-Copy" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Documents-Parties-&amp;-signing" transform="translate(-839.000000, -212.000000)" fill-rule="nonzero">
+            <g id="Menu">
+                <g id="Group-4" transform="translate(540.000000, 161.000000)">
+                    <g id="Confirm-icon" transform="translate(299.000000, 51.000000)">
+                        <rect id="Rectangle-Copy-3" fill="#373A5B" opacity="0.100000001" x="4.99361199" y="5" width="48" height="48" rx="4"></rect>
+                        <rect id="Rectangle" stroke="#3F4658" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" x="0.993611994" y="1" width="48" height="48" rx="4"></rect>
+                        <path d="M12.8365136,44.076849 L41.1507104,44.076849 C41.7029951,44.076849 42.1507104,44.5245642 42.1507104,45.076849 L42.1507104,45.076849 C42.1507104,45.6291337 41.7029951,46.076849 41.1507104,46.076849 L12.8365136,46.076849 C12.2842288,46.076849 11.8365136,45.6291337 11.8365136,45.076849 L11.8365136,45.076849 C11.8365136,44.5245642 12.2842288,44.076849 12.8365136,44.076849 Z" id="Rectangle-Copy" stroke="#E5E5E5" stroke-width="1.5" fill="#E5E5E5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10.8365136,43.076849 L39.1507104,43.076849 C39.7029951,43.076849 40.1507104,43.5245642 40.1507104,44.076849 L40.1507104,44.076849 C40.1507104,44.6291337 39.7029951,45.076849 39.1507104,45.076849 L10.8365136,45.076849 C10.2842288,45.076849 9.83651359,44.6291337 9.83651359,44.076849 L9.83651359,44.076849 C9.83651359,43.5245642 10.2842288,43.076849 10.8365136,43.076849 Z" id="Rectangle-Copy" stroke="#32B3DE" stroke-width="1.5" fill="#32B3DE" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M20.6933706,8.26690185 L29.1435012,8.26690185" id="Path-21" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M30.6933706,33.2669018 L36.1435012,33.2669018" id="Path-21-Copy-2" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M33.6933706,26.2669018 L39.1435012,26.2669018" id="Path-21-Copy-2" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M21.6933706,33.2669018 L27.1435012,33.2669018" id="Path-21-Copy-3" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M15.6933706,13.2669018 L34.1435012,13.2669018" id="Path-21-Copy" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M20.6933706,21.2669018 L29.1435012,21.2669018" id="Path-21" stroke="#3F4658" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10.6933706,26.2669018 L29.1435012,26.2669018" id="Path-21-Copy" stroke="#3F4658" stroke-width="1.5" opacity="0.300000012" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

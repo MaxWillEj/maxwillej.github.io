@@ -1,0 +1,98 @@
+import React, { PureComponent } from 'react'
+import { BasicInput } from './BasicInput'
+import { FlexRow } from './FlexRow'
+import _ from 'lodash'
+import { Label } from './Label'
+import { colors } from '../_styling'
+import { shake } from '../_animations'
+import { AnimationDiv } from './AnimationDiv'
+
+/**
+<Input
+  disabled
+  readOnly
+  error="Illegal username provided!"
+  icon={dashboardIcon}
+  iconStyle={{
+    background: '#00000099',
+    padding: '5px',
+    borderRadius: '20px'
+  }}
+  name="firstName"
+  value={firstName}
+  label={i18n.t(
+    'register_welcome_step.label.first_name'
+  )}
+  placeholder={i18n.t(
+    'register_welcome_step.label.first_name'
+  )}
+  onChange={this.handleChange}
+  error={updateUserErrors.firstName}
+/>
+ */
+
+export class Input extends PureComponent {
+  render() {
+    return (
+      <FlexRow style={{ flex: 1, position: 'relative', ...this.props.style }}>
+        {this.props.label && (
+          <Label
+            style={{
+              margin: '0 20px 0 0',
+              fontSize: '16px',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {this.props.label}
+          </Label>
+        )}
+        <AnimationDiv
+          animationKeyframe={this.props.error ? shake : ''}
+          animation={this.props.error ? '0.6s' : 'none'}
+          style={{
+            flex: '1',
+            position: 'relative',
+            marginLeft: this.props.label ? 'auto' : '',
+            maxWidth: this.props.label ? '70%' : ''
+          }}
+        >
+          <BasicInput
+            {..._.omit(this.props, ['inputStyle', 'iconStyle', 'errorStyle'])}
+            focusOnMount={this.props.focusOnMount}
+            style={{
+              width: '100%',
+              padding: this.props.icon ? '0 60px 0 15px' : '0 15px',
+              ...this.props.inputStyle
+            }}
+          />
+          {this.props.icon && (
+            <img
+              style={{
+                position: 'absolute',
+                right: '20px',
+                ...this.props.iconStyle
+              }}
+              src={this.props.icon}
+              alt=""
+            />
+          )}
+          {this.props.error && (
+            <Label
+              style={{
+                position: 'absolute',
+                left: '16px',
+                bottom: '0',
+                fontSize: '11px',
+                fontWeight: '400',
+                color: colors.RED,
+                ...this.props.errorStyle
+              }}
+            >
+              {this.props.error}
+            </Label>
+          )}
+        </AnimationDiv>
+      </FlexRow>
+    )
+  }
+}

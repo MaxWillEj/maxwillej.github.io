@@ -1,0 +1,111 @@
+import React, { Component } from 'react'
+import Dropzone from 'react-dropzone'
+import styled from 'styled-components'
+import _ from 'lodash'
+
+/*
+  This class uses and handles react-dropzone and makes it into an
+  easy to use component.
+
+  Default is single file input that accepts all types of images.
+  All you need to do is provide an onDrop function and it will return your file(s).
+  Provide children if you want something to be rendered inside the component.
+
+  Documentation and code: https://react-dropzone.js.org/
+*/
+
+const Image = styled.img`
+  margin: 0 auto;
+  height: 100%;
+`
+
+const defaultSettings = {
+  multiple: false,
+  accept: 'image/*',
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '256px',
+    height: '256px',
+    border: 'solid 1px',
+    borderRadius: '50%',
+    margin: '20px auto',
+    cursor: 'pointer',
+    overflow: 'hidden'
+  }
+}
+
+export class ImageDropzone extends Component {
+  constructor(props) {
+    super(props)
+
+    if (this.props.preview) {
+      this.state = { previews: [this.props.preview] }
+    } else {
+      this.state = { previews: [] }
+    }
+  }
+
+  onDrop = (acceptedImages, rejectedImages) => {
+    const { onDrop, disablePreview } = this.props
+
+    this._resetState()
+
+    if (!disablePreview) {
+      const fileReaderInstance = new FileReader()
+      acceptedImages.forEach(image => {
+        fileReaderInstance.readAsDataURL(image)
+        fileReaderInstance.onload = result => {
+          const { previews } = this.state
+          const imageUrl = result.target.result
+          previews.push(imageUrl)
+          this.setState({ previews })
+        }
+      })
+    }
+
+    this.setState({ acceptedImages })
+    onDrop(acceptedImages, rejectedImages)
+  }
+
+  comonentWillUnmount() {
+    this._resetState()
+  }
+
+  _resetState = () => {
+    /*
+      react-dropzone doesn't manage dropped files so we need to destroy the object URL ourselves when
+      we don't need the preview anymore to avoid memory leaks.
+    */
+    const { disablePreview } = this.props
+    if (!disablePreview) {
+      const { previews } = this.state
+      previews.forEach(url => {
+        this.revokeObjectUrl(url)
+      })
+    }
+
+    this.setState({ previews: [] })
+  }
+
+  revokeObjectUrl(url) {
+    window.URL.revokeObjectURL(url)
+  }
+
+  render() {
+    const properties = _.merge(
+      defaultSettings,
+      _.omit(this.props, ['children'])
+    )
+    const { children } = this.props
+    const { previews } = this.state
+    return (
+      <Dropzone {...properties} onDrop={this.onDrop}>
+        {previews && previews.length > 0
+          ? previews.map((url, index) => <Image key={index} src={url} />)
+          : children}
+      </Dropzone>
+    )
+  }
+}

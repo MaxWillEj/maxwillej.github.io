@@ -1,0 +1,63 @@
+import React, { Component } from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  margin: 0 auto 12px;
+`
+
+const Inner = styled.div`
+  position: relative;
+`
+
+const StyledInput = styled.input`
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 12px;
+  font-size: 13px;
+  border: 1px solid ${props => (props.error ? '#ff7b60' : '#e5e5e5')};
+  border-radius: 2px;
+  outline: none;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'text')};
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
+
+  &:focus + div {
+    width: 100%;
+  }
+`
+
+const Underline = styled.div`
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: ${props => (props.error ? '#ff7b60' : '#ddd')};
+  transition: all 0.2s ease-in-out;
+`
+
+const Error = styled.div`
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #ff7b60;
+`
+
+export class OLDInput extends Component {
+  render() {
+    const props = { ...this.props, value: this.props.value || '' }
+    const { error } = props
+
+    return (
+      <Wrapper>
+        <Inner>
+          <StyledInput {...props} />
+          <Underline error={error} />
+        </Inner>
+        {error && <Error>{error}</Error>}
+      </Wrapper>
+    )
+  }
+}

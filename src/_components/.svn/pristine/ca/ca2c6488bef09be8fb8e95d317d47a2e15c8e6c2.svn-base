@@ -1,0 +1,133 @@
+import React from 'react'
+import Dropzone from 'react-dropzone'
+import { Biz } from '../_biz/Biz'
+import { FILE_TYPE } from '../_constants/haxType'
+import { StateComponent } from './base/StateComponent'
+import { Label } from './Label'
+import { TitleInline } from './TitleInline'
+import { Loader } from './Loader'
+
+/**
+ * Props:
+ * style: custom styles goes here.
+ * accept: mime types for accepted file types, example accept={['application/pdf', 'image/png', 'image/svg+xml', 'image/jpeg']}.
+ * fileType: optional FILE_TYPE value, will default to FILE_TYPE.DOCUMENT.
+ * onUploadStart: optional callback that will be invoked with (acceptedFiles, rejectedFiles) params.
+ * onUpload: callback that will be invoked on successful upload of File/Document.
+ * onError: callback if an error occurs.
+ * fileOnly: boolean that if true will only upload a File and not a Document, will also return a File to onUpload() instead of a Document.
+ * loading: supply this prop if you want to force the loading-state, otherwise this component will handle it in state.
+ * title: optional title string.
+ * description: optional description string.
+ * children: the React children.
+ */
+export class DropzoneBase extends StateComponent {
+  state = {}
+  render() {
+    const loadingState = this.props.loading || this.op.state('uploading')
+    return (
+      <Dropzone
+        style={{
+          boxSizing: 'border-box',
+          cursor: 'pointer',
+          background: 'rgba(0, 0, 0, 0.5)',
+          textAlign: 'center',
+          height: '100%',
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          ...this.props.style
+        }}
+        accept={this.props.accept}
+        onDrop={async (acceptedFiles, rejectedFiles) => {
+          if (this.props.customAction) {
+            this.op.state('uploading', true)
+            try {
+              await this.props.customAction(acceptedFiles, rejectedFiles)
+            } catch (error) {
+              if (this.props.onError) {
+                this.props.onError(error)
+              }
+            }
+            this.op.state('uploading', false)
+            return
+          }
+
+          if (this.props.onUploadStart) {
+            this.props.onUploadStart(acceptedFiles, rejectedFiles)
+          }
+
+          this.op.state('uploading', true)
+
+          try {
+            const result = await Biz.file.upload(
+              acceptedFiles[0],
+              this.props.fileType || FILE_TYPE.DOCUMENT
+            )
+
+            if (this.props.fileOnly) {
+              await this.props.onUpload(result.data.upload)
+            } else {
+              const createDocResponse = await Biz.document.create(
+                Biz.company.getCached().id,
+                {
+                  fileId: result.data.upload.id,
+                  title: acceptedFiles[0].name,
+                  signable: false
+                }
+              )
+              const createdDoc = createDocResponse.data.document.create
+              await this.props.onUpload(createdDoc)
+            }
+          } catch (error) {
+            if (this.props.onError) {
+              this.props.onError(error)
+            }
+          }
+
+          this.op.state('uploading', false)
+        }}
+        disabled={loadingState}
+      >
+        {this.props.title && !loadingState && (
+          <TitleInline
+            style={{
+              color:
+                this.props.style && this.props.style.color
+                  ? this.props.style.color
+                  : '#fff'
+            }}
+          >
+            {this.props.title}
+          </TitleInline>
+        )}
+        {this.props.description && !loadingState && (
+          <Label
+            style={{
+              color:
+                this.props.style && this.props.style.color
+                  ? this.props.style.color
+                  : '#fff'
+            }}
+          >
+            {this.props.description}
+          </Label>
+        )}
+        {this.props.children}
+        {loadingState && (
+          <Loader
+            inline
+            light={!this.props.darkLoader}
+            style={{
+              position: 'absolute',
+              left: 'calc(50% - 25px)',
+              top: 'calc(50% - 25px)'
+            }}
+          />
+        )}
+      </Dropzone>
+    )
+  }
+}

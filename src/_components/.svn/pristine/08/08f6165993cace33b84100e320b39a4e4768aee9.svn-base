@@ -1,0 +1,32 @@
+import React, { Component } from 'react'
+
+/**
+ *
+ * TODO: add alert colors
+ * https://getbootstrap.com/docs/4.0/components/alerts/
+ *
+ */
+
+export class NoticeText extends Component {
+  render() {
+    // TODO Add default style for text
+    return (
+      <p
+        {...this.props}
+        style={{
+          color: '#004085',
+          backgroundColor: '#cce5ff',
+          border: '1px solid #b8daff',
+          margin: '0',
+          padding: '16px',
+          borderRadius: '8px',
+          fontSize: '16px',
+          fontFamily: 'Nunito Sans',
+          fontWeight: '600',
+          letterSpacing: '0.07em',
+          ...this.props.style
+        }}
+      />
+    )
+  }
+}

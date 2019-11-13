@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32 Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#A091D4" offset="0%"></stop>
+            <stop stop-color="#D58BD3" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="21.9102041" cy="21.9102041" r="21.9102041"></circle>
+        <linearGradient x1="108.528322%" y1="0%" x2="6.67971002%" y2="127.492727%" id="linearGradient-4">
+            <stop stop-color="#12053E" offset="0%"></stop>
+            <stop stop-color="#994296" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.3.1:-Profil---Mina-dokument" transform="translate(-303.000000, -705.000000)">
+            <g id="Group-32-Copy" transform="translate(303.000000, 705.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#6242A0" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="6.31591962" cy="7.4686153" r="10.7392741"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#6242A0" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="22.5025999" y="26.5443555" width="28.4353741" height="26.3401361"></rect>
+                <g id="Group-22" mask="url(#mask-3)">
+                    <g transform="translate(11.531290, 7.468615)">
+                        <polygon id="Rectangle-13" fill="url(#linearGradient-4)" fill-rule="nonzero" points="0 7.23953902 13.1627982 7.23953902 13.1627982 26.0114842 0 26.0114842"></polygon>
+                        <rect id="Rectangle-17" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="1.31627982" y="10.0914786" width="10.5302386" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-2" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="1.31627982" y="12.2852783" width="10.5302386" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-3" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="1.31627982" y="14.479078" width="10.5302386" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-4" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="1.31627982" y="16.6728777" width="10.5302386" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-5" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="1.31627982" y="18.8666774" width="10.5302386" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-6" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="1.31627982" y="21.0604771" width="10.5302386" height="1" rx="0.5"></rect>
+                        <polygon id="Rectangle-14" fill="#6B2D78" fill-rule="nonzero" points="1.97441973 4.82635934 11.4077584 -0.948955519 11.4077584 7.23953902 1.97441973 7.23953902"></polygon>
+                    </g>
+                </g>
+                <circle id="Oval" fill="#FFFFFF" fill-rule="nonzero" mask="url(#mask-3)" cx="27.1210855" cy="19.5" r="8.5"></circle>
+                <polyline id="Path-10" stroke="#D18BD3" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" mask="url(#mask-3)" points="26.0443616 19.0546557 26.9260746 18.6817765 26.0443616 22.7992084 26.9260746 22.7992084"></polyline>
+                <circle id="Oval" fill="#D18BD3" fill-rule="nonzero" mask="url(#mask-3)" cx="27.256953" cy="16.5376149" r="1"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

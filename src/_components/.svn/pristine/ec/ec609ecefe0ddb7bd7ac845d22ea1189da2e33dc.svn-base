@@ -1,0 +1,569 @@
+import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+import { spacing, colors } from '../_styling'
+import { history, PATH, i18n, getNameString } from '../_helpers'
+import { Search, NavigationAvatar } from '../_components'
+import companyLogoPlaceholder from '../images/company_logo_placeholder.svg'
+import { AppState } from '../AppStateComponent'
+import dashboardIcon from '../images/icons/dashboard.svg'
+import dashboardActiveIcon from '../images/icons/dashboard_active.svg'
+import companyIcon from '../images/icons/company.svg'
+import companyActiveIcon from '../images/icons/company_active.svg'
+import teamIcon from '../images/icons/team.svg'
+import teamActiveIcon from '../images/icons/team_active.svg'
+import checklistsIcon from '../images/icons/checklists.svg'
+import checklistsActiveIcon from '../images/icons/checklists_active.svg'
+import timeOffIcon from '../images/icons/time_off.svg'
+import timeOffActiveIcon from '../images/icons/time_off_active.svg'
+import documentsIcon from '../images/icons/documents.svg'
+import documentsActiveIcon from '../images/icons/documents_active.svg'
+import profileIcon from '../images/icons/profile.svg'
+import profileActiveIcon from '../images/icons/profile_active.svg'
+import reportsIcon from '../images/icons/reports.svg'
+import reportsActiveIcon from '../images/icons/reports_active.svg'
+import statisticsIcon from '../images/icons/statistics.svg'
+import statisticsActiveIcon from '../images/icons/statistics_active.svg'
+import _ from 'lodash'
+import { getUserId } from '../_helpers/userId'
+import { Biz } from '../_biz/Biz'
+import { fonts } from '../_styling/fonts'
+import { Image } from './Image'
+import { Theme } from '../_styling/theme'
+import { THEMES } from '../_constants/themes'
+import { Avatar } from './Avatar'
+import NavItemNumber from './NavItemNumber'
+
+function getBackgroundColor(props) {
+  return Theme[props.theme]
+    ? Theme[props.theme].navBackgroundColor
+    : Theme[THEMES.DASHBOARD].navBackgroundColor
+}
+
+const Wrapper = styled.div`
+  z-index: 100;
+  box-sizing: border-box;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #fff;
+  border-right: 1px solid rgba(148, 158, 182, 0.2);
+  color: ${colors.BLUE_GRAY};
+  overflow: hidden;
+  font: 400 13px ${fonts.MAIN};
+  letter-spacing: 0.5px;
+
+  @media (max-width: 1279px) {
+    width: 110px;
+  }
+`
+
+const CompanyLogo = styled.div`
+  margin: 0 0 140px;
+  cursor: pointer;
+  position: relative;
+`
+
+const NavList = styled.ul`
+  margin: 0 15px 0;
+  list-style: none;
+  padding: 0;
+
+  @media (max-width: 1279px) {
+    margin: 0;
+  }
+`
+
+const NavItem = styled.li`
+  position: relative;
+  text-decoration: none;
+  color: ${colors.BLUE_GRAY};
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: ${spacing.SMALLEST};
+    background-position: center;
+    border-radius: 22px;
+    text-transform: uppercase;
+    color: ${colors.BLUE_GRAY};
+
+    /* instant transition from active to non-active, but not 0s since it does not play along well with background-size */
+    transition: background 0.001s;
+
+    img {
+      margin-right: ${spacing.SMALLEST};
+    }
+
+    &:hover {
+      background: ${getBackgroundColor}
+        radial-gradient(circle, transparent 1%, ${getBackgroundColor} 1%) center /
+        15000%;
+    }
+
+    &:active {
+      color: ${colors.BLUE_GRAY};
+      background-color: #ccc;
+      background-size: 100%;
+
+      /* transition instantly on click */
+      transition: background 0s;
+    }
+
+    &.active {
+      color: ${colors.BLUE_GRAY};
+      background: ${getBackgroundColor}
+        radial-gradient(circle, transparent 1%, ${getBackgroundColor} 1%) center /
+        9000%;
+
+      /* instant transition when clicking on a quick link and a "main" item is selected */
+      transition: background 0s;
+
+      &:hover {
+        /* change these values for the actual "pulse" effect  */
+        transition: background 0.4s ease-out;
+      }
+    }
+
+    @media (max-width: 1279px) {
+      font-size: 11px;
+      padding: 10px;
+      border-radius: 0;
+      img {
+        display: none;
+      }
+    }
+  }
+`
+
+const AvatarName = styled.div`
+  margin: ${spacing.SMALLEST} 0 0;
+  padding: 0 ${spacing.SMALLER};
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: ${colors.BLUE_GRAY};
+  font: 500 14px ${fonts.MAIN};
+
+  @media (max-width: 1279px) {
+    display: none;
+  }
+`
+
+let currentLocale = null
+let currentMemberIsOwner = null
+let ownerNavItems = null
+let previousStateTimeStamp = null
+function getOwnerOrAdminNavItems(stateTimeStamp) {
+  if (
+    stateTimeStamp !== previousStateTimeStamp ||
+    ownerNavItems === null ||
+    currentMemberIsOwner !== Biz.member.isMeOwner() ||
+    currentLocale !== i18n.currentLocale()
+  ) {
+    previousStateTimeStamp = stateTimeStamp
+    currentMemberIsOwner = Biz.member.isMeOwner()
+    currentLocale = i18n.currentLocale()
+    ownerNavItems = [
+      {
+        label: i18n.t('navigation.me')
+      },
+      {
+        label: i18n.t('navigation.dashboard'),
+        basePath: PATH.USER_DASHBOARD,
+        path: PATH.USER_DASHBOARD,
+        icon: dashboardIcon,
+        iconActive: dashboardActiveIcon,
+        theme: THEMES.DASHBOARD
+      },
+      {
+        label: i18n.t('navigation.profile'),
+        basePath: PATH.PROFILE_ID,
+        path: () => PATH.PROFILE_ID.replace(':id', getUserId()),
+        icon: profileIcon,
+        iconActive: profileActiveIcon,
+        theme: THEMES.PROFILE
+      },
+      {
+        label: i18n.t('navigation.time_off'),
+        basePath: PATH.PROFILE_TIME_OFF,
+        path: () => PATH.PROFILE_TIME_OFF.replace(':id', getUserId()), // TODO NavList active styling does not support this atm
+        icon: timeOffIcon,
+        iconActive: timeOffActiveIcon,
+        theme: THEMES.TIME_OFF
+      },
+      {
+        label: i18n.t('navigation.documents'),
+        basePath: PATH.PROFILE_DOCUMENTS,
+        path: () => PATH.PROFILE_DOCUMENTS.replace(':id', getUserId()), // TODO NavList active styling does not support this atm
+        icon: documentsIcon,
+        iconActive: documentsActiveIcon,
+        theme: THEMES.DOCUMENTS
+      },
+      {
+        label: i18n.t('navigation.checklists'),
+        basePath: PATH.PROFILE_CHECKLISTS,
+        path: () => PATH.PROFILE_CHECKLISTS.replace(':id', getUserId()), // TODO NavList active styling does not support this atm
+        icon: checklistsIcon,
+        iconActive: checklistsActiveIcon,
+        theme: THEMES.CHECKLISTS,
+        count: Biz.checklist.getActiveTaskCount()
+      },
+      {
+        label: i18n.t('navigation.my_company')
+      },
+      {
+        label: i18n.t('navigation.people'),
+        basePath: PATH.COLLEAGUES,
+        path: PATH.COLLEAGUES_EMPLOYEES,
+        icon: teamIcon,
+        iconActive: teamActiveIcon,
+        theme: THEMES.PEOPLE
+      },
+      {
+        label: i18n.t('navigation.company'),
+        basePath: PATH.COMPANY,
+        path: PATH.COMPANY_PROFILE,
+        icon: companyIcon,
+        iconActive: companyActiveIcon,
+        theme: THEMES.COMPANY
+      },
+      {
+        label: i18n.t('navigation.statistics')
+      },
+      {
+        label: i18n.t('navigation.graphs'),
+        basePath: PATH.STATISTICS,
+        path: PATH.STATISTICS,
+        icon: statisticsIcon,
+        iconActive: statisticsActiveIcon,
+        theme: THEMES.STATISTICS
+      }
+    ]
+    if (currentMemberIsOwner) {
+      ownerNavItems.push({
+        label: i18n.t('navigation.reports'),
+        basePath: PATH.REPORTS,
+        path: PATH.REPORTS,
+        icon: reportsIcon,
+        iconActive: reportsActiveIcon,
+        theme: THEMES.REPORTS
+      })
+    }
+  }
+  return ownerNavItems
+}
+
+let memberNavItems = null
+function getMemberNavItems(stateTimeStamp) {
+  if (
+    stateTimeStamp !== previousStateTimeStamp ||
+    memberNavItems === null ||
+    currentLocale !== i18n.currentLocale()
+  ) {
+    previousStateTimeStamp = stateTimeStamp
+    currentLocale = i18n.currentLocale()
+    memberNavItems = [
+      {
+        label: i18n.t('navigation.me')
+      },
+      {
+        label: i18n.t('navigation.dashboard'),
+        basePath: PATH.USER_DASHBOARD,
+        path: PATH.USER_DASHBOARD,
+        icon: dashboardIcon,
+        iconActive: dashboardActiveIcon,
+        theme: THEMES.DASHBOARD
+      },
+      {
+        label: i18n.t('navigation.profile'),
+        basePath: PATH.PROFILE_ID,
+        path: () => PATH.PROFILE_ID.replace(':id', getUserId()),
+        icon: profileIcon,
+        iconActive: profileActiveIcon,
+        theme: THEMES.PROFILE
+      },
+      {
+        label: i18n.t('navigation.time_off'),
+        basePath: PATH.PROFILE_TIME_OFF,
+        path: () => PATH.PROFILE_TIME_OFF.replace(':id', getUserId()), // TODO NavList active styling does not support this atm
+        icon: timeOffIcon,
+        iconActive: timeOffActiveIcon,
+        theme: THEMES.TIME_OFF
+      },
+      {
+        label: i18n.t('navigation.documents'),
+        basePath: PATH.PROFILE_DOCUMENTS,
+        path: () => PATH.PROFILE_DOCUMENTS.replace(':id', getUserId()), // TODO NavList active styling does not support this atm
+        icon: documentsIcon,
+        iconActive: documentsActiveIcon,
+        theme: THEMES.DOCUMENTS
+      },
+      {
+        label: i18n.t('navigation.checklists'),
+        basePath: PATH.PROFILE_CHECKLISTS,
+        path: () => PATH.PROFILE_CHECKLISTS.replace(':id', getUserId()), // TODO NavList active styling does not support this atm
+        icon: checklistsIcon,
+        iconActive: checklistsActiveIcon,
+        theme: THEMES.CHECKLISTS,
+        count: Biz.checklist.getActiveTaskCount()
+      },
+      {
+        label: i18n.t('navigation.my_company')
+      },
+      {
+        label: i18n.t('navigation.people'),
+        basePath: PATH.COLLEAGUES,
+        path: PATH.COLLEAGUES_EMPLOYEES,
+        icon: teamIcon,
+        iconActive: teamActiveIcon,
+        theme: THEMES.PEOPLE
+      },
+      {
+        label: i18n.t('navigation.company'),
+        basePath: PATH.COMPANY,
+        path: PATH.COMPANY_PROFILE,
+        icon: companyIcon,
+        iconActive: companyActiveIcon,
+        theme: THEMES.COMPANY
+      }
+    ]
+  }
+  return memberNavItems
+}
+
+export class Navigation extends Component {
+  state = {}
+
+  handleClick = (e, item) => {
+    e.stopPropagation()
+    window.scrollTo(0, 0)
+
+    if (item.onClick) {
+      item.onClick(e)
+    }
+  }
+
+  // TODO refactor this to NOT create X amount of components each render,
+  // TODO maybe create a new props-only component called NavItem?
+  navItem = (item, index) => {
+    if (!item.path) {
+      return (
+        <li
+          key={item.label}
+          style={{
+            fontSize: '11px',
+            fontWeight: '600',
+            textTransform: 'capitalize',
+            cursor: 'default',
+            margin: '20px 5px 6px'
+          }}
+        >
+          {item.label}
+        </li>
+      )
+    }
+
+    let active
+    if (
+      item.basePath === PATH.PROFILE_TIME_OFF &&
+      this.pathContainsMeId() &&
+      this.isPathTimeOff()
+    ) {
+      active = true
+    } else if (
+      item.basePath === PATH.PROFILE_DOCUMENTS &&
+      this.pathContainsMeId() &&
+      this.isPathDocuments()
+    ) {
+      active = true
+    } else if (
+      item.basePath === PATH.PROFILE_CHECKLISTS &&
+      this.pathContainsMeId() &&
+      this.isPathChecklists()
+    ) {
+      active = true
+    } else if (
+      item.basePath === PATH.PROFILE_ID &&
+      this.pathContainsMeId() &&
+      this.isPathProfile()
+    ) {
+      active = true
+    } else if (
+      item.path === PATH.COLLEAGUES_EMPLOYEES &&
+      this.isPathProfileNotMe()
+    ) {
+      active = true
+    } else if (item.basePath === PATH.COLLEAGUES && this.isPeoplePath()) {
+      active = true
+    } else if (
+      item.basePath === PATH.STATISTICS_PATH &&
+      this.isStatisticsPath()
+    ) {
+      active = true
+    } else if (item.basePath === PATH.COMPANY && this.isCompanyPath()) {
+      active = true
+    } else {
+      active = item.path === history.location.pathname
+    }
+
+    const isHoverItem =
+      this.state.hoverItem && this.state.hoverItem.basePath === item.basePath
+
+    const icon = active || isHoverItem ? item.iconActive : item.icon
+
+    return (
+      <NavItem key={index} theme={item.theme}>
+        <NavLink
+          exact
+          to={_.isFunction(item.path) ? item.path() : item.path || ''}
+          onClick={e => this.handleClick(e, item)}
+          onMouseEnter={() => this.setState({ hoverItem: item })}
+          onMouseLeave={() => this.setState({ hoverItem: null })}
+          className={active ? 'active' : ''}
+        >
+          {icon && <Image src={icon} size="24px" />}
+          {item.label}
+          {item.count ? <NavItemNumber count={item.count} /> : null}
+        </NavLink>
+      </NavItem>
+    )
+  }
+
+  pathContainsMeId() {
+    return history.location.pathname.includes(getUserId())
+  }
+
+  isPathProfileNotMe() {
+    return (
+      history.location.pathname.startsWith('/profile/') &&
+      !this.pathContainsMeId()
+    )
+  }
+
+  isPathProfile() {
+    return (
+      history.location.pathname.startsWith('/profile/') &&
+      !history.location.pathname.endsWith('/time-off') &&
+      !history.location.pathname.endsWith('/documents') &&
+      !history.location.pathname.endsWith('/tasks')
+    )
+  }
+
+  isPathTimeOff() {
+    return (
+      history.location.pathname.startsWith('/profile/') &&
+      history.location.pathname.endsWith('/time-off')
+    )
+  }
+
+  isPathDocuments() {
+    return (
+      history.location.pathname.startsWith('/profile/') &&
+      history.location.pathname.endsWith('/documents')
+    )
+  }
+
+  isPathChecklists() {
+    return (
+      history.location.pathname.startsWith('/profile/') &&
+      history.location.pathname.endsWith('/tasks')
+    )
+  }
+
+  isCompanyPath() {
+    return history.location.pathname.startsWith('/company/')
+  }
+
+  isPeoplePath() {
+    return history.location.pathname.startsWith('/colleagues/')
+  }
+
+  isStatisticsPath() {
+    return history.location.pathname.startsWith('/statistics/')
+  }
+
+  render() {
+    return (
+      <AppState>
+        {value => {
+          const authenticated = !!value.token
+          const navItems = Biz.member.isMeAdminOrOwner()
+            ? getOwnerOrAdminNavItems(value.stateTimestamp)
+            : getMemberNavItems(value.stateTimestamp)
+
+          return (
+            <Wrapper>
+              <div style={{ flex: 1 }}>
+                {authenticated && Biz.member.basicMe() && (
+                  // <UserAvatar
+                  //   user={Biz.member.getMe().user}
+                  //   name={getNameString(Biz.member.getMe().user)}
+                  //   style={{ margin: '0 15px', cursor: 'pointer' }}
+                  //   labelStyle={{ font: `500 14px ${fonts.MAIN}` }}
+                  //   onClick={() =>
+                  //     history.push(
+                  //       PATH.PROFILE_ID.replace(
+                  //         ':id',
+                  //         Biz.member.getMe().user.id
+                  //       )
+                  //     )
+                  //   }
+                  // />
+                  // TODO FIX SO THAT CLICK-ACTION AND CURSOR-POINTER IS NOT 100% WIDTH !!!!
+                  // TODO FIX SO THAT CLICK-ACTION AND CURSOR-POINTER IS NOT 100% WIDTH !!!!
+                  // TODO FIX SO THAT CLICK-ACTION AND CURSOR-POINTER IS NOT 100% WIDTH !!!!
+                  // TODO FIX SO THAT CLICK-ACTION AND CURSOR-POINTER IS NOT 100% WIDTH !!!!
+                  <div
+                    style={{
+                      margin: `30px auto 30px`,
+                      backgroundColor: '#fff',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() =>
+                      history.push(
+                        PATH.PROFILE_ID.replace(
+                          ':id',
+                          Biz.member.basicMe().user.id
+                        )
+                      )
+                    }
+                  >
+                    <Avatar
+                      user={Biz.member.basicMe().user}
+                      style={{
+                        margin: `0 auto`,
+                        backgroundColor: '#fff'
+                      }}
+                      inputStyle={{ fontSize: '17px' }}
+                      size="76px"
+                    />
+                    <AvatarName>
+                      {getNameString(Biz.member.basicMe().user)}
+                    </AvatarName>
+                  </div>
+                )}
+                {authenticated && <Search />}
+                <NavList>{navItems.map(this.navItem)}</NavList>
+              </div>
+              {authenticated && value.company && (
+                <CompanyLogo onClick={e => history.push(PATH.COMPANY_PROFILE)}>
+                  <NavigationAvatar
+                    avatar={value.company.logo}
+                    placeholder={companyLogoPlaceholder}
+                    name={value.company.name}
+                  />
+                </CompanyLogo>
+              )}
+            </Wrapper>
+          )
+        }}
+      </AppState>
+    )
+  }
+}

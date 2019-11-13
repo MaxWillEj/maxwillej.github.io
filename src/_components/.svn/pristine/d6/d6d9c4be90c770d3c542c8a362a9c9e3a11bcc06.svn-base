@@ -1,0 +1,51 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
+/*
+  Tooltip requires the parent to have { position: relative; }
+
+  TODO:
+  - fade out animation
+  - top, right, bottom, left positioning
+  - calculate if oustide of screen where to position tooltip
+*/
+
+const TooltipWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  margin-top: 10px;
+  z-index: 100;
+  background-color: white;
+  border-radius: 8px;
+  min-height: 20px;
+  min-width: 100px;
+  padding: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  @keyframes tooltip-fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  animation-duration: 0.2s;
+  animation-name: tooltip-fade-in;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+`
+
+export class Tooltip extends PureComponent {
+  render() {
+    if (!this.props.show) {
+      return null
+    }
+    return (
+      <TooltipWrapper style={this.props.style}>
+        {this.props.children}
+      </TooltipWrapper>
+    )
+  }
+}

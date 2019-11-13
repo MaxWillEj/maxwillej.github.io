@@ -1,0 +1,78 @@
+import React, { Component, Fragment } from 'react'
+import Dropzone from 'react-dropzone'
+import { Spinner, Label } from '.'
+import _ from 'lodash'
+import styled from 'styled-components'
+import uploadIcon from '../images/icons/upload.svg'
+
+/*
+  This class uses and handles react-dropzone and makes it into an
+  easy to use component.
+
+  Default is single file input that accepts one pdf file.
+  All you need to do is provide an onDrop function and it will return your file.
+  Provide children if you want something to be rendered inside the component.
+
+  Documentation and code: https://react-dropzone.js.org/
+*/
+
+const defaultSettings = {
+  multiple: false,
+  accept: '',
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    borderRadius: '8px',
+    width: '100%',
+    height: '90px',
+    backgroundColor: '#eaebf5',
+    border: 'dashed 2px #d2d2d9',
+    boxShadow: '0 10px 40px rgba(86,134,162,0.1)',
+    cursor: 'pointer',
+    boxSizing: 'border-box'
+  }
+}
+
+const DownloadIcon = styled.img`
+  width: 32px;
+  height: 30px;
+`
+
+export class FileDropzone extends Component {
+  renderChildren = () => {
+    if (this.props.loading) {
+      return <Spinner inline />
+    }
+
+    return (
+      <Fragment>
+        <DownloadIcon src={uploadIcon} />
+        <Label style={{ fontSize: '18px', color: '#949EB6' }}>
+          {this.props.header}
+        </Label>
+        {this.props.children}
+      </Fragment>
+    )
+  }
+
+  render() {
+    const properties = {
+      ..._.omit({ ...this.props, ...defaultSettings }, [
+        'loading',
+        'style',
+        'disableButton'
+      ]),
+      style: {
+        ...defaultSettings.style,
+        ...this.props.style
+      }
+    }
+    return (
+      <Dropzone {...properties} disabled={this.props.loading}>
+        {this.renderChildren()}
+      </Dropzone>
+    )
+  }
+}

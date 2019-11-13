@@ -1,0 +1,76 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  margin: 0 auto 12px;
+`
+
+const Inner = styled.div`
+  position: relative;
+`
+
+const StyledSelect = styled.select`
+  display: block;
+  width: 100%;
+  height: 42px;
+  padding: 0.375rem 0.75rem;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  ${'' /* ced4da */}
+  border: 1px solid ${props => (props.error ? '#ff7b60' : '#e5e5e5')};
+  border-radius: 2px;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'default')};
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  outline: none;
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
+
+  &:focus + div {
+    width: 100%;
+  }
+`
+
+const Underline = styled.div`
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: ${props => (props.error ? '#ff7b60' : '#ddd')};
+  transition: all 0.2s ease-in-out;
+`
+
+const Error = styled.div`
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #ff7b60;
+`
+
+export const Select = props => {
+  const { error, items, placeholder } = props
+
+  return (
+    <Wrapper>
+      <Inner>
+        <StyledSelect {...props}>
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          )}
+          {items.map((item, index) => (
+            <option key={index} value={item.value}>
+              {item.name}
+            </option>
+          ))}
+        </StyledSelect>
+        <Underline error={error} />
+      </Inner>
+      {error && <Error>{error}</Error>}
+    </Wrapper>
+  )
+}

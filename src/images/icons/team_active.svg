@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0.438041908%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#7ED4BE" offset="0%"></stop>
+            <stop stop-color="#6AC3D4" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="11.9510204" cy="11.9510204" r="11.9510204"></circle>
+        <linearGradient x1="27.476364%" y1="100%" x2="27.476364%" y2="-29.7797153%" id="linearGradient-4">
+            <stop stop-color="#297878" offset="0%"></stop>
+            <stop stop-color="#56C0CB" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-5" cx="5.51437703" cy="5.35265287" r="4.99769029"></circle>
+        <filter x="-30.0%" y="-10.0%" width="140.0%" height="140.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="-2" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.0705882353   0 0 0 0 0.454901961   0 0 0 0 0.470588235  0 0 0 0.2 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="27.5051379%" x2="50%" y2="100%" id="linearGradient-7">
+            <stop stop-color="#C0DFE1" offset="0%"></stop>
+            <stop stop-color="#70CCBF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.3.1:-Profil---Mina-dokument" transform="translate(-16.000000, -525.000000)">
+            <g id="Group-35" transform="translate(3.000000, 234.000000)">
+                <g id="Group-32" transform="translate(13.000000, 291.000000)">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                    <circle id="Oval-10" stroke="#2A999F" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="3.44504707" cy="5.27781838" r="5.85778585"></circle>
+                    <rect id="Rectangle-8-Copy" stroke="#2A999F" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="12.2741454" y="15.6827676" width="15.5102041" height="14.3673469"></rect>
+                    <g id="Group-10" mask="url(#mask-3)">
+                        <g transform="translate(8.405566, 3.649699)">
+                            <circle id="Oval" fill="#FFFFFF" fill-rule="nonzero" cx="3.65563892" cy="3.54842734" r="3.31311244"></circle>
+                            <g id="Group-9" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(2.292003, 1.912064)">
+                                <path d="M0.714153431,1.79034269 L1.35869117,1.45821657 L2.0032289,1.79034269 C2.38849164,1.98886609 2.63058823,2.38596506 2.63058823,2.81936893 L0.0867941034,2.81936893 L0.0867941034,2.81936893 C0.0867941034,2.38596506 0.328890696,1.98886609 0.714153431,1.79034269 Z" id="Rectangle" fill="url(#linearGradient-4)" fill-rule="nonzero"></path>
+                                <rect id="Rectangle" fill="#297878" fill-rule="nonzero" x="0.631727665" y="1.13686838e-13" width="1.51524326" height="1.74055398" rx="0.757621632"></rect>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="Group-10-Copy-2" mask="url(#mask-3)">
+                        <g transform="translate(4.417975, 11.116654)">
+                            <circle id="Oval" fill="#FFFFFF" fill-rule="nonzero" cx="2.70550045" cy="2.62615427" r="2.45200016"></circle>
+                            <g id="Group-9" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(1.696287, 1.415099)">
+                                <path d="M0.572051388,1.44203308 L1.00555324,1.33768786 L1.43905509,1.44203308 C1.73692821,1.51373205 1.94687107,1.78020501 1.94687107,2.0865857 L0.0642354158,2.0865857 L0.0642354158,2.0865857 C0.0642354158,1.78020501 0.274178277,1.51373205 0.572051388,1.44203308 Z" id="Rectangle" stroke="#48AB98" fill-rule="nonzero"></path>
+                                <rect id="Rectangle" stroke="#48AB98" fill-rule="nonzero" x="0.467535093" y="1.13686838e-13" width="1.12141582" height="1.28816595" rx="0.560707912"></rect>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="Group-10-Copy" mask="url(#mask-3)">
+                        <g transform="translate(10.041929, 8.359621)">
+                            <g id="Oval" fill-rule="nonzero">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                                <use fill="url(#linearGradient-4)" xlink:href="#path-5"></use>
+                            </g>
+                            <g id="Group-9" stroke-width="1" fill-rule="evenodd" transform="translate(3.457389, 2.884267)">
+                                <path d="M1.07727031,2.70065639 L2.04952828,2.19965815 L3.02178625,2.70065639 C3.60293883,3.00012055 3.96813132,3.59912759 3.96813132,4.25289904 L0.130925242,4.25289904 L0.130925242,4.25289904 C0.130925242,3.59912759 0.496117735,3.00012055 1.07727031,2.70065639 Z" id="Rectangle" fill="url(#linearGradient-7)" fill-rule="nonzero"></path>
+                                <polygon id="Path-5" fill="#48AB98" fill-rule="nonzero" points="2.04952828 2.44082668 1.74561556 4.25289904 2.353441 4.25289904"></polygon>
+                                <polygon id="Rectangle" fill="#48AB98" fill-rule="nonzero" transform="translate(2.049528, 2.826521) rotate(-315.000000) translate(-2.049528, -2.826521) " points="1.77680101 2.55379402 2.32225555 2.55379402 2.32225555 3.09924856 1.77680101 3.09924856"></polygon>
+                                <rect id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" x="0.952934521" y="1.13686838e-13" width="2.28568051" height="2.62555222" rx="1.14284026"></rect>
+                                <path d="M1.58413686,1.21560771 L2.62796713,1.21560771" id="Path-4" stroke="#48AB98" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

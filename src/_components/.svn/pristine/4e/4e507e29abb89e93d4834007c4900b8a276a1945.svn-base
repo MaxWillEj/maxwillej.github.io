@@ -1,0 +1,73 @@
+import React, { Component } from 'react'
+import { FlexCol } from './FlexCol'
+import { FlexRow } from './FlexRow'
+import styled from 'styled-components'
+
+export const Cell = styled.div`
+  flex: 12;
+  overflow: hidden;
+  height: ${props => (props.rowHeight ? props.rowHeight : 'auto')};
+`
+
+export const GridColumn = styled(FlexCol)`
+  > :nth-child(even) {
+    background-color: ${props =>
+      props.stripeBackground ? props.stripeBackground : ''};
+  }
+`
+
+// TODO MAYBE add the following Grid props? styleCell, styleRowFirst, styleRowEven, styleRowUneven, styleColumn
+export class Grid extends Component {
+  getCell(colIndex, rowIndex) {
+    const childIndex = rowIndex * this.props.columnCount + colIndex
+    if (childIndex < this.props.children.length) {
+      return (
+        <Cell
+          key={colIndex + '-' + rowIndex}
+          rowHeight={this.props.rowHeight}
+          style={
+            this.props.firstColumnFlex && colIndex === 0
+              ? { flex: this.props.firstColumnFlex }
+              : undefined
+          }
+        >
+          {this.props.children[childIndex]}
+        </Cell>
+      )
+    }
+  }
+
+  renderRow(rowIndex) {
+    const row = []
+    for (let i = 0; i < this.props.columnCount; i++) {
+      const child = this.getCell(i, rowIndex)
+      if (child) {
+        row.push(child)
+      }
+    }
+    return <FlexRow key={rowIndex}>{row}</FlexRow>
+  }
+
+  renderRows() {
+    const rowCount = this.props.children.length / this.props.columnCount
+    const rows = []
+    for (let i = 0; i < rowCount; i++) {
+      const row = this.renderRow(i)
+      if (row) {
+        rows.push(row)
+      }
+    }
+    return rows
+  }
+
+  render() {
+    return (
+      <GridColumn
+        stripeBackground={this.props.stripeBackground}
+        style={this.props.style}
+      >
+        {this.renderRows()}
+      </GridColumn>
+    )
+  }
+}

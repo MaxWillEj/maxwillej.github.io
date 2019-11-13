@@ -1,0 +1,160 @@
+import React, { Component } from 'react'
+import { FlexRow } from './FlexRow'
+import { Checkbox } from './Checkbox'
+import { UserAvatar } from './UserAvatar'
+import { Label } from './Label'
+import { IMPORT_ACTION } from '../_constants/importAction'
+import { i18n } from '../_helpers'
+import { colors } from '../_styling'
+import { Btn } from './Btn'
+import { DeleteButton } from './DeleteButton'
+
+export class ImportTableRow extends Component {
+  getFieldsString = () => {
+    const { fields } = this.props.data
+    if (fields.length < 3) {
+      if (fields.length === 2) {
+        return (
+          i18n.t(`field.${fields[0]}`) + ', ' + i18n.t(`field.${fields[1]}`)
+        )
+      } else if (fields.length === 1) {
+        return i18n.t(`field.${fields[0]}`)
+      } else {
+        return ''
+      }
+    } else {
+      return [
+        i18n.t(`field.${fields[0]}`),
+        i18n.t(`field.${fields[1]}`),
+        i18n.t(`${this.props.i18nNamespace}row.more_fields`, {
+          numberOfFields: fields.length - 2
+        })
+      ].join(', ')
+    }
+  }
+
+  render() {
+    return (
+      <FlexRow
+        style={{
+          justifyContent: 'center',
+          ...this.props.style
+        }}
+      >
+        <FlexRow style={this.props.columnStyles[0]}>
+          <Checkbox
+            selected={this.props.selected}
+            onClick={() => {
+              this.props.onSelect(!this.props.selected)
+            }}
+          />
+        </FlexRow>
+        <FlexRow
+          style={{
+            flex: this.props.columnStyles[1].flex,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          <UserAvatar user={this.props.data.newMember.user} />
+        </FlexRow>
+        <FlexRow
+          style={{
+            flex: this.props.columnStyles[2].flex,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          {this.props.data.oldMember && (
+            <UserAvatar user={this.props.data.oldMember.user} />
+          )}
+          {this.props.data.oldMember &&
+            (this.props.data.action ===
+              IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER ||
+              this.props.data.action ===
+                IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER) && (
+              <DeleteButton
+                style={{ marginLeft: '8px' }}
+                onClick={() => {
+                  this.props.tableOnChangeAction(IMPORT_ACTION.DO_NOTHING, null)
+                }}
+              />
+            )}
+          {!this.props.data.oldMember && (
+            <Btn
+              smaller
+              secondary={this.props.data.action !== IMPORT_ACTION.CREATE_USER}
+              primary={this.props.data.action === IMPORT_ACTION.CREATE_USER}
+              style={{ marginRight: '8px' }}
+              onClick={() => {
+                if (this.props.data.action === IMPORT_ACTION.CREATE_USER) {
+                  this.props.tableOnChangeAction(IMPORT_ACTION.DO_NOTHING)
+                } else {
+                  this.props.tableOnChangeAction(IMPORT_ACTION.CREATE_USER)
+                }
+              }}
+            >
+              {i18n.t('import_table.button.create')}
+            </Btn>
+          )}
+          {!this.props.data.oldMember && (
+            <Btn
+              smaller
+              secondary
+              onClick={() => {
+                this.props.onManualSelect(member => {
+                  if (member) {
+                    this.props.tableOnChangeAction(
+                      IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER,
+                      member
+                    )
+                  } else {
+                    this.props.tableOnChangeAction(
+                      IMPORT_ACTION.DO_NOTHING,
+                      member
+                    )
+                  }
+                })
+              }}
+            >
+              {i18n.t('import_table.button.match')}
+            </Btn>
+          )}
+        </FlexRow>
+        <Label
+          style={{
+            flex: this.props.columnStyles[3].flex,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          <Label
+            style={{ cursor: 'pointer', color: colors.BLUE_LIGHT }}
+            onClick={this.props.onFieldsClick}
+          >
+            {this.getFieldsString()}
+          </Label>
+        </Label>
+        <Label
+          style={{
+            flex: this.props.columnStyles[4].flex,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          {i18n.t(
+            `${this.props.i18nNamespace}action.${
+              Object.values(IMPORT_ACTION).includes(this.props.data.action)
+                ? this.props.data.action
+                : IMPORT_ACTION.DO_NOTHING
+            }`
+          )}
+        </Label>
+      </FlexRow>
+    )
+  }
+}

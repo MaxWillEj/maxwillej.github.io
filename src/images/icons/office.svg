@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Company settings icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="People---One-search" transform="translate(-329.000000, -731.000000)" fill-rule="nonzero" stroke="#949EB6" stroke-width="1.5">
+            <g id="Group-13-Copy-4" transform="translate(329.000000, 729.000000)">
+                <g id="Company-settings-icon" transform="translate(0.013929, 1.000000)">
+                    <g id="Group-29" transform="translate(0.950000, 0.950000)">
+                        <polygon id="Rectangle-8" points="0.734269529 0.874003823 8.48489234 0.874003823 8.48489234 16.3752494 0.734269529 16.3752494"></polygon>
+                        <path d="M4.60958093,10.1184124 L4.60958093,11.6234993" id="Path-7"></path>
+                        <polygon id="Rectangle-8-Copy" points="8.48489234 8.62462663 16.2355151 8.62462663 16.2355151 16.3752494 8.48489234 16.3752494"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

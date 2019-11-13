@@ -1,0 +1,83 @@
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import { TableDeprecated } from './'
+import { i18n, history } from '../_helpers'
+import { USER_STATUS } from '../_constants'
+import { Tag } from '../_components'
+
+export const UserList = props => {
+  const { conditionalNavigation } = props
+  return (
+    <TableDeprecated>
+      <thead>
+        <tr>
+          <th>{i18n.t('general.name')}</th>
+          <th>{i18n.t('general.email')}</th>
+          <th>&nbsp;</th>
+          <th>{props.memberRoleHeader}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.users &&
+          props.users.map((user, index) => {
+            const {
+              user: {
+                firstName,
+                lastName,
+                email,
+                settings: { onboarding }
+              }
+            } = user
+            const onboardingCompleted =
+              onboarding === USER_STATUS.ONBOARDING.EMPLOYER_COMPLETED
+
+            return (
+              <tr key={index}>
+                <td>
+                  <NavLink
+                    onClick={e => {
+                      e.preventDefault()
+                      if (conditionalNavigation) {
+                        const navObj = conditionalNavigation(user)
+                        history.push(navObj.path, { userId: navObj.id })
+                      } else {
+                        history.push(props.linkPath, { userId: user.id })
+                      }
+                    }}
+                    key={index}
+                    to={
+                      conditionalNavigation
+                        ? conditionalNavigation(user)
+                        : props.linkPath.replace(':id', user.id)
+                    }
+                  >
+                    {firstName} {lastName}
+                  </NavLink>
+                </td>
+                <td>{email}</td>
+                {onboarding ? (
+                  <td>
+                    <Tag
+                      {...{
+                        success: onboardingCompleted,
+                        warning: !onboardingCompleted
+                      }}
+                    >
+                      {onboardingCompleted ? 'Completed' : 'In progress'}
+                    </Tag>
+                  </td>
+                ) : (
+                  <td>&nbsp;</td>
+                )}
+                <td>
+                  {index === 0
+                    ? 'Owner'
+                    : user[props.memberRoleHeader.toLowerCase()]}
+                </td>
+              </tr>
+            )
+          })}
+      </tbody>
+    </TableDeprecated>
+  )
+}

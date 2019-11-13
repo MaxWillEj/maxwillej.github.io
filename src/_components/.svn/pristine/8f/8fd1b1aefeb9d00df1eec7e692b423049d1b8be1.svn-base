@@ -1,0 +1,29 @@
+import React from 'react'
+import { PropsComponent } from './base/PropsComponent'
+import { FlexRow } from './FlexRow'
+import { BreadcrumbItem } from './BreadcrumbItem'
+
+export class Breadcrumbs extends PropsComponent {
+  render() {
+    const renderList = []
+    React.Children.forEach(this.props.children, component => {
+      if (renderList.length > 0) {
+        renderList.push(<BreadcrumbItem key={renderList.length} />)
+      }
+      renderList.push(component)
+    })
+    return (
+      <FlexRow
+        children={renderList}
+        style={{
+          marginBottom: '20px',
+          fontSize: '18px',
+          fontFamily: 'Nunito Sans',
+          fontWeight: '600',
+          letterSpacing: '0.04em',
+          color: '#3f4658'
+        }}
+      />
+    )
+  }
+}

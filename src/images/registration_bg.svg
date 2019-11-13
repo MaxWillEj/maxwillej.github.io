@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2300px" height="1390px" viewBox="0 0 2300 1390" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Rectangle 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0.438041908%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#7ED4BE" offset="0%"></stop>
+            <stop stop-color="#6AC3D4" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="53.5796829" y="321.958281" width="2586" height="750.984717"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-568.000000, -360.000000)">
+            <g id="Rectangle-2" transform="translate(372.000000, 360.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Rectangle" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(1346.579683, 697.450639) rotate(-15.000000) translate(-1346.579683, -697.450639) " xlink:href="#path-2"></use>
+                <circle id="Oval" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" cx="1803.03248" cy="714.548256" r="141.5"></circle>
+                <circle id="Oval-Copy" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" cx="749.522966" cy="637.017808" r="80.4796909"></circle>
+                <circle id="Oval-Copy-4" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" cx="866.058442" cy="743.229347" r="31.625872"></circle>
+                <circle id="Oval" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" cx="1403.5" cy="348.5" r="141.5"></circle>
+                <circle id="Oval-Copy" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" cx="729.522966" cy="129.613887" r="50.0283927"></circle>
+                <circle id="Oval-Copy-3" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" cx="1249.39511" cy="503.940142" r="31.625872"></circle>
+                <rect id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" transform="translate(722.366823, 1247.304683) rotate(-330.000000) translate(-722.366823, -1247.304683) " x="70.3668229" y="962.804683" width="1304" height="569"></rect>
+                <rect id="Rectangle-Copy-4" fill="#FFFFFF" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-3)" transform="translate(755.397444, 1405.186557) rotate(-330.000000) translate(-755.397444, -1405.186557) " x="103.397444" y="1120.68656" width="1304" height="569"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

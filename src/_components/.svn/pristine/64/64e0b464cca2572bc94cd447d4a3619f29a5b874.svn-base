@@ -1,0 +1,958 @@
+import React from 'react'
+import { Table } from './Table'
+import { FlexRow } from './FlexRow'
+import { Section } from './Section'
+import { i18n, formatDate } from '../_helpers'
+import { Btn } from './Btn'
+import { ImportTableRow } from './ImportTableRow'
+import { spacing } from '../_styling'
+import { SectionHeader } from './SectionHeader'
+import arrowIcon from '../images/icons/download.svg'
+import arrowIconPositive from '../images/icons/download_positive.svg'
+import arrowIconWhite from '../images/icons/download_white.svg'
+import trashIcon from '../images/icons/trash.svg'
+import trashIconWhite from '../images/icons/trash_white.svg'
+import { IMPORT_ACTION } from '../_constants/importAction'
+import _ from 'lodash'
+import { Dialog } from './Dialog'
+import { importTableDialog, selectMemberDialog } from './dialog/Dialogs'
+import { MountableComponent } from './MountableComponent'
+import { Biz } from '../_biz/Biz'
+import { Util } from '../_helpers/Utilz'
+import { isDevEnabled } from '../_helpers/dev'
+
+// ############################################################
+// ####################     -  NOTE  -     ####################
+// ################# SYNC WITH FRONTEND DEVS ##################
+// ########### If you want to edit this component!! ###########
+// ##### ImportTable and ImportTableCsv are identical ATM #####
+// ############################################################
+
+const columns = [
+  { name: 'new_user', style: { flex: '1' } },
+  { name: 'old_user', style: { flex: '1' } },
+  { name: 'fields', style: { flex: '1' } },
+  { name: 'action', style: { flex: '1', whiteSpace: 'nowrap' } }
+]
+
+export const modifyImportData = (dataToChange, importData) => {
+  const newImportData = _.cloneDeep(importData)
+  dataToChange.forEach(dataWrapper => {
+    newImportData[dataWrapper.index] = dataWrapper.data
+  })
+  return newImportData
+}
+
+const getOldMember = async (userId, userEmail) => {
+  const basicMember = userId
+    ? Biz.member.basic(userId)
+    : userEmail
+    ? Biz.member
+        .basicAll()
+        .find(member => member.user.email === userEmail.toLowerCase())
+    : undefined
+  if (basicMember) {
+    return await Biz.member.readOneFull(basicMember)
+  } else {
+    return undefined
+  }
+}
+
+const getUpdatedFields = (newUser, newEmployee, oldMember, company) => {
+  const fields = []
+  for (const userKey of Object.keys(newUser)) {
+    const newValue = newUser[userKey]
+    const oldValue = oldMember ? oldMember.user[userKey] : null
+
+    if (
+      newValue !== undefined &&
+      userKey !== '__typename' &&
+      userKey !== 'id' &&
+      !_.isEqual(newValue, oldValue)
+    ) {
+      if (
+        userKey === 'homeAddress' &&
+        newValue !== null &&
+        typeof newValue === 'object' &&
+        oldValue !== null &&
+        typeof oldValue === 'object'
+      ) {
+        if (
+          newValue.street !== oldValue.street ||
+          newValue.postalCode !== oldValue.postalCode ||
+          newValue.city !== oldValue.city ||
+          newValue.country !== oldValue.country
+        ) {
+          // changed homeAddress
+          fields.push(`user.${userKey}`)
+        }
+      } else if (
+        userKey === 'bankAccount' &&
+        newValue !== null &&
+        typeof newValue === 'object' &&
+        oldValue !== null &&
+        typeof oldValue === 'object'
+      ) {
+        if (
+          newValue.bank !== oldValue.bank ||
+          newValue.clearing !== oldValue.clearing ||
+          newValue.number !== oldValue.number
+        ) {
+          // changed bankAccount
+          fields.push(`user.${userKey}`)
+        }
+      } else {
+        fields.push(`user.${userKey}`)
+      }
+    }
+  }
+  for (const employeeKey of Object.keys(newEmployee)) {
+    const newValue = newEmployee[employeeKey]
+    const oldValue = oldMember ? oldMember.employee[employeeKey] : null
+
+    if (
+      newValue !== undefined &&
+      employeeKey !== '__typename' &&
+      employeeKey !== 'id' &&
+      !_.isEqual(newValue, oldValue)
+    ) {
+      if (
+        employeeKey === 'tax' &&
+        newValue !== null &&
+        typeof newValue === 'object' &&
+        oldValue !== null &&
+        typeof oldValue === 'object'
+      ) {
+        if (
+          newValue.table !== oldValue.table ||
+          newValue.column !== oldValue.column
+        ) {
+          // changed tax
+          fields.push(`employee.${employeeKey}`)
+        }
+      } else if (
+        employeeKey === 'employments' &&
+        newValue !== null &&
+        typeof newValue === 'object' &&
+        newValue.length > 0 &&
+        oldValue !== null &&
+        typeof oldValue === 'object' &&
+        oldValue.length > 0
+      ) {
+        if (
+          isNewDefinedAndDiffers(newValue[0].id, oldValue[0].id) ||
+          isNewDefinedAndDiffers(
+            newValue[0].startDate,
+            oldValue[0].startDate &&
+              formatDate(oldValue[0].startDate, 'YYYY-MM-DD')
+          ) ||
+          isNewDefinedAndDiffers(
+            newValue[0].endDate,
+            oldValue[0].endDate && formatDate(oldValue[0].endDate, 'YYYY-MM-DD')
+          ) ||
+          isNewDefinedAndDiffers(newValue[0].typeId, oldValue[0].typeId) ||
+          isNewDefinedAndDiffers(newValue[0].rate, oldValue[0].rate) ||
+          isNewDefinedAndDiffers(newValue[0].note, oldValue[0].note) ||
+          isNewDefinedAndDiffers(newValue[0].country, oldValue[0].country) ||
+          isNewDefinedAndDiffers(newValue[0].terminated, oldValue[0].terminated)
+        ) {
+          // console.log('CHANGED employment', newValue[0], oldValue[0])
+          // changed employment
+          fields.push(`employee.${employeeKey}`)
+        }
+      } else if (
+        employeeKey === 'compensations' &&
+        newValue !== null &&
+        typeof newValue === 'object' &&
+        newValue.length > 0 &&
+        oldValue !== null &&
+        typeof oldValue === 'object' &&
+        oldValue.length > 0
+      ) {
+        if (
+          isNewDefinedAndDiffers(newValue[0].id, oldValue[0].id) ||
+          isNewDefinedAndDiffers(newValue[0].amount, oldValue[0].amount) ||
+          isNewDefinedAndDiffers(newValue[0].currency, oldValue[0].currency) ||
+          isNewDefinedAndDiffers(
+            newValue[0].effectiveDate,
+            oldValue[0].effectiveDate &&
+              formatDate(oldValue[0].effectiveDate, 'YYYY-MM-DD')
+          ) ||
+          isNewDefinedAndDiffers(
+            newValue[0].payoutDay,
+            oldValue[0].payoutDay
+          ) ||
+          isNewDefinedAndDiffers(newValue[0].note, oldValue[0].note) ||
+          isNewDefinedAndDiffers(
+            newValue[0].paidOvertime,
+            oldValue[0].paidOvertime
+          ) ||
+          isNewDefinedAndDiffers(
+            newValue[0].payoutFrequency,
+            oldValue[0].payoutFrequency
+          ) ||
+          isNewDefinedAndDiffers(
+            newValue[0].payoutPeriod,
+            oldValue[0].payoutPeriod
+          )
+        ) {
+          // console.log('CHANGED compensation', newValue[0], oldValue[0])
+          // changed compensation
+          fields.push(`employee.${employeeKey}`)
+        }
+      } else if (
+        employeeKey === 'vacationAllowance' &&
+        newValue !== null &&
+        typeof newValue === 'object' &&
+        oldValue !== null &&
+        typeof oldValue === 'object'
+      ) {
+        if (
+          (parseFloat(newValue.limit) !== company.vacationAllowance.limit &&
+            oldValue.limit === null) ||
+          (oldValue.limit !== null &&
+            !_.isEqual(parseFloat(newValue.limit), oldValue.limit))
+        ) {
+          fields.push(`employee.${employeeKey}`)
+        }
+      } else {
+        fields.push(`employee.${employeeKey}`)
+      }
+    }
+  }
+  return fields
+}
+
+const isNewDefinedAndDiffers = (newVal, oldVal) => {
+  if (newVal === undefined) {
+    return false
+  }
+  return !Util.isEqual(newVal, oldVal)
+}
+
+export const createImportDataFromCSV = async (csvData, company) => {
+  // const members = await Biz.member.readAllSensitive(Biz.company.getCached().id)
+
+  const importData = []
+  let rowId = 0
+  for (const csvRow of csvData.data) {
+    if (!csvRow.userId && !csvRow.email) {
+      // NOTE: if there is no email or no userId then we skip the row
+      continue
+    }
+
+    let tempOldMember
+    try {
+      tempOldMember = await getOldMember(csvRow.userId, csvRow.email)
+    } catch (error) {
+      // new member fails to be fetched
+    }
+
+    const oldMember = tempOldMember
+
+    try {
+      const empType = Biz.member
+        .getEmploymentTypes()
+        .find(
+          employmentType => employmentType.name === csvRow['employment.type']
+        )
+      const empTypeId = empType ? empType.id : undefined
+      const newMember = {
+        user: {
+          id: getValueCSV(csvRow.userId),
+          email: csvRow.email
+            ? getValueCSV(csvRow.email).toLowerCase()
+            : undefined,
+          phone: getValueCSV(csvRow.phone),
+          firstName: getValueCSV(csvRow.firstName),
+          lastName: getValueCSV(csvRow.lastName),
+          birthDate: getValueCSV(csvRow.birthDate),
+          gender: getValueCSV(csvRow.gender),
+          presentation: getValueCSV(csvRow.presentation),
+          ssn: getValueCSV(csvRow.ssn),
+          nationality: getValueCSV(csvRow.nationality),
+          bankAccount:
+            csvRow['bankAccount.bank'] &&
+            csvRow['bankAccount.clearing'] &&
+            csvRow['bankAccount.number']
+              ? {
+                  bank: csvRow['bankAccount.bank'],
+                  clearing: csvRow['bankAccount.clearing'],
+                  number: csvRow['bankAccount.number']
+                }
+              : undefined,
+          homeAddress:
+            csvRow['homeAddress.city'] &&
+            csvRow['homeAddress.country'] &&
+            csvRow['homeAddress.postalCode'] &&
+            csvRow['homeAddress.street']
+              ? {
+                  street: csvRow['homeAddress.street'],
+                  postalCode: csvRow['homeAddress.postalCode'],
+                  city: csvRow['homeAddress.city'],
+                  country: csvRow['homeAddress.country']
+                }
+              : undefined
+        },
+        employee: {
+          id: getValueCSV(csvRow.employeeId),
+          // NOTE employeeNumber cant be modified, so should not be presented as DIFF, right?
+          // employeeNumber: getValueCSV(csvRow.employeeNumber)
+          //   ? parseInt(csvRow.employeeNumber, 10)
+          //   : undefined,
+          title: getValueCSV(csvRow.title),
+          workEmail: getValueCSV(csvRow.workEmail),
+          workPhone: getValueCSV(csvRow.workPhone),
+          // NOTE hireDate copies time-component, if it is missing, from existing hireDate, otherwise false DIFFs will show.
+          // hireDate: getValueCSV(csvRow.hireDate)
+          //   ? csvRow.hireDate.length < 24
+          //     ? oldMember && oldMember.employee.hireDate
+          //       ? moment
+          //           .utc(csvRow.hireDate)
+          //           .hour(moment.utc(oldMember.employee.hireDate).hour())
+          //           .minute(moment.utc(oldMember.employee.hireDate).minute())
+          //           .second(moment.utc(oldMember.employee.hireDate).second())
+          //           .millisecond(
+          //             moment.utc(oldMember.employee.hireDate).millisecond()
+          //           )
+          //           .toISOString()
+          //       : moment(csvRow.hireDate)
+          //           .startOf('day')
+          //           .hour(9)
+          //           .toISOString()
+          //     : csvRow.hireDate
+          //   : undefined,
+          managerUserId: getValueCSV(csvRow.managerUserId),
+          groupId: getValueCSV(csvRow.groupId, null),
+          officeId: getValueCSV(csvRow.officeId, null),
+          tax:
+            csvRow['tax.table'] && csvRow['tax.column']
+              ? {
+                  table: parseInt(csvRow['tax.table'], 10),
+                  column: parseInt(csvRow['tax.column'], 10)
+                }
+              : undefined,
+          employments:
+            csvRow['employment.id'] ||
+            csvRow['employment.startDate'] ||
+            csvRow['employment.endDate'] ||
+            csvRow['employment.type'] ||
+            csvRow['employment.rate'] ||
+            csvRow['employment.note'] ||
+            csvRow['employment.country'] ||
+            csvRow['employment.terminated']
+              ? [
+                  {
+                    id: csvRow['employment.id']
+                      ? csvRow['employment.id']
+                      : undefined,
+                    startDate: csvRow['employment.startDate']
+                      ? formatDate(csvRow['employment.startDate'], 'YYYY-MM-DD')
+                      : undefined,
+                    endDate: csvRow['employment.endDate']
+                      ? formatDate(csvRow['employment.endDate'], 'YYYY-MM-DD')
+                      : null,
+                    typeId:
+                      csvRow['employment.type'] &&
+                      (empTypeId || Biz.member.getEmploymentTypeDefault().id),
+                    rate: csvRow['employment.rate']
+                      ? parseInt(csvRow['employment.rate'], 10)
+                      : undefined,
+                    note: csvRow['employment.note']
+                      ? csvRow['employment.note']
+                      : null,
+                    country: csvRow['employment.country'],
+                    terminated:
+                      csvRow['employment.terminated'] === 'true' ? true : false
+                  }
+                ]
+              : oldMember
+              ? oldMember.employments
+              : null,
+          compensations:
+            csvRow['compensation.id'] ||
+            csvRow['compensation.amount'] ||
+            csvRow['compensation.currency'] ||
+            csvRow['compensation.effectiveDate'] ||
+            csvRow['compensation.payoutDay']
+              ? [
+                  {
+                    id: csvRow['compensation.id']
+                      ? csvRow['compensation.id']
+                      : undefined,
+                    amount: csvRow['compensation.amount']
+                      ? parseFloat(csvRow['compensation.amount'])
+                      : undefined,
+                    payoutDay: csvRow['compensation.payoutDay']
+                      ? parseInt(csvRow['compensation.payoutDay'], 10)
+                      : undefined,
+                    effectiveDate: csvRow['compensation.effectiveDate'],
+                    currency: csvRow['compensation.currency'],
+                    payoutFrequency: csvRow['compensation.payoutFrequency'],
+                    payoutPeriod: csvRow['compensation.payoutPeriod'],
+                    note: csvRow['compensation.note']
+                      ? csvRow['compensation.note']
+                      : null,
+                    paidOvertime:
+                      csvRow['compensation.paidOvertime'] === 'true'
+                        ? true
+                        : false
+                  }
+                ]
+              : oldMember
+              ? oldMember.compensations
+              : null,
+          vacationAllowance: csvRow['vacationAllowance.limit']
+            ? {
+                limit:
+                  csvRow['vacationAllowance.limit'] !==
+                  company.vacationAllowance.limit
+                    ? parseFloat(csvRow['vacationAllowance.limit'])
+                    : ''
+              }
+            : undefined
+
+          // NOTE 1. When do we ever want to set firstDay values in CSV?
+          // NOTE 2. If we have support for 'firstDay' we need to add it to the READ_ALL_MEMBERS_SENSITIVE query as well...
+          // firstDay:
+          //   csvRow['firstDay.sendDate'] &&
+          //   csvRow['firstDay.welcomeEmployeeId'] &&
+          //   csvRow['firstDay.welcomeMessage'] &&
+          //   csvRow['firstDay.when'] &&
+          //   csvRow['firstDay.where']
+          //     ? {
+          //         sendDate: csvRow['firstDay.sendDate'],
+          //         welcomeEmployeeId: csvRow['firstDay.welcomeEmployeeId'],
+          //         welcomeMessage: csvRow['firstDay.welcomeMessage'],
+          //         when: csvRow['firstDay.when'],
+          //         where: csvRow['firstDay.where']
+          //       }
+          //     : undefined
+        }
+      }
+
+      const updatedFields = getUpdatedFields(
+        newMember.user,
+        newMember.employee,
+        oldMember,
+        company
+      )
+
+      if (updatedFields.length > 0) {
+        importData.push({
+          id: rowId,
+          newMember,
+          oldMember,
+          fields: updatedFields,
+          action: oldMember
+            ? IMPORT_ACTION.PREFER_NEW_USER
+            : IMPORT_ACTION.CREATE_USER
+        })
+        rowId++
+      }
+    } catch (error) {
+      if (isDevEnabled()) {
+        console.log('error:', error, ' | for csvRow:', csvRow)
+      }
+    }
+  }
+
+  return importData
+}
+
+const getValueCSV = (csvValue, defaultValue) => {
+  return csvValue !== undefined && csvValue !== '' ? csvValue : defaultValue
+}
+
+export const createImportData = async importDataRows => {
+  const memberIdsToReadFull = Biz.member
+    .basicAll()
+    .filter(
+      member =>
+        !!importDataRows.find(row =>
+          member.user.id === row.user.id ||
+          (row.fortnoxEmployee && row.fortnoxEmployee.employee)
+            ? row.fortnoxEmployee.employee.user.email === member.user.email
+            : member.user.email === row.user.email
+        )
+    )
+    .map(member => member.id)
+  const fullMemberships = await Biz.member.readManyFull(memberIdsToReadFull)
+
+  const importData = []
+  let rowId = 0
+  for (const row of importDataRows) {
+    const oldMember = fullMemberships.find(member =>
+      member.user.id === row.user.id ||
+      (row.fortnoxEmployee && row.fortnoxEmployee.employee)
+        ? row.fortnoxEmployee.employee.user.email === member.user.email
+        : member.user.email === row.user.email
+    )
+
+    const fields = []
+    for (const userKey of Object.keys(row.user)) {
+      const newValue = row.user[userKey]
+      const oldValue = oldMember ? oldMember.user[userKey] : null
+
+      if (
+        userKey !== '__typename' &&
+        userKey !== 'id' &&
+        !_.isEqual(newValue, oldValue) &&
+        ((!_.isEmpty(newValue) && !_.isEmpty(oldValue)) ||
+          _.isEmpty(newValue) !== _.isEmpty(oldValue))
+      ) {
+        fields.push(`user.${userKey}`)
+      }
+    }
+    for (const employeeKey of Object.keys(row.employee)) {
+      const newValue = row.employee[employeeKey]
+      const oldValue = oldMember ? oldMember.employee[employeeKey] : null
+
+      if (
+        employeeKey !== '__typename' &&
+        employeeKey !== 'id' &&
+        !_.isEqual(newValue, oldValue) &&
+        ((!_.isEmpty(newValue) && !_.isEmpty(oldValue)) ||
+          _.isEmpty(newValue) !== _.isEmpty(oldValue))
+      ) {
+        fields.push(`employee.${employeeKey}`)
+      }
+    }
+
+    importData.push({
+      id: rowId,
+      newMember: {
+        user: _.omitBy(_.omitBy(row.user, _.isNull), _.isEmpty),
+        employee: _.omitBy(_.omitBy(row.employee, _.isNull), _.isEmpty)
+      },
+      oldMember,
+      fields,
+      fortnoxId: row.fortnoxEmployee ? row.fortnoxEmployee.fortnoxId : null,
+      peAccountingId: row.peAccountingId,
+      action: oldMember
+        ? IMPORT_ACTION.PREFER_NEW_USER
+        : IMPORT_ACTION.CREATE_USER
+    })
+    rowId++
+  }
+  return importData
+}
+
+const setThenCallback = (importEntry, promise, callback) => {
+  if (!callback) {
+    return promise
+  }
+
+  return promise.then(
+    () => {
+      callback(importEntry)
+    },
+    error => {
+      callback(importEntry, error)
+    }
+  )
+}
+
+export const executeImportData = async (companyId, importData, callback) => {
+  const promises = []
+  for (const importEntry of importData) {
+    try {
+      switch (importEntry.action) {
+        case IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER:
+        case IMPORT_ACTION.PREFER_NEW_USER:
+          //console.log('PREFER_NEW_USER', importEntry)
+
+          if (importEntry.fields.length > 0) {
+            let memberChanges = { user: {}, employee: {} }
+            importEntry.fields.forEach(field => {
+              // Skip setting email or phone if it is the same as in Alexis
+              if (
+                (field === 'user.email' || field === 'user.phone') &&
+                _.get(importEntry.newMember, field) ===
+                  _.get(importEntry.oldMember, field)
+              ) {
+                return
+              }
+              _.set(memberChanges, field, _.get(importEntry.newMember, field))
+            })
+
+            if (
+              Array.isArray(
+                Util.get(memberChanges, 'employee.compensations')
+              ) &&
+              memberChanges.employee.compensations.length > 0
+            ) {
+              memberChanges.employee.compensation =
+                memberChanges.employee.compensations[0]
+            }
+
+            if (
+              Array.isArray(Util.get(memberChanges, 'employee.employments')) &&
+              memberChanges.employee.employments.length > 0
+            ) {
+              memberChanges.employee.employment =
+                memberChanges.employee.employments[0]
+            }
+
+            if (
+              importEntry.fortnoxId &&
+              importEntry.action ===
+                IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER
+            ) {
+              promises.push(
+                Biz.fortnox.createEmployee(
+                  companyId,
+                  importEntry.oldMember.employee.id,
+                  importEntry.fortnoxId
+                )
+              )
+            }
+
+            if (
+              importEntry.peAccountingId &&
+              importEntry.action ===
+                IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER
+            ) {
+              promises.push(
+                Biz.peAccounting.createEmployee(
+                  companyId,
+                  importEntry.oldMember.employee.id,
+                  importEntry.peAccountingId
+                )
+              )
+            }
+
+            promises.push(
+              setThenCallback(
+                importEntry,
+                Biz.member.updateMember({
+                  companyId: companyId,
+                  userId: importEntry.oldMember.user.id,
+                  employeeId: importEntry.oldMember.employee.id,
+                  ...memberChanges
+                }),
+                callback
+              )
+            )
+          } else if (callback) {
+            callback(importEntry)
+          }
+
+          break
+        case IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER:
+        case IMPORT_ACTION.PREFER_OLD_USER:
+          //console.log('PREFER_OLD_USER', importEntry)
+
+          if (importEntry.fields.length > 0) {
+            let memberChanges = { user: {}, employee: {} }
+            importEntry.fields.forEach(field => {
+              _.set(memberChanges, field, _.get(importEntry.newMember, field))
+            })
+
+            memberChanges = {
+              user: {
+                ..._.omit(memberChanges.user, ['email', 'phone']),
+                ..._.omit(importEntry.oldMember.user, ['email', 'phone'])
+              },
+              employee: {
+                ...memberChanges.employee,
+                ...importEntry.oldMember.employee
+              }
+            }
+
+            if (
+              importEntry.fortnoxId &&
+              importEntry.action ===
+                IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER
+            ) {
+              promises.push(
+                Biz.fortnox.createEmployee(
+                  companyId,
+                  importEntry.oldMember.employee.id,
+                  importEntry.fortnoxId
+                )
+              )
+            }
+
+            if (
+              importEntry.peAccountingId &&
+              importEntry.action ===
+                IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER
+            ) {
+              promises.push(
+                Biz.peAccounting.createEmployee(
+                  companyId,
+                  importEntry.oldMember.employee.id,
+                  importEntry.peAccountingId
+                )
+              )
+            }
+
+            promises.push(
+              setThenCallback(
+                importEntry,
+                Biz.member.updateMember({
+                  companyId: companyId,
+                  userId: importEntry.oldMember.user.id,
+                  employeeId: importEntry.oldMember.employee.id,
+                  ...memberChanges
+                }),
+                callback
+              )
+            )
+          } else if (callback) {
+            callback(importEntry)
+          }
+
+          break
+        case IMPORT_ACTION.CREATE_USER:
+          //console.log('CREATE_USER', importEntry)
+
+          const userResponse = await Biz.company.createUser(
+            companyId,
+            { ...importEntry.newMember.user },
+            { ...importEntry.newMember.employee, skipProvisioning: ['fortnox'] }
+          )
+          const createdUser = userResponse.data.company.createUser
+
+          await Biz.member.readOneFull({
+            id: createdUser.membership.id
+          })
+
+          if (importEntry.fortnoxId) {
+            promises.push(
+              Biz.fortnox.createEmployee(
+                companyId,
+                createdUser.membership.employee.id,
+                importEntry.fortnoxId
+              )
+            )
+          }
+
+          if (importEntry.peAccountingId) {
+            promises.push(
+              Biz.peAccounting.createEmployee(
+                companyId,
+                createdUser.membership.employee.id,
+                importEntry.peAccountingId,
+                this
+              )
+            )
+          }
+
+          break
+        default:
+        // console.log('DO_NOTHING')
+      }
+    } catch (error) {
+      if (isDevEnabled()) {
+        console.log('error:', error, ' | for importEntry:', importEntry)
+      }
+
+      if (callback) {
+        callback(importEntry, error)
+      }
+    }
+  }
+  await Promise.all(promises)
+  // await Biz.group.read(companyId)
+  // await Biz.office.read(companyId)
+  // await Biz.member.read(companyId)
+  await Biz.member.readAllBasic(companyId)
+}
+
+export class ImportTable extends MountableComponent {
+  state = {
+    selectedIndexes: [],
+    dialog: { showing: false }
+  }
+
+  selectRow = (selected, index) => {
+    const selectedIndexes = this.op.cloneDeep(this.state.selectedIndexes)
+    const indexOf = selectedIndexes.indexOf(index)
+    if (selected && indexOf === -1) {
+      selectedIndexes.push(index)
+    } else if (!selected && indexOf !== -1) {
+      selectedIndexes.splice(indexOf, 1)
+    }
+    this.op.state('selectedIndexes', selectedIndexes)
+  }
+
+  selectAll = selectAll => {
+    if (selectAll) {
+      this.op.state(
+        'selectedIndexes',
+        this.props.importData.map((_importEntry, index) => index)
+      )
+    } else {
+      this.op.state('selectedIndexes', [])
+    }
+  }
+
+  onChangeAction = (actionType, importEntryIndex, selectedMember) => {
+    const dataToChange = []
+    if (importEntryIndex !== undefined) {
+      const newData = this.op.cloneDeep(this.props.importData[importEntryIndex])
+      newData.action = actionType
+      if (selectedMember === null) {
+        newData.oldMember = null
+      } else if (selectedMember) {
+        newData.oldMember = selectedMember
+      }
+      dataToChange.push({
+        index: importEntryIndex,
+        data: newData
+      })
+    } else {
+      this.state.selectedIndexes.forEach(index => {
+        const importEntry = this.op.cloneDeep(this.props.importData[index])
+        if (actionType === IMPORT_ACTION.DO_NOTHING) {
+          if (
+            importEntry.action ===
+              IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER ||
+            importEntry.action === IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER
+          ) {
+            importEntry.oldMember = null
+          }
+          importEntry.action = actionType
+          dataToChange.push({
+            index: index,
+            data: importEntry
+          })
+        } else if (
+          importEntry.oldMember &&
+          importEntry.action !== IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER &&
+          importEntry.action !== IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER
+        ) {
+          importEntry.action = actionType
+          dataToChange.push({
+            index: index,
+            data: importEntry
+          })
+        } else if (
+          importEntry.action === IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER &&
+          actionType === IMPORT_ACTION.PREFER_NEW_USER
+        ) {
+          importEntry.action = IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER
+          dataToChange.push({
+            index: index,
+            data: importEntry
+          })
+        } else if (
+          importEntry.action === IMPORT_ACTION.MANUALLY_MATCH_PREFER_NEW_USER &&
+          actionType === IMPORT_ACTION.PREFER_OLD_USER
+        ) {
+          importEntry.action = IMPORT_ACTION.MANUALLY_MATCH_PREFER_OLD_USER
+          dataToChange.push({
+            index: index,
+            data: importEntry
+          })
+        }
+      })
+    }
+    this.props.onChange(dataToChange)
+  }
+
+  render() {
+    return (
+      <Section style={this.props.style}>
+        <Dialog {...this.state.dialog} />
+        <SectionHeader title={i18n.t(`${this.props.i18nNamespace}header`)}>
+          <FlexRow>
+            <Btn
+              secondary
+              positive
+              style={{ marginRight: spacing.SMALLER }}
+              onClick={e => this.onChangeAction(IMPORT_ACTION.PREFER_NEW_USER)}
+              icon={arrowIconPositive}
+              hoverIcon={arrowIconWhite}
+            >
+              {i18n.t(`${this.props.i18nNamespace}button.prefer_new_user`)}
+            </Btn>
+            <Btn
+              secondary
+              style={{ marginRight: spacing.SMALLER }}
+              onClick={e => this.onChangeAction(IMPORT_ACTION.PREFER_OLD_USER)}
+              icon={arrowIcon}
+              hoverIcon={arrowIconWhite}
+            >
+              {i18n.t(`${this.props.i18nNamespace}button.prefer_old_user`)}
+            </Btn>
+            <Btn
+              secondary
+              negative
+              onClick={e => this.onChangeAction(IMPORT_ACTION.DO_NOTHING)}
+              icon={trashIcon}
+              hoverIcon={trashIconWhite}
+            >
+              {i18n.t(`${this.props.i18nNamespace}button.do_nothing`)}
+            </Btn>
+          </FlexRow>
+        </SectionHeader>
+        <Table
+          emptyMessage={this.props.emptyMessage}
+          noBorderLastChild={true}
+          columns={columns}
+          i18nNamespace={this.props.i18nNamespace}
+          rows={this.props.importData}
+          renderer={(data, index, rowStyle, columnStyles) => {
+            return (
+              <ImportTableRow
+                key={index}
+                style={rowStyle}
+                data={data}
+                i18nNamespace={this.props.i18nNamespace}
+                columnStyles={columnStyles}
+                selected={this.state.selectedIndexes.includes(index)}
+                onSelect={selected => {
+                  this.selectRow(selected, index)
+                }}
+                onFieldsClick={() => {
+                  this.op.dialog(
+                    importTableDialog(this, this.props.i18nNamespace, data)
+                  )
+                }}
+                tableOnChangeAction={(actionType, member) => {
+                  this.onChangeAction(actionType, index, member)
+                }}
+                onManualSelect={callback => {
+                  this.op.dialog(
+                    selectMemberDialog(this, callback, {
+                      selectNone: i18n.t(
+                        `${
+                          this.props.i18nNamespace
+                        }select_user_dialog.select_none`
+                      ),
+                      title: i18n.t(
+                        `${this.props.i18nNamespace}select_user_dialog.title`
+                      ),
+                      description: i18n.t(
+                        `${
+                          this.props.i18nNamespace
+                        }select_user_dialog.description`
+                      ),
+                      excludeUserIds: this.props.importData
+                        .filter(importEntry => {
+                          return (
+                            importEntry.oldMember &&
+                            importEntry.oldMember.user &&
+                            importEntry.oldMember.user.id
+                          )
+                        })
+                        .map(importEntry => importEntry.oldMember.user.id)
+                    })
+                  )
+                }}
+              />
+            )
+          }}
+          allSelected={
+            this.props.importData.length > 0 &&
+            this.state.selectedIndexes.length === this.props.importData.length
+          }
+          onSelect={this.selectAll}
+        />
+      </Section>
+    )
+  }
+}

@@ -1,0 +1,36 @@
+import React, { Component } from 'react'
+import { Label } from './Label'
+import { colors } from '../_styling'
+import viewEyeIcon from '../images/icons/view_eye.svg'
+import { FlexCol } from './FlexCol'
+import { i18n } from '../_helpers'
+import { Image } from './Image'
+
+export class ViewButton extends Component {
+  render() {
+    return (
+      <FlexCol
+        {...this.props}
+        style={{
+          margin: '0',
+          padding: '0',
+          cursor: 'pointer',
+          alignItems: 'center',
+          width: '60px',
+          ...this.props.style
+        }}
+      >
+        <Image width="17px" height="10px" src={viewEyeIcon} />
+        <Label
+          style={{
+            fontSize: '12px',
+            fontWeight: 'bold',
+            color: colors.BLUE_LIGHT
+          }}
+        >
+          {i18n.t('view_button.label')}
+        </Label>
+      </FlexCol>
+    )
+  }
+}

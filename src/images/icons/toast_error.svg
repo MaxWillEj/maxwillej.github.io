@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 13</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Top-Screen-toast" transform="translate(-512.000000, -45.000000)">
+            <g id="Toast" transform="translate(494.000000, 25.000000)">
+                <g id="Group-6" transform="translate(18.000000, 20.000000)">
+                    <path d="M22,0 L22,0 C34.1502645,-2.23196738e-15 44,9.8497355 44,22 L44,22 C44,34.1502645 34.1502645,44 22,44 L22,44 C9.8497355,44 1.48797825e-15,34.1502645 0,22 L0,22 C-1.48797825e-15,9.8497355 9.8497355,2.23196738e-15 22,0 Z" id="Rectangle-13" fill="#EF604A"></path>
+                    <g id="Group-21" transform="translate(22.500000, 20.000000) rotate(-270.000000) translate(-22.500000, -20.000000) translate(14.500000, 12.500000)" fill-rule="nonzero" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M16.721756,7.98816732 L4.07273361,7.98816732" id="Path-18-Copy-2" transform="translate(10.397245, 7.988167) rotate(-315.000000) translate(-10.397245, -7.988167) "></path>
+                        <path d="M16.721756,7.98816732 L4.07273361,7.98816732" id="Path-18-Copy-3" transform="translate(10.397245, 7.988167) scale(-1, 1) rotate(-315.000000) translate(-10.397245, -7.988167) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

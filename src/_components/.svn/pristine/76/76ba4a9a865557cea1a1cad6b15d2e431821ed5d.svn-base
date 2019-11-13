@@ -1,0 +1,72 @@
+import React from 'react'
+import styled from 'styled-components'
+import { Button } from './'
+import { todoImplement } from '../_helpers'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+  padding: 20px 12px 0;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
+  text-align: center;
+
+  h3 {
+    margin: 30px 0 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+  }
+`
+
+const Content = styled.div`
+  flex: 1;
+`
+
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background: #fff;
+  position: absolute;
+  top: -30px;
+  left: calc(50% - 30px);
+  box-shadow: 1px 1px 16px rgba(0, 0, 0, 0.2);
+
+  img {
+    width: 70%;
+  }
+`
+
+export const SSOService = props => {
+  const { service } = props
+  return (
+    <Wrapper>
+      <ImageWrapper>
+        <img src={service.logo} alt={service.name} />
+      </ImageWrapper>
+      <Content>
+        <h3>{service.name}</h3>
+        <p>{service.description}</p>
+      </Content>
+      <Button primary small onClick={todoImplement}>
+        Sign in
+      </Button>
+    </Wrapper>
+  )
+}

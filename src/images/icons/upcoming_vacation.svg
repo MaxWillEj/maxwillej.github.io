@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 10 Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="14.876977" cy="14.876977" r="14.876977"></circle>
+    </defs>
+    <g id="Klickbar-Prototyp" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard---Birthday" transform="translate(-1334.000000, -790.000000)">
+            <g id="Group-46" transform="translate(936.000000, 315.000000)">
+                <g id="Group-42" transform="translate(0.000000, 432.000000)">
+                    <g id="Group-36" transform="translate(0.000000, 31.000000)">
+                        <g id="Group-10-Copy-2" transform="translate(399.000000, 13.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Oval-6" stroke="#949EB6" opacity="0.100000001" fill-rule="nonzero" xlink:href="#path-1"></use>
+                            <g id="Group-13-Copy" mask="url(#mask-2)" stroke-linecap="round" stroke-linejoin="round">
+                                <g transform="translate(7.258065, 6.774194)" id="Group-21">
+                                    <g>
+                                        <g id="Group-32" transform="translate(0.814941, 0.814941)" fill-rule="nonzero" stroke-width="1.5">
+                                            <path d="M0.452546301,13.770596 L12.9270673,13.770596 C10.8479805,11.2544934 8.76889364,9.99644205 6.68980681,9.99644205 C4.61071997,9.99644205 2.53163314,11.2544934 0.452546301,13.770596 Z" id="Path-8" stroke="#949EB6"></path>
+                                            <path d="M9.37689039,10.6442331 C9.10370903,8.01320262 8.83957704,6.30079336 8.58449442,5.50700533" id="Path-10" stroke="#949EB6"></path>
+                                            <path d="M7.34758359,3.41347382 C6.06480607,2.07714954 4.08811621,1.07183809 3.09997687,0.71555496" id="Path-10-Copy" stroke="#009ECE"></path>
+                                            <path d="M3.33302069,7.4577457 C3.6731285,5.88809757 4.63514006,4.63536663 6.21905538,3.6995529 C7.8029707,2.76373917 10.0810747,2.97247296 13.0533675,4.32575428" id="Path-11" stroke="#009ECE"></path>
+                                            <path d="M7.2474865,3.39444969 C7.85171092,1.50931388 8.55075808,0.482909138 9.34462796,0.315235473" id="Path-14" stroke="#009ECE"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

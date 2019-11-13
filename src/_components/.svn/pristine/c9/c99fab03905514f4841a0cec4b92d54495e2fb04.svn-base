@@ -1,0 +1,35 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+import userIcon from '../images/user.svg'
+
+const ColleagueWrapper = styled.div`
+  overflow: hidden;
+  width: 30%;
+
+  img {
+    width: 30px;
+  }
+
+  p {
+    margin: 0;
+  }
+`
+
+export class Colleague extends PureComponent {
+  render() {
+    const {
+      employee: {
+        title,
+        user: { avatar, firstName, lastName, phone }
+      }
+    } = this.props
+    return (
+      <ColleagueWrapper>
+        <img src={avatar ? avatar.url : userIcon} alt="" />
+        <p>{`${firstName} ${lastName}`}</p>
+        <p>{title}</p>
+        <p>{phone}</p>
+      </ColleagueWrapper>
+    )
+  }
+}

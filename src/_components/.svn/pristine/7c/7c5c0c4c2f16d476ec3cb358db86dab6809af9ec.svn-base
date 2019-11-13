@@ -1,0 +1,417 @@
+import React, { Fragment } from 'react'
+import { Dialog } from '../Dialog'
+import {
+  UserAvatar,
+  TitleInline,
+  FlexRow,
+  Dropdown,
+  Input,
+  DeleteButton
+} from '../'
+import { i18n } from '../../_helpers'
+import { DOCUMENT_ACCESS } from '../../_constants'
+import styled from 'styled-components'
+import { Biz } from '../../_biz/Biz'
+import { showToast } from '../../AppStateComponent'
+import { StateComponent } from '../base/StateComponent'
+import _ from 'lodash'
+import { Label } from '../Label'
+
+const rowStyle = {
+  borderBottom: '1px solid #CCCDD8',
+  padding: '12px 0'
+}
+
+const Search = styled.div`
+  position: relative;
+  margin-bottom: 40px;
+`
+
+const SearchInput = styled.div`
+  display: flex;
+`
+
+const SearchResult = styled.div`
+  position: absolute;
+  width: 100%;
+  z-index: 50;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid rgb(148, 158, 182);
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  > *:nth-child(n + 1) {
+    margin-top: 5px;
+  }
+`
+
+/*
+  <DialogDocumentUserAccess
+    showing={this.state.showing}
+    doc={this.state.doc}
+    onHide={() => {
+      this.setState({ showAccessDialog: false })
+    }}
+    me={this.props.me}
+    bizComponent={this} // This is the component that will get the updated document data returned to it through thenSetState() (optional)
+  />
+*/
+
+export class DialogDocumentUserAccess extends StateComponent {
+  state = {
+    getDerivedState: (nextProps, nextState) => {
+      if (!this.state.doc) {
+        let allowedToEdit = Biz.member.isMeAdminOrOwner()
+        if (!allowedToEdit) {
+          const member =
+            nextProps.doc &&
+            nextProps.doc.members.find(
+              member => member.user.id === nextProps.me.id
+            )
+          allowedToEdit =
+            nextProps.doc && member && member.access === DOCUMENT_ACCESS.OWNER
+        }
+        return { doc: nextProps.doc, allowedToEdit }
+      }
+      return null
+    },
+    dialog: {
+      title: i18n.t('documentAccessDialog.header'),
+      textCancel: i18n.t('documentAccessDialog.button_cancel'),
+      onCancel: () => {
+        this.resetState()
+        this.props.onHide()
+      },
+      textPositive:
+        Biz.member.isMeAdminOrOwner() &&
+        i18n.t('documentAccessDialog.button_save'),
+      onPositive: async () => {
+        this.setState({ dialog: { ...this.state.dialog, loading: true } })
+        const { doc, newMemberAccess } = this.state
+
+        for (const member of doc.members) {
+          if (member.deleted) {
+            await Biz.document.removeMember(
+              doc.id,
+              member.user.id,
+              this.props.bizComponent
+            )
+          } else {
+            await Biz.document.updateMember(
+              doc.id,
+              member.user.id,
+              member.access,
+              this.props.bizComponent
+            )
+          }
+        }
+
+        for (const member of newMemberAccess) {
+          await Biz.document.addMember(
+            doc.id,
+            member.user.id,
+            member.access,
+            this.props.bizComponent
+          )
+        }
+
+        this.setState({ dialog: { ...this.state.dialog, loading: false } })
+        this.resetState()
+        this.props.onHide()
+      }
+    },
+    doc: null,
+    allowedToEdit: false,
+    searchAccess: DOCUMENT_ACCESS.READ_ONLY,
+    foundEmployees: [],
+    newMemberAccess: []
+  }
+
+  resetState = () => {
+    this.setState({
+      searchAccess: DOCUMENT_ACCESS.READ_ONLY,
+      doc: null,
+      foundEmployees: [],
+      newMemberAccess: []
+    })
+  }
+
+  componentDidMount = () => {
+    super.componentDidMount()
+    this.setState({ loadingEmployees: true })
+
+    this.setState({
+      employees: Biz.member.basicAll().map(member => {
+        return {
+          ...member.employee,
+          user: member.user
+        }
+      }),
+      loadingEmployees: false
+    })
+  }
+
+  onChangeAccess = (itemProps, userId) => {
+    let { memberIndex } = this.getMemberAndIndex(userId)
+    if (memberIndex !== -1) {
+      let doc = _.cloneDeep(this.state.doc)
+      doc.members[memberIndex].access = itemProps.key
+      this.setState({ doc })
+      return
+    }
+
+    memberIndex = this.getNewAccessIndex(userId)
+    if (memberIndex !== -1) {
+      let newMemberAccess = _.cloneDeep(this.state.newMemberAccess)
+      newMemberAccess[memberIndex].access = itemProps.key
+      this.setState({ newMemberAccess })
+      return
+    }
+  }
+
+  onSearchChange = e => {
+    this.setState({ isSearching: true })
+    const searchValue = e.target.value.toLowerCase()
+    if (!this.state.loadingEmployees) {
+      const foundEmployees = this.state.employees.filter(employee => {
+        const { user } = employee
+        const nameMatch = `${user.firstName} ${user.lastName}`
+          .toLowerCase()
+          .search(searchValue)
+        const emailMatch = user.email.toLowerCase().search(searchValue)
+        return nameMatch !== -1 || emailMatch !== -1
+      })
+      this.setState({ foundEmployees })
+    }
+  }
+
+  selectEmployee = employee => {
+    let newMemberAccess = _.cloneDeep(this.state.newMemberAccess)
+    let userAlreadyMember = this.userAlreadyMember(employee.user.id)
+
+    if (!userAlreadyMember) {
+      newMemberAccess.push({
+        user: employee.user,
+        access: this.state.searchAccess
+      })
+      this.setState({ newMemberAccess })
+    } else {
+      const { member, memberIndex } = this.getMemberAndIndex(employee.user.id)
+      if (member && member.deleted) {
+        const doc = _.cloneDeep(this.state.doc)
+        doc.members[memberIndex].deleted = false
+        this.setState({ doc })
+      } else {
+        showToast({
+          type: 'warning',
+          sticky: false,
+          description: i18n.t('dialog_document_user_access.error_user_added')
+        })
+      }
+    }
+  }
+
+  removeMember = (e, member) => {
+    if (member.user.id === this.props.me.id) {
+      return
+    }
+
+    let { memberIndex } = this.getMemberAndIndex(member.user.id)
+    if (memberIndex !== -1) {
+      let doc = _.cloneDeep(this.state.doc)
+      doc.members[memberIndex].deleted = true
+      this.setState({ doc })
+      return
+    }
+
+    memberIndex = this.getNewAccessIndex(member.user.id)
+    if (memberIndex !== -1) {
+      let newMemberAccess = _.cloneDeep(this.state.newMemberAccess)
+      newMemberAccess.splice(memberIndex, 1)
+      this.setState({ newMemberAccess })
+    }
+  }
+
+  getMemberCount = () => {
+    return this.state.doc.members.length + this.state.newMemberAccess.length
+  }
+
+  getMemberAndIndex = userId => {
+    let memberIndex = -1
+    const member = this.state.doc.members.find((member, index) => {
+      if (member.user.id === userId) {
+        memberIndex = index
+        return true
+      }
+      return false
+    })
+    return { memberIndex, member }
+  }
+
+  getNewAccessIndex = userId => {
+    let memberIndex = -1
+    this.state.newMemberAccess.find((findMember, index) => {
+      if (findMember.user.id === userId) {
+        memberIndex = index
+        return true
+      }
+      return false
+    })
+    return memberIndex
+  }
+
+  userAlreadyMember = userId => {
+    let userAlreadyMember = this.state.doc.members.some(member => {
+      return member.user.id === userId
+    })
+    if (!userAlreadyMember) {
+      userAlreadyMember = this.state.newMemberAccess.some(member => {
+        return member.user.id === userId
+      })
+    }
+    return userAlreadyMember
+  }
+
+  renderMemberAccessRow = (member, index) => {
+    if (member.deleted) {
+      return null
+    }
+
+    return (
+      <FlexRow
+        style={{
+          ...rowStyle,
+          zIndex: this.getMemberCount() - index
+        }}
+        key={member.user.id}
+      >
+        <UserAvatar style={{ flex: 1 }} user={member.user} />
+        {member.user.id === this.props.me.id ? (
+          <Label style={{ color: '#27A0CD' }}>
+            {i18n.t(`document_access.${member.access}`)}
+          </Label>
+        ) : (
+          <Fragment>
+            <Dropdown
+              small
+              style={{ width: '226px' }}
+              selectedIndex={member.access === DOCUMENT_ACCESS.OWNER ? 0 : 1}
+              disabled={!this.state.allowedToEdit}
+              onSelectItem={itemProps => {
+                this.onChangeAccess(itemProps, member.user.id)
+              }}
+              defaultValue={member.access}
+              propsList={Object.keys(DOCUMENT_ACCESS).map(
+                (documentAccess, index) => {
+                  return {
+                    key: documentAccess,
+                    children: [i18n.t(`document_access.${documentAccess}`)]
+                  }
+                }
+              )}
+            />
+            <DeleteButton
+              disabled={!this.state.allowedToEdit}
+              style={{
+                margin: '0 15px',
+                cursor:
+                  member.user.id === this.props.me.id ||
+                  !this.state.allowedToEdit
+                    ? 'default'
+                    : 'pointer'
+              }}
+              onClick={e => {
+                if (this.state.allowedToEdit) {
+                  this.removeMember(e, member)
+                }
+              }}
+            />
+          </Fragment>
+        )}
+      </FlexRow>
+    )
+  }
+
+  render() {
+    if (!this.state.doc) {
+      return null
+    }
+
+    const combinedMembers = [
+      ...this.state.doc.members,
+      ...this.state.newMemberAccess
+    ]
+
+    return (
+      <Dialog
+        {...this.state.dialog}
+        {...this.props}
+        onClick={e => {
+          /*
+            This is used to close the search field properly since the solution with onBlur
+            doesn't call the onClick handler of its children.
+          */
+          if (e.target.nodeName !== 'INPUT') {
+            this.setState({ isSearching: false })
+          }
+        }}
+      >
+        <TitleInline style={{ marginBottom: '12px' }}>
+          {i18n.t('documentAccessDialog.subheader')}
+        </TitleInline>
+        {this.state.allowedToEdit && (
+          <Search
+            onFocus={e => {
+              this.setState({ isSearching: true })
+            }}
+          >
+            <SearchInput>
+              <Input
+                inputStyle={{
+                  borderRight: 'none',
+                  borderRadius: '8px 0 0 8px'
+                }}
+                onChange={this.onSearchChange}
+                placeholder={i18n.t('documentAccessDialog.search_placeholder')}
+              />
+              <Dropdown
+                style={{ width: '226px' }}
+                selectedStyle={{ borderRadius: '0 8px 8px 0' }}
+                selectedIndex={1}
+                onSelectItem={item => {
+                  this.setState({ searchAccess: item.key })
+                }}
+                propsList={Object.keys(DOCUMENT_ACCESS).map(
+                  (documentAccess, index) => {
+                    return {
+                      key: documentAccess,
+                      children: [i18n.t(`document_access.${documentAccess}`)]
+                    }
+                  }
+                )}
+              />
+            </SearchInput>
+            {this.state.isSearching && this.state.foundEmployees.length > 0 && (
+              <SearchResult>
+                {this.state.foundEmployees.map((employee, index) => {
+                  return (
+                    <UserAvatar
+                      key={index}
+                      user={employee.user}
+                      onClick={e => {
+                        this.selectEmployee(employee)
+                        this.setState({ isSearching: false })
+                      }}
+                    />
+                  )
+                })}
+              </SearchResult>
+            )}
+          </Search>
+        )}
+        {combinedMembers.map(this.renderMemberAccessRow)}
+      </Dialog>
+    )
+  }
+}

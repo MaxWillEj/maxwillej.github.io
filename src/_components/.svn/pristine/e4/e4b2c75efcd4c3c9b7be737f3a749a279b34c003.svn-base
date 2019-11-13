@@ -1,0 +1,39 @@
+import React from 'react'
+import { TableDeprecated, Button } from './'
+import { i18n, todoImplement } from '../_helpers'
+
+export const AddressList = props => {
+  return (
+    <TableDeprecated>
+      <thead>
+        <tr>
+          <th>{i18n.t('address_list.label.name')}</th>
+          <th>{i18n.t('address_list.label.street')}</th>
+          <th>{i18n.t('address_list.label.city')}</th>
+          <th>{i18n.t('address_list.label.country')}</th>
+          <th>{i18n.t('address_list.label.postal_code')}</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.addresses &&
+          props.addresses.map((address, index) => {
+            return (
+              <tr key={index}>
+                <td>{address.name}</td>
+                <td>{address.street}</td>
+                <td>{address.city}</td>
+                <td>{address.country}</td>
+                <td>{address.postalCode}</td>
+                <td>
+                  <Button small onClick={todoImplement}>
+                    {i18n.t('address_list.edit_button')}
+                  </Button>
+                </td>
+              </tr>
+            )
+          })}
+      </tbody>
+    </TableDeprecated>
+  )
+}

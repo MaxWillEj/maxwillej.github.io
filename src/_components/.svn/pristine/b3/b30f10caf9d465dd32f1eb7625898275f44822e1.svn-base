@@ -1,0 +1,434 @@
+import React from 'react'
+import { StateComponent } from './base/StateComponent'
+import { Label } from './Label'
+import { FlexCol } from './FlexCol'
+import arrowUp from '../images/icons/arrow_up.svg'
+import arrowDown from '../images/icons/arrow_down.svg'
+import dropdownArrow from '../images/icons/dropdown_arrow.svg'
+import inputClose from '../images/icons/input_close.svg'
+import { FlexRow } from './FlexRow'
+import _ from 'lodash'
+import { Image } from './Image'
+import { colors } from '../_styling'
+
+export class Dropdown extends StateComponent {
+  state = {
+    expanded: false,
+    filteredResults: null,
+    currentIndex: null,
+    getDerivedState: (nextProps, state) => {
+      if (
+        this.state.selectedIndex === undefined ||
+        nextProps.selectedIndex !== this.props.selectedIndex
+      ) {
+        return { selectedIndex: nextProps.selectedIndex || 0 }
+      }
+      return null
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    this.node = React.createRef()
+    this.filterInput = React.createRef()
+    this.itemsList = React.createRef()
+  }
+
+  componentDidUpdate() {
+    if (this.state.expanded) {
+      this.filterInput.current && this.filterInput.current.focus()
+    }
+  }
+
+  componentDidMount() {
+    super.componentDidMount()
+
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount()
+
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
+  handleClickOutside = e => {
+    if (this.node.current.contains(e.target)) {
+      return
+    }
+
+    this.closeDropdown()
+  }
+
+  closeDropdown() {
+    this.setState({
+      expanded: false,
+      filteredResults: null
+    })
+  }
+
+  getItemHeight() {
+    return this.props.compact ? 25 : this.props.small ? 39 : 43
+  }
+
+  renderDropdown(parentElementProps) {
+    const ItemComponent = this.props.itemComponent || Label
+    const propsList = this.props.emptyOption
+      ? [this.props.emptyOption, ...this.props.propsList]
+      : this.props.propsList
+
+    const selectedItemProps = propsList.length
+      ? propsList[this.state.selectedIndex]
+      : {}
+
+    const parentProps = _.omit(parentElementProps, ['onSelectItem', 'onExpand'])
+    const rowHeightRaw = this.props.compact ? 26 : this.props.small ? 40 : 44
+    const rowHeight = rowHeightRaw + 'px'
+    const items = this.state.filteredResults || propsList
+    const maxVisibleItems = this.props.maxVisibleItems || 9
+    const isLongList = items.length > maxVisibleItems
+
+    return (
+      <FlexCol
+        ref={this.node}
+        {...parentProps}
+        style={{
+          zIndex: this.state.expanded ? '20' : '',
+          userSelect: 'none',
+          overflow: 'visible',
+          position: 'relative',
+          height: rowHeight,
+          marginLeft: this.props.label ? 'auto' : '',
+          width: this.props.label ? '70%' : '', // maxWidth did not work here, like in Input and DateInput
+          ...parentProps.style
+        }}
+      >
+        <FlexRow
+          style={{
+            position: 'relative',
+            zIndex: this.state.expanded ? '11' : '',
+            boxSizing: 'border-box',
+            cursor: this.props.disabled ? 'not-allowed' : 'pointer',
+            flex: '1',
+            minHeight: `${this.getItemHeight() + 1}px`,
+            background: this.props.inputSelect ? '' : '#fff',
+            padding: this.props.compact ? '0 4px' : '0 12px',
+            border: this.props.inputSelect
+              ? ''
+              : this.props.anonBorder && !this.state.expanded
+              ? '1px solid #E1EBFF'
+              : '1px solid #949EB6',
+            borderRadius: this.props.inputSelect
+              ? ''
+              : this.props.compact
+              ? this.state.expanded
+                ? '4px 4px 0 0'
+                : '4px'
+              : this.props.small
+              ? this.state.expanded
+                ? '20px 20px 0 0'
+                : '30px'
+              : this.state.expanded
+              ? '6px 6px 0 0'
+              : '6px',
+            color: '#27A0CD',
+            transition: 'all 0.1s cubic-bezier(0.25, 0.1, 0.25, 1)',
+            ...this.props.selectedStyle
+          }}
+          onClick={() => {
+            if (!this.props.disabled) {
+              const newExpanding = !this.state.expanded
+
+              if (this.props.onExpand) {
+                this.props.onExpand(newExpanding)
+              }
+
+              this.setState({
+                expanded: newExpanding,
+                currentIndex: 0
+              })
+            }
+          }}
+        >
+          {this.state.expanded ? (
+            <FlexRow style={{ width: '100%' }}>
+              <input
+                ref={this.filterInput}
+                style={{
+                  width: '100%',
+                  height: this.props.compact ? '22px' : '30px',
+                  outline: 'none',
+                  border: 'none',
+                  fontWeight: '600',
+                  fontSize: this.props.compact ? '14px' : '15px',
+                  fontFamily: 'Montserrat',
+                  letterSpacing: '0.04em'
+                }}
+                placeholder="Search..."
+                onClick={e => {
+                  // make sure the dropdown doesn't close when focusing the input
+                  e.stopPropagation()
+                }}
+                onChange={e => {
+                  const filteredResults = e.target.value
+                    ? this.props.propsList.filter(item => {
+                        // convert the array to a string if needed
+                        const children = Array.isArray(item.children)
+                          ? item.children.join('')
+                          : item.children
+                        const value = e.target.value.toLowerCase()
+
+                        return children.toLowerCase().search(value) > -1
+                      })
+                    : null
+                  this.setState({ currentIndex: 0, filteredResults })
+
+                  this.itemsList.current.scrollTop = 0
+                }}
+                onKeyDown={e => {
+                  let currentIndex
+                  let outOfFrame
+                  const currentScrollTop = this.itemsList.current.scrollTop
+
+                  switch (e.which) {
+                    case 27: // ESC
+                      this.closeDropdown()
+                      break
+                    case 38: // UP
+                      e.preventDefault()
+
+                      currentIndex = Math.max(0, this.state.currentIndex - 1)
+                      this.setState({ currentIndex })
+
+                      // if the current index is out of frame, scroll it into view
+                      outOfFrame =
+                        currentIndex * this.getItemHeight() < currentScrollTop
+
+                      if (outOfFrame) {
+                        this.itemsList.current.scrollTop =
+                          currentIndex * this.getItemHeight()
+                      }
+                      break
+                    case 40: // DOWN
+                      e.preventDefault()
+
+                      currentIndex = Math.min(
+                        items.length - 1,
+                        this.state.currentIndex + 1
+                      )
+                      this.setState({ currentIndex })
+
+                      // if the current index is out of frame, scroll it into view
+                      outOfFrame =
+                        (currentIndex - 8) * this.getItemHeight() >
+                        currentScrollTop
+                      if (outOfFrame) {
+                        this.itemsList.current.scrollTop =
+                          (currentIndex - 8) * this.getItemHeight()
+                      }
+                      break
+                    case 13: // ENTER
+                      const currentItem = items[this.state.currentIndex]
+                      let selectedIndex = propsList.findIndex(
+                        item => item.key && item.key === currentItem.key
+                      )
+
+                      // default to the first item if the key can't be found
+                      selectedIndex = Math.max(0, selectedIndex)
+                      this.setState({ selectedIndex })
+
+                      this.closeDropdown()
+
+                      if (this.props.onSelectItem) {
+                        this.props.onSelectItem(currentItem)
+                      }
+                      break
+                    default:
+                    // DO NOTHING
+                  }
+                }}
+              />
+              <Image
+                src={inputClose}
+                style={{ margin: this.props.compact ? '0 4px 0 0' : '' }}
+                size={this.props.compact ? '10px' : '12px'}
+                onClick={e => {
+                  e.stopPropagation()
+                  this.closeDropdown()
+                }}
+              />
+            </FlexRow>
+          ) : (
+            <>
+              <ItemComponent
+                {...selectedItemProps}
+                style={{
+                  color: this.props.disabled
+                    ? '#333'
+                    : this.props.inputSelect
+                    ? '#007AAA'
+                    : '#27A0CD',
+                  opacity: this.props.disabled ? '0.5' : '1',
+                  fontSize: this.props.compact ? '14px' : '15px',
+                  fontFamily: 'Montserrat',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  marginRight: '18px',
+                  ...selectedItemProps.style
+                }}
+                onClick={() => {
+                  // DO NOTHING
+                }}
+              />
+              <Image
+                style={{
+                  position: 'absolute',
+                  right: this.props.compact ? '8px' : '17px',
+                  top: this.props.compact ? '10px' : '',
+                  transform:
+                    this.props.inputSelect && this.state.expanded
+                      ? 'rotate(0.5turn)'
+                      : ''
+                }}
+                src={
+                  this.props.inputSelect
+                    ? dropdownArrow
+                    : !this.state.expanded
+                    ? arrowDown
+                    : arrowUp
+                }
+                width="10px"
+                height="6px"
+              />
+              {this.props.error && (
+                <Label
+                  style={{
+                    position: 'absolute',
+                    left: this.props.compact ? '0px' : '12px',
+                    bottom: this.props.compact ? '-20px' : '2px',
+                    fontSize: '11px',
+                    fontWeight: '400',
+                    color: colors.RED
+                  }}
+                >
+                  {this.props.error}
+                </Label>
+              )}
+            </>
+          )}
+        </FlexRow>
+        <FlexCol
+          ref={this.itemsList}
+          style={{
+            background: '#fff',
+            position: 'relative',
+            minHeight: this.state.expanded
+              ? isLongList
+                ? `${rowHeightRaw * maxVisibleItems}px`
+                : `${rowHeightRaw * items.length}px`
+              : '',
+            overflowY: this.state.expanded && isLongList ? 'auto' : '',
+            borderLeft: '1px solid #949EB6',
+            borderRight: '1px solid #949EB6',
+            borderBottom: this.state.expanded ? '1px solid #949EB6' : '',
+            borderRadius: '0 0 4px 4px'
+          }}
+        >
+          {(this.state.expanded || !isLongList) &&
+            items.map((itemProps, index) => {
+              return (
+                <ItemComponent
+                  {...itemProps}
+                  style={{
+                    zIndex: '10',
+                    overflow: 'hidden',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer',
+                    flex: '1',
+                    minHeight: `${this.getItemHeight()}px`,
+                    padding: this.props.compact
+                      ? '3px 4px 0'
+                      : this.props.small
+                      ? '9px 15px 0 15px'
+                      : '12px 15px 0 15px',
+                    borderColor: this.state.expanded
+                      ? '#C7D1E9'
+                      : 'transparent',
+                    borderStyle: 'solid',
+                    borderWidth: index === 0 ? '0' : '1px 0 0',
+                    borderRadius:
+                      index === items.length - 1 ? '0 0 4px 4px' : '0',
+                    background:
+                      this.state.currentIndex === index ? '#f5f5f5' : '',
+                    color:
+                      propsList[this.state.selectedIndex].key === itemProps.key
+                        ? this.props.inputSelect
+                          ? '#007AAA'
+                          : '#27A0CD'
+                        : '#3f4658',
+                    transform: this.state.expanded
+                      ? 'translateY(0)'
+                      : this.props.compact
+                      ? `translateY(-${26 * (index + 1)}px)`
+                      : this.props.small
+                      ? `translateY(-${40 * (index + 1)}px)`
+                      : `translateY(-${44 * (index + 1)}px)`,
+                    fontSize: this.props.compact ? '14px' : '15px',
+                    fontFamily: 'Montserrat',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    ...itemProps.style,
+                    display: this.state.expanded ? '' : 'none'
+                  }}
+                  onClick={e => {
+                    if (this.props.disabled) {
+                      return
+                    }
+
+                    let selectedIndex = propsList.findIndex(
+                      item => item.key && item.key === itemProps.key
+                    )
+
+                    // default to the first item if the key can't be found
+                    selectedIndex = Math.max(0, selectedIndex)
+
+                    this.setState({ selectedIndex })
+                    this.closeDropdown()
+
+                    if (this.props.onSelectItem) {
+                      this.props.onSelectItem(itemProps)
+                    }
+
+                    if (itemProps.onClick) {
+                      itemProps.onClick(e)
+                    }
+                  }}
+                />
+              )
+            })}
+        </FlexCol>
+      </FlexCol>
+    )
+  }
+
+  render() {
+    if (this.props.label) {
+      return (
+        <FlexRow style={{ flex: 1, position: 'relative', ...this.props.style }}>
+          <Label
+            style={{
+              margin: '0 20px 0 0',
+              fontSize: this.props.compact ? '14px' : '15px',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {this.props.label}
+          </Label>
+          {this.renderDropdown()}
+        </FlexRow>
+      )
+    } else {
+      return this.renderDropdown(this.props)
+    }
+  }
+}

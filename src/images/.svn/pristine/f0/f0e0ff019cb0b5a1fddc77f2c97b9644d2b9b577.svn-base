@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#A091D4" offset="0%"></stop>
+            <stop stop-color="#D58BD3" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="11.9510204" cy="11.9510204" r="11.9510204"></circle>
+        <linearGradient x1="108.528322%" y1="0%" x2="6.67971002%" y2="127.492727%" id="linearGradient-4">
+            <stop stop-color="#12053E" offset="0%"></stop>
+            <stop stop-color="#994296" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-16.000000, -567.000000)">
+            <g id="Group-32" transform="translate(16.000000, 567.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                <circle id="Oval-10" stroke="#6242A0" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="3.44504707" cy="4.07379016" r="5.85778585"></circle>
+                <rect id="Rectangle-8-Copy" stroke="#6242A0" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="12.2741454" y="14.4787393" width="15.5102041" height="14.3673469"></rect>
+                <g id="Group-22" mask="url(#mask-3)">
+                    <g transform="translate(5.951020, 3.372633)">
+                        <g id="Group-2" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(5.454545, 7.636364)">
+                            <polygon id="Rectangle-13-Copy" fill="#F9FAFC" fill-rule="nonzero" points="0.169559236 0.380977092 6.03298753 0.380977092 6.03298753 6.55171865 0.169559236 6.55171865"></polygon>
+                            <rect id="Rectangle-18" fill="#E0C0FF" fill-rule="nonzero" x="2.32347167" y="1.33827151" width="1" height="1" rx="0.5"></rect>
+                            <rect id="Rectangle-18-Copy" fill="#E0C0FF" fill-rule="nonzero" x="3.9987369" y="1.33827151" width="1" height="1" rx="0.5"></rect>
+                            <rect id="Rectangle-18-Copy-3" fill="#E0C0FF" fill-rule="nonzero" x="2.32347167" y="3.13319854" width="1" height="1" rx="0.5"></rect>
+                            <rect id="Rectangle-18-Copy-2" fill="#E0C0FF" fill-rule="nonzero" x="3.9987369" y="3.13319854" width="1" height="1" rx="0.5"></rect>
+                            <rect id="Rectangle-18-Copy-5" fill="#E0C0FF" fill-rule="nonzero" x="2.32347167" y="4.92812557" width="1" height="1" rx="0.5"></rect>
+                            <rect id="Rectangle-18-Copy-4" fill="#E0C0FF" fill-rule="nonzero" x="3.9987369" y="4.92812557" width="1" height="1" rx="0.5"></rect>
+                        </g>
+                        <polygon id="Rectangle-13" fill="url(#linearGradient-4)" fill-rule="nonzero" points="0 3.94883946 7.17970812 3.94883946 7.17970812 14.1880823 0 14.1880823"></polygon>
+                        <rect id="Rectangle-17" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="0.717970812" y="5.50444289" width="5.74376649" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-2" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="0.717970812" y="6.70106091" width="5.74376649" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-3" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="0.717970812" y="7.89767893" width="5.74376649" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-4" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="0.717970812" y="9.09429695" width="5.74376649" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-5" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="0.717970812" y="10.290915" width="5.74376649" height="1" rx="0.5"></rect>
+                        <rect id="Rectangle-17-Copy-6" fill="#FFFFFF" fill-rule="evenodd" opacity="0.2" x="0.717970812" y="11.487533" width="5.74376649" height="1" rx="0.5"></rect>
+                        <polygon id="Rectangle-14" fill="#6B2D78" fill-rule="nonzero" points="1.07695622 2.63255964 6.2224137 -0.517612102 6.2224137 3.94883946 1.07695622 3.94883946"></polygon>
+                    </g>
+                </g>
+                <rect id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" style="mix-blend-mode: color;" mask="url(#mask-3)" x="-2" y="-4" width="28" height="30"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
