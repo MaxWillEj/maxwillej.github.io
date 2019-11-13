@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 32</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#A0A1EA" offset="0%"></stop>
+            <stop stop-color="#75BAE1" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="12" cy="12" r="12"></circle>
+        <linearGradient x1="50%" y1="25.340609%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#606DD5" offset="0%"></stop>
+            <stop stop-color="#8DC1FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-16.000000, -241.000000)">
+            <g id="Group-7" transform="translate(11.000000, 233.000000)">
+                <g id="Group-3" transform="translate(5.000000, 8.000000)">
+                    <g id="Group-32">
+                        <mask id="mask-3" fill="white">
+                            <use xlink:href="#path-2"></use>
+                        </mask>
+                        <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                        <circle id="Oval-10" stroke="#616FD6" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="3.44504707" cy="3.80416991" r="5.85778585"></circle>
+                        <rect id="Rectangle-8-Copy" stroke="#616FD6" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="12.2741454" y="14.2091191" width="15.5102041" height="14.3673469"></rect>
+                        <g id="Group-4" mask="url(#mask-3)" fill-rule="nonzero">
+                            <g transform="translate(4.092327, 1.090909)">
+                                <rect id="Rectangle" stroke="none" fill="url(#linearGradient-4)" x="9.45303675" y="6.0082569" width="4.46623425" height="9.7627723"></rect>
+                                <rect id="Rectangle" stroke="none" fill="#708BE5" x="9.1405464" y="6" width="5.09121493" height="1.46322074"></rect>
+                                <circle id="Oval" stroke="none" fill="#FFFFFF" opacity="0.300000012" cx="13.0862664" cy="3.48969934" r="1.93726126"></circle>
+                                <circle id="Oval-Copy-2" stroke="none" fill="#FFFFFF" opacity="0.300000012" transform="translate(9.878083, 1.044876) scale(-1, -1) translate(-9.878083, -1.044876) " cx="9.87808329" cy="1.04487588" r="1"></circle>
+                                <polygon id="Rectangle" stroke="none" fill="#F0F1FF" points="1.75600459 9.9545226 5.46790998 6.09716532 11.322838 10.9340973 11.322838 15.7710292 1.75600459 15.7710292"></polygon>
+                                <rect id="Rectangle" stroke="none" fill="#A8B2FF" x="4.20324149" y="8.84637765" width="1.26635684" height="1.27383319"></rect>
+                                <rect id="Rectangle-Copy-2" stroke="none" fill="#A8B2FF" x="4.20324149" y="10.580732" width="1.26635684" height="1.27383319"></rect>
+                                <rect id="Rectangle-Copy" stroke="none" fill="#A8B2FF" x="5.96162212" y="8.84637765" width="1.26635684" height="1.27383319"></rect>
+                                <rect id="Rectangle-Copy-3" stroke="none" fill="#A8B2FF" x="5.96162212" y="10.580732" width="1.26635684" height="1.27383319"></rect>
+                                <path d="M5.48188808,7.08503745 L1.40560023,11.1628164 C1.08613879,11.4823947 0.568094726,11.4824894 0.248516428,11.163028 C-0.0710618699,10.8435665 -0.0711566009,10.3255225 0.248304841,10.0059442 L4.83100879,5.42156389 C5.12091637,5.13155027 5.58073243,5.10094004 5.90652421,5.34996619 L12.3360772,10.2645371 C12.6950809,10.5389496 12.7636557,11.0524349 12.4892433,11.4114387 C12.2148308,11.7704424 11.7013455,11.8390172 11.3423417,11.5646048 L5.48188808,7.08503745 Z" id="Path-3" stroke="none" fill="#FFFFFF"></path>
+                                <path d="M1.75600459,14.4577526 L11.317935,14.4577526" id="Path-5" stroke="#6271D7" stroke-width="1" fill="none" opacity="0.200000003"></path>
+                                <path d="M1.75600459,12.821389 L11.317935,12.821389" id="Path-5-Copy" stroke="#6271D7" stroke-width="1" fill="none" opacity="0.200000003"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

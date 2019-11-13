@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="374px" viewBox="0 0 1440 374" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 56</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0.438041908%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#7ED4BE" offset="0%"></stop>
+            <stop stop-color="#6AC3D4" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#FF998E" offset="0%"></stop>
+            <stop stop-color="#FCB692" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-3">
+            <stop stop-color="#9FC3F5" offset="0%"></stop>
+            <stop stop-color="#A597EC" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0.966401734%" y2="50%" id="linearGradient-4">
+            <stop stop-color="#B2D59A" offset="0%"></stop>
+            <stop stop-color="#80D1A6" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-5">
+            <stop stop-color="#A091D4" offset="0%"></stop>
+            <stop stop-color="#D58BD3" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Landing-page-test" transform="translate(0.000000, -4986.000000)" fill-rule="nonzero">
+            <g id="Group-56" transform="translate(-58.000000, 4986.000000)">
+                <circle id="Oval" fill="url(#linearGradient-1)" opacity="0.200000003" cx="87" cy="319" r="87"></circle>
+                <circle id="Oval" fill="url(#linearGradient-2)" opacity="0.200000003" cx="1427.03436" cy="303.78525" r="119"></circle>
+                <circle id="Oval-Copy-23" fill="url(#linearGradient-3)" opacity="0.300000012" cx="1058.04313" cy="48.4064285" r="47.5935715"></circle>
+                <circle id="Oval-Copy-24" fill="url(#linearGradient-4)" opacity="0.300000012" cx="474.479633" cy="371.697464" r="47.5935715"></circle>
+                <circle id="Oval-Copy-25" fill="url(#linearGradient-3)" opacity="0.300000012" cx="149.406429" cy="29.5944376" r="18.5"></circle>
+                <circle id="Oval-Copy-26" fill="url(#linearGradient-5)" opacity="0.400000006" cx="576" cy="289.796209" r="18.5"></circle>
+                <circle id="Oval-Copy-27" fill="url(#linearGradient-1)" opacity="0.200000003" cx="1382.59049" cy="99.5944376" r="18.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

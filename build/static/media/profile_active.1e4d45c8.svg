@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-1.11022302e-14%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#E192DE" offset="0%"></stop>
+            <stop stop-color="#FF9AB3" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="11.9510204" cy="11.9510204" r="11.9510204"></circle>
+        <linearGradient x1="27.476364%" y1="100%" x2="27.476364%" y2="-29.7797153%" id="linearGradient-4">
+            <stop stop-color="#A72E96" offset="0%"></stop>
+            <stop stop-color="#F698C1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2.1.4:-Profil---Top-Navigation-V1" transform="translate(-16.000000, -284.000000)">
+            <g id="Group-35" transform="translate(3.000000, 234.000000)">
+                <g id="Group-6" transform="translate(13.000000, 50.000000)">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <use id="Oval-14" fill="url(#linearGradient-1)" fill-rule="nonzero" xlink:href="#path-2"></use>
+                    <circle id="Oval-10" stroke="#891D77" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" cx="3.44504707" cy="3.89403126" r="5.85778585"></circle>
+                    <rect id="Rectangle-8-Copy" stroke="#891D77" stroke-width="6" opacity="0.200000003" fill-rule="nonzero" mask="url(#mask-3)" x="12.2741454" y="14.2989804" width="15.5102041" height="14.3673469"></rect>
+                    <g mask="url(#mask-3)">
+                        <g transform="translate(5.951020, 5.678293)">
+                            <rect id="Rectangle" stroke="none" fill="#FFFFFF" fill-rule="nonzero" x="0.216845316" y="0.744198083" width="11.378704" height="11.7943683" rx="1"></rect>
+                            <rect id="Rectangle" stroke="none" fill="#FFE9F0" fill-rule="nonzero" x="2.38006126" y="2.76237446" width="7.18117043" height="6.65245172"></rect>
+                            <g id="Group-5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(3.112535, 3.379532)">
+                                <path d="M1.3463756,4.01221775 L2.86044628,3.23202693 L4.37451696,4.01221775 C5.04013452,4.35520618 5.45840426,5.04127318 5.45840426,5.79006407 L5.45840426,6.01229645 L0.262488298,6.01229645 L0.262488298,5.79006407 C0.262488298,5.04127318 0.680758036,4.35520618 1.3463756,4.01221775 Z" id="Rectangle" fill="url(#linearGradient-4)" fill-rule="nonzero"></path>
+                                <rect id="Rectangle" fill="#A72E96" fill-rule="nonzero" x="1.37556147" y="0.253495506" width="3.0950133" height="3.55522962" rx="1.54750665"></rect>
+                                <path d="M2.49817669,1.8458688 L3.38221277,1.8458688" id="Path" stroke="#FFE9F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                            </g>
+                            <path d="M2.4608852,0.039692649 L2.4608852,1.64370238" id="Path-2" stroke="#A72E96" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                            <path d="M9.56123169,0.039692649 L9.56123169,1.64370238" id="Path-2-Copy" stroke="#A72E96" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

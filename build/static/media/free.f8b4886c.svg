@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120px" height="80px" viewBox="0 0 120 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="18.7715442%" y1="100%" x2="84.7266355%" y2="18.3917729%" id="linearGradient-1">
+            <stop stop-color="#E192DE" offset="0%"></stop>
+            <stop stop-color="#FF9AB3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#9FC3F5" offset="0%"></stop>
+            <stop stop-color="#A597EC" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="18.7715442%" y1="100%" x2="100%" y2="15.7835693%" id="linearGradient-3">
+            <stop stop-color="#C162BD" offset="0%"></stop>
+            <stop stop-color="#FF9AB3" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-4" points="41.5139617 21.2929053 20.7569809 30.2981722 2.44917915e-13 21.2929053 0 0.019412816 41.5196365 0.019412816 41.5196365 21.2921401 41.512198 21.2921401"></polygon>
+        <polygon id="path-6" points="9.04869453 9.52650576 35.3723249 6.62512282 27.0993492 27.5771604 6.14731159 35.8501361"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Pricing-Illustration" transform="translate(-121.000000, -104.000000)">
+            <g id="Group-4" transform="translate(121.000000, 104.000000)">
+                <g id="Group-5" transform="translate(22.000000, 8.000000)">
+                    <g id="Rectangle-2" transform="translate(0.000000, 4.000000)" fill-rule="nonzero">
+                        <polygon id="Rectangle" fill="url(#linearGradient-1)" opacity="0.200000003" transform="translate(38.500000, 38.237629) rotate(-315.000000) translate(-38.500000, -38.237629) " points="25.8212502 25.5588797 65.188345 11.5492844 50.0785467 49.8161761 11.811655 64.9259745"></polygon>
+                        <path d="M42.1504639,50.3344356 C41.6455865,50.5583045 41.0548209,50.3305021 40.830952,49.8256247 C40.6070831,49.3207473 40.8348855,48.7299817 41.3397629,48.5061129 L58.8237736,40.7534857 C59.328651,40.5296168 59.9194165,40.7574192 60.1432854,41.2622966 C60.3671543,41.767174 60.1393519,42.3579395 59.6344745,42.5818084 L42.1504639,50.3344356 Z" id="Path-4" fill="url(#linearGradient-2)"></path>
+                        <path d="M17.1504639,50.3344356 C16.6455865,50.5583045 16.0548209,50.3305021 15.830952,49.8256247 C15.6070831,49.3207473 15.8348855,48.7299817 16.3397629,48.5061129 L33.8237736,40.7534857 C34.328651,40.5296168 34.9194165,40.7574192 35.1432854,41.2622966 C35.3671543,41.767174 35.1393519,42.3579395 34.6344745,42.5818084 L17.1504639,50.3344356 Z" id="Path-4-Copy" fill="url(#linearGradient-2)" transform="translate(25.487119, 45.543961) scale(-1, 1) translate(-25.487119, -45.543961) "></path>
+                    </g>
+                    <g id="Group" transform="translate(17.740182, 0.000000)">
+                        <g id="Path-2" transform="translate(0.000000, 21.272727)">
+                            <mask id="mask-5" fill="white">
+                                <use xlink:href="#path-4"></use>
+                            </mask>
+                            <use id="Path" fill="url(#linearGradient-3)" fill-rule="nonzero" xlink:href="#path-4"></use>
+                            <rect id="Rectangle" fill="#373A5B" fill-rule="nonzero" opacity="0.100000001" mask="url(#mask-5)" x="-2.74186278" y="-3.15151515" width="23.501681" height="46.4848485"></rect>
+                            <path d="M9.54253721,16.7237851 L9.54253721,16.7237851 C11.1617436,17.4235272 12.2101504,19.0187137 12.2101504,20.7826492 L12.2101504,33.6247186 L6.87492399,33.6247186 L6.87492399,18.4770244 C6.87492399,17.4221889 7.73003713,16.5670758 8.78487264,16.5670758 C9.04547376,16.5670758 9.30331815,16.6204063 9.54253721,16.7237851 Z" id="Path-3" fill="#373A5B" fill-rule="nonzero" opacity="0.300000012" mask="url(#mask-5)"></path>
+                        </g>
+                        <g id="Rectangle-3">
+                            <mask id="mask-7" fill="white">
+                                <use xlink:href="#path-6"></use>
+                            </mask>
+                            <use id="Rectangle" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(20.759818, 21.237629) rotate(-315.000000) translate(-20.759818, -21.237629) " xlink:href="#path-6"></use>
+                            <rect id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" opacity="0.200000003" mask="url(#mask-7)" x="20.7598182" y="-11.8181818" width="25.0684597" height="66.969697"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
