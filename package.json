@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "gh-pages": "^2.1.1",
-    "homepage": "https://maxwillej.github.io/landing-react",
+    "homepage": "https://alexisapp.github.io/landing-react/",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0",
