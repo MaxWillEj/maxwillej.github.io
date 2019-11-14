@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.2ac2305f.chunk.css",
-    "main.js": "/static/js/main.536f74f5.chunk.js",
-    "main.js.map": "/static/js/main.536f74f5.chunk.js.map",
+    "main.js": "/static/js/main.3b02e082.chunk.js",
+    "main.js.map": "/static/js/main.3b02e082.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.8eea71de.js",
     "runtime-main.js.map": "/static/js/runtime-main.8eea71de.js.map",
     "static/js/2.954593a0.chunk.js": "/static/js/2.954593a0.chunk.js",
     "static/js/2.954593a0.chunk.js.map": "/static/js/2.954593a0.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.f97e11abb0cc70ee5f3ab1ff2982e067.js": "/precache-manifest.f97e11abb0cc70ee5f3ab1ff2982e067.js",
+    "precache-manifest.56b71221e827d8a99e2d39a40cd380aa.js": "/precache-manifest.56b71221e827d8a99e2d39a40cd380aa.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.2ac2305f.chunk.css.map": "/static/css/main.2ac2305f.chunk.css.map",
     "static/media/bokio_logo.png": "/static/media/bokio_logo.068dd662.png",
@@ -50,6 +50,6 @@
     "static/js/runtime-main.8eea71de.js",
     "static/js/2.954593a0.chunk.js",
     "static/css/main.2ac2305f.chunk.css",
-    "static/js/main.536f74f5.chunk.js"
+    "static/js/main.3b02e082.chunk.js"
   ]
 }
